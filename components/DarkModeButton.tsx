@@ -2,17 +2,15 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
+import dataProps from './Context';
 
-interface IDarkMode {
-  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-  darkMode: boolean;
-}
+function DarkModeButton() {
+  const { darkMode, setDarkMode } = React.useContext(dataProps);
 
-function DarkModeButton(props: IDarkMode) {
   return (
     <div
       className="relative flex max-w-min cursor-pointer items-center gap-2.5 rounded-xl border-2 border-neutral-600 bg-white p-1 dark:flex-row-reverse dark:border-slate-100 dark:bg-[#262626]"
-      onClick={() => props.setDarkMode(!props.darkMode)}
+      onClick={() => setDarkMode(!darkMode)}
     >
       <div className="h-3.5 w-3.5 rounded-full bg-[#262626] dark:bg-slate-100" />
       <div className="block h-3.5 w-3.5 dark:hidden">
