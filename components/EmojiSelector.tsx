@@ -16,16 +16,19 @@ function EmojiSelector({
   inputText: string;
 }) {
   function handleSelection(e: any) {
-    console.log(e.target.id);
     setInputText(inputText.concat(e.target.id));
   }
 
   return (
-    <div className="h-[320px] w-[330px] overflow-y-auto rounded-md bg-white p-3 pt-0 text-[#8E8E8E] shadow-[-2px_-2px_5px_0px_rgba(0,0,0,0.1)] dark:bg-[#131313] dark:shadow-[-2px_-2px_5px_0px_rgba(0,0,0,0.7)]">
+    <div
+      id="emojiSelector"
+      className="h-[320px] w-[330px] overflow-y-auto rounded-md bg-white p-3 pt-0 text-[#8E8E8E] shadow-[-2px_-2px_10px_2px_rgba(0,0,0,0.1)] dark:bg-[#131313] dark:shadow-[-2px_-2px_5px_0px_rgba(0,0,0,0.7)]"
+    >
       <h1 className="mt-2 mb-1 font-semibold">Most popular</h1>
       <div className="flex flex-wrap justify-between  ">
         {mostPopularEmojis.map((emoji, index) => (
           <p
+            data-emoji="emoji"
             id={emoji}
             className="text-[32px]"
             key={`mostPopEmojis${index}`}
@@ -41,6 +44,7 @@ function EmojiSelector({
       <div className="flex flex-wrap justify-between ">
         {smileysPeopleEmojis.map((emoji, index) => (
           <p
+            data-emoji="emoji"
             id={emoji}
             className="text-[32px]"
             key={`smileysEmojis${index}`}
@@ -56,6 +60,7 @@ function EmojiSelector({
       <div className="flex flex-wrap justify-between ">
         {animalNatureEmojis.map((emoji, index) => (
           <p
+            data-emoji="emoji"
             id={emoji}
             className="text-[32px]"
             key={`animalsEmojis${index}`}
@@ -71,6 +76,7 @@ function EmojiSelector({
       <div className="flex flex-wrap justify-between ">
         {travelEmojis.map((emoji, index) => (
           <p
+            data-emoji="emoji"
             id={emoji}
             className="text-[32px]"
             key={`travelEmojis${index}`}

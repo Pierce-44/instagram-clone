@@ -1,8 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-array-index-key */
 import Head from 'next/head';
+import Router from 'next/router';
 import React from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { GetServerSideProps } from 'next';
 import { getChatRoomIDs } from '../components/util/getChatRooms';
 import ChatRoom from '../components/ChatRoom';
@@ -24,13 +28,42 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 function Inbox({ count, chatRoomIDs }: { count: number; chatRoomIDs: any }) {
+  const auth = getAuth();
   const { darkMode } = React.useContext(dataProps);
   const [activeChat, setActiveChat] = React.useState('');
+  const [displayEmojiSelector, setDisplayEmojiSelector] = React.useState(false);
+  const [userStatus, setUserStatus] = React.useState(false);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUserStatus(true);
+    } else {
+      Router.push('/Login');
+    }
+  });
+
+  function closeEmojiSelectorOnClick(e: any) {
+    if (e.target.dataset.emoji === 'emoji') {
+      return;
+    }
+    setDisplayEmojiSelector(false);
+  }
+
+  if (!userStatus) {
+    return (
+      <div className="flex h-[100vh] w-full items-center justify-center">
+        <img src="/instagramLoading.png" alt="loading" />
+      </div>
+    );
+  }
 
   return (
-    <div className=" h-screen bg-[#fafafa] dark:bg-[#131313] dark:text-slate-100">
+    <div
+      className=" h-screen bg-[#fafafa] dark:bg-[#131313] dark:text-slate-100"
+      onClick={(e) => closeEmojiSelectorOnClick(e)}
+    >
       <Head>
-        <title>Inbox • Chats</title>
+        <title>Instagram • Chats</title>
         <meta name="description" content="Instagram Clone" />
         <link rel="icon" href="/instagram.png" />
       </Head>
@@ -92,6 +125,8 @@ function Inbox({ count, chatRoomIDs }: { count: number; chatRoomIDs: any }) {
                 userID="bob"
                 activeChat={activeChat}
                 activeChatId={`chatRoom${index}`}
+                displayEmojiSelector={displayEmojiSelector}
+                setDisplayEmojiSelector={setDisplayEmojiSelector}
               />
             </div>
           ))}

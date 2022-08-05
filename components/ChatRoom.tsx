@@ -23,13 +23,16 @@ function ChatRoom({
   userID,
   activeChat,
   activeChatId,
+  displayEmojiSelector,
+  setDisplayEmojiSelector,
 }: {
   chatRoomID: string;
   userID: string;
   activeChat: string;
   activeChatId: string;
+  displayEmojiSelector: boolean;
+  setDisplayEmojiSelector: any;
 }) {
-  const [displayEmojiSelector, setDisplayEmojiSelector] = React.useState(false);
   const [imgLoadStatus, setImgLoadStatus] = React.useState<boolean>(false);
   const [messages, setMessages] = React.useState<any>([]);
   const [photoURL, setPhotoURL] = React.useState('');
@@ -133,7 +136,7 @@ function ChatRoom({
             </div>
           ))}
         </div>
-        <div className="mx-5 mt-3 mb-5 flex justify-between rounded-full border border-stone-200 dark:border-stone-700 dark:bg-[#131313]">
+        <div className="relative mx-5 mt-3 mb-5 flex justify-between rounded-full border border-stone-200 dark:border-stone-700 dark:bg-[#131313]">
           <button
             className="px-5"
             type="button"
@@ -141,6 +144,7 @@ function ChatRoom({
           >
             <div>
               <svg
+                data-emoji="emoji"
                 aria-label="Emoji"
                 fill={darkMode ? '#a9a9a9' : '#262626'}
                 height="24"
@@ -166,13 +170,14 @@ function ChatRoom({
           >
             Send
           </button>
-        </div>
-        <div
-          className={`${
-            displayEmojiSelector ? '' : 'hidden'
-          } absolute left-5 bottom-24 shadow-2xl`}
-        >
-          <EmojiSelector setInputText={setInputText} inputText={inputText} />
+          <div
+            id="emojiSelector"
+            className={`${
+              displayEmojiSelector ? '' : 'hidden'
+            } absolute left-0 top-[-340px] `}
+          >
+            <EmojiSelector setInputText={setInputText} inputText={inputText} />
+          </div>
         </div>
       </div>
     </div>
