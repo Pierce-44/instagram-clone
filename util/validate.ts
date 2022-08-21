@@ -35,3 +35,21 @@ export const passwordValidate = (values: string) => {
 
   return errors;
 };
+
+export const usernameValidate = (values: string) => {
+  let errors = '';
+  const regexLetters = /^[a-zA-Z]+$/;
+
+  if (values.length === 0) {
+    errors = 'Username is required!';
+  } else if (!regexLetters.test(values)) {
+    errors =
+      'Username must contain atleast one lowercase, uppercase letter, and only alphabetic characters';
+  } else if (values.length < 5) {
+    errors = 'Password be must be five characters or longer';
+  } else if (values.length > 11) {
+    errors = 'Passwrod cannot exceed more than 10 characters';
+  }
+
+  return errors;
+};

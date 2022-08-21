@@ -1,26 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
+import { useAtom } from 'jotai';
 import React from 'react';
-import dataProps from '../components/Context';
+import useGetUserDetailsOnAuth from '../hooks/useGetUserDetailsOnAuth';
+import atoms from '../util/atoms';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [darkMode, setDarkMode] = React.useState(false);
+  const [darkMode] = useAtom(atoms.darkMode);
 
-  const dataPropsContainer = React.useMemo(
-    () => ({
-      darkMode,
-      setDarkMode,
-    }),
-    [darkMode, setDarkMode]
-  );
+  useGetUserDetailsOnAuth();
 
   return (
-    <dataProps.Provider value={dataPropsContainer}>
-      <div className={darkMode ? 'dark' : ''}>
-        <Component {...pageProps} />
-      </div>
-    </dataProps.Provider>
+    <div className={darkMode ? 'dark' : ''}>
+      <Component {...pageProps} />
+    </div>
   );
 }
 

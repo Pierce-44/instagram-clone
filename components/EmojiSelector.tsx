@@ -6,7 +6,7 @@ import {
   smileysPeopleEmojis,
   animalNatureEmojis,
   travelEmojis,
-} from './util/emojiArray';
+} from '../util/emojiArray';
 
 function EmojiSelector({
   setInputText,

@@ -3,14 +3,19 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import Router from 'next/router';
+import Image from 'next/image';
 import Head from 'next/head';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import app from '../components/util/firbaseConfig';
-import { emailValidate, passwordValidate } from '../components/util/validate';
+import { useAtom } from 'jotai';
+import app from '../util/firbaseConfig';
+import { emailValidate, passwordValidate } from '../util/validate';
+import atoms from '../util/atoms';
 
 function Login() {
   app;
   const auth = getAuth();
+  const [listeners] = useAtom(atoms.listeners);
+  const [, setLoggingIn] = useAtom(atoms.loggingIn);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [emailFormErrors, setEmailFormErrors] = React.useState('');
@@ -20,13 +25,15 @@ function Login() {
   function handleSignIn(e: any) {
     e.preventDefault();
 
+    // removes initial firebase auth listener from app load
+    listeners.forEach((unsubscribe: any) => unsubscribe());
+
     if (passwordFormErrors === '' && emailFormErrors === '') {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential, error) => {
           // Signed in
           if (error === undefined) {
             setIsSubmit(true);
-            console.log(userCredential);
           }
         })
         .catch((error) => {
@@ -37,6 +44,8 @@ function Login() {
 
   React.useEffect(() => {
     if (isSubmit) {
+      // triggers the firebase Auth listner to activate so that it can start pulling from the database, plus redirects to the home page
+      setLoggingIn(true);
       Router.push('/');
     }
     setEmailFormErrors(emailValidate(email));
@@ -53,29 +62,50 @@ function Login() {
       <div className="flex min-h-[100vh] w-full items-center justify-center bg-[#fafafa]">
         <div>
           <div className="relative h-[590px] overflow-hidden">
+            <Image
+              priority
+              src="/loginFrame.png"
+              alt="instagram"
+              height={635}
+              width={465}
+            />
             <img src="/loginFrame.png" alt="instagram" />
             <div className="absolute top-[26px] right-14 h-full w-full">
-              <div className="relative">
-                <img
-                  className="absolute top-0 right-0 animate-loginImage1 opacity-0"
-                  src="/loginImg1.png"
-                  alt="instagram"
-                />
-                <img
-                  className="absolute top-0 right-0 animate-loginImage2 opacity-0"
-                  src="/loginImg2.png"
-                  alt="instagram"
-                />
-                <img
-                  className="absolute top-0 right-0 animate-loginImage3 opacity-0"
-                  src="/loginImg3.png"
-                  alt="instagram"
-                />
-                <img
-                  className="absolute top-0 right-0 animate-loginImage4 opacity-0"
-                  src="/loginImg4.png"
-                  alt="instagram"
-                />
+              <div className="relative ">
+                <div className="absolute top-0 right-0 h-[541px] w-[250px] animate-loginImage1 opacity-0">
+                  <Image
+                    priority
+                    src="/loginImg1.png"
+                    alt="instagram"
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </div>
+                <div className="absolute top-0 right-0 h-[541px] w-[250px] animate-loginImage2 opacity-0">
+                  <Image
+                    src="/loginImg2.png"
+                    alt="instagram"
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </div>
+                <div className="absolute top-0 right-0 h-[541px] w-[250px] animate-loginImage3 opacity-0">
+                  <Image
+                    src="/loginImg3.png"
+                    alt="instagram"
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </div>
+
+                <div className="absolute top-0 right-0 h-[541px] w-[250px] animate-loginImage4 opacity-0">
+                  <Image
+                    src="/loginImg4.png"
+                    alt="instagram"
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </div>
               </div>
             </div>
           </div>

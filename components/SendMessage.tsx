@@ -1,8 +1,9 @@
 import React from 'react';
-import dataProps from './Context';
+import { useAtom } from 'jotai';
+import atoms from '../util/atoms';
 
-function SendMessage() {
-  const { darkMode } = React.useContext(dataProps);
+function SendMessage({ setCreateChatRoom }: { setCreateChatRoom: any }) {
+  const [darkMode] = useAtom(atoms.darkMode);
   return (
     <div className="absolute bottom-0 top-0 left-[350px] flex w-[calc(100%-350px)] flex-col items-center justify-center border-l border-stone-300 bg-white p-6 dark:border-stone-700 dark:bg-[#1c1c1c]">
       <svg
@@ -51,6 +52,7 @@ function SendMessage() {
       <button
         className="mt-6 rounded-[4px] bg-[#0095f6] px-2 py-1 text-sm font-semibold text-white dark:text-[#0f0f0f]"
         type="button"
+        onClick={() => setCreateChatRoom(true)}
       >
         Send message
       </button>

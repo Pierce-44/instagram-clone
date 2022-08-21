@@ -1,46 +1,132 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import Router from 'next/router';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
+import {
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+  serverTimestamp,
+} from 'firebase/firestore';
 import Head from 'next/head';
-import app from '../components/util/firbaseConfig';
-import { emailValidate, passwordValidate } from '../components/util/validate';
+import { useAtom } from 'jotai';
+import app from '../util/firbaseConfig';
+import {
+  emailValidate,
+  passwordValidate,
+  usernameValidate,
+} from '../util/validate';
+import atoms from '../util/atoms';
 
 function SignUp() {
   app;
   const auth = getAuth();
+  const db = getFirestore(app);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [username, setUsername] = React.useState('');
   const [emailFormErrors, setEmailFormErrors] = React.useState('');
   const [passwordFormErrors, setPasswordFormErrors] = React.useState('');
+  const [usernameFormErrors, setUsernameFormErrors] = React.useState('');
   const [isSubmit, setIsSubmit] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [, setLoggingIn] = useAtom(atoms.loggingIn);
+  const [listeners] = useAtom(atoms.listeners);
+
+  async function submitUser() {
+    const docRef = doc(db, 'users', username);
+    const docSnap = await getDoc(docRef);
+    let userId: any;
+
+    if (docSnap.exists()) {
+      setPasswordFormErrors('Username already exists');
+    } else {
+      // removes initial firebase auth listener from app load
+      listeners.forEach((unsubscribe: any) => unsubscribe());
+      setLoading(true);
+
+      await createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential, error) => {
+          // Signed in
+          userId = userCredential.user.uid;
+          updateProfile(userCredential.user, {
+            displayName: username,
+          });
+        })
+        .catch((error) => {
+          setPasswordFormErrors(error.message.slice(22, -2));
+        });
+
+      await setDoc(doc(db, 'users', username), {
+        // eslint-disable-next-line object-shorthand
+        userId: userId,
+        avatarURL: '',
+        chatRoomIds: [],
+        messageCount: 0,
+        likes: false,
+        likedPosts: [],
+        username,
+        postCount: 0,
+        // dont think i need
+        // followerCount: 0,
+        // followingCount: 0,
+        followers: [],
+        following: [],
+      })
+        .then(() => {
+          // Profile updated!
+          setIsSubmit(true);
+        })
+        .catch((errorProfile) => {
+          console.log(errorProfile);
+        });
+
+      // create user post collection
+      await setDoc(doc(db, `${username}Posts`, 'userPosts'), {
+        createdAt: serverTimestamp(),
+        postsListArray: [],
+      });
+    }
+  }
 
   function handleSubmit(e: any) {
     e.preventDefault();
-
-    // submitToFireBase();
-    if (passwordFormErrors === '' && emailFormErrors === '') {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential, error) => {
-          // Signed in
-          if (error === undefined) {
-            setIsSubmit(true);
-          }
-        })
-        .catch((error) => {
-          setPasswordFormErrors(error.message);
-        });
+    if (
+      passwordFormErrors === '' &&
+      emailFormErrors === '' &&
+      usernameFormErrors === ''
+    ) {
+      submitUser();
     }
   }
 
   React.useEffect(() => {
     if (isSubmit) {
+      // triggers the firebase Auth listner to activate so that it can start pulling from the database, plus redirects to the home page
+      setLoggingIn(true);
       Router.push('/');
     }
     setEmailFormErrors(emailValidate(email));
     setPasswordFormErrors(passwordValidate(password));
-  }, [isSubmit, email, password]);
+    setUsernameFormErrors(usernameValidate(username));
+  }, [isSubmit, email, password, username]);
+
+  if (loading) {
+    return (
+      <div className="flex h-[100vh] w-full items-center justify-center dark:bg-[#131313]">
+        <picture>
+          <img src="/instagramLoading.png" alt="loading" />
+        </picture>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -66,6 +152,20 @@ function SignUp() {
                 className="signInPageFormContainer"
                 onSubmit={(e) => handleSubmit(e)}
               >
+                <label htmlFor="signInPageUserName">
+                  {' '}
+                  <input
+                    className="w-full border border-stone-300 bg-[#fafafa] px-2 py-[7px] text-sm focus:outline-none"
+                    type="text"
+                    id="signInPageUserName"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Username"
+                  />
+                </label>
+                <p className="h-[30px] text-[10px] text-red-600">
+                  {usernameFormErrors}
+                </p>
                 <label htmlFor="signInPageEmail">
                   {' '}
                   <input
