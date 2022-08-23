@@ -2,28 +2,20 @@
 import Head from 'next/head';
 import React from 'react';
 import { useRouter } from 'next/router';
-import {
-  collection,
-  getFirestore,
-  query,
-  onSnapshot,
-  doc,
-  arrayUnion,
-  updateDoc,
-  orderBy,
-} from 'firebase/firestore';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import Header from '../components/Header';
 import UnfollowUser from '../components/UnfollowUser';
 import AddProfilePhoto from '../components/AddProfilePhoto';
+import handleFollowUser from '../util/handleFollowUser';
 import PostSVG from '../components/svg/PostSVG';
-import app from '../util/firbaseConfig';
 import useCheckUserName from '../hooks/useCheckUserName';
 import FollowingSVG from '../components/svg/FollowingSVG';
 import CameraSVG from '../components/svg/CameraSVG';
 import ProfilePicSVG from '../components/svg/ProfilePicSVG';
+import LoadingPage from '../components/loadingPages/LoadingPage';
 import UserPost from '../components/UserPost';
+import useGetOtherUserPosts from '../hooks/useGetOtherUserPosts';
 import atoms from '../util/atoms';
 
 type notificationTypes = {
@@ -36,7 +28,6 @@ type notificationTypes = {
 };
 
 function Profile() {
-  const db = getFirestore(app);
   const router = useRouter();
   const nameSearch = router.query.Profile;
 
@@ -47,84 +38,29 @@ function Profile() {
 
   const [addPhoto, setAddPhoto] = React.useState(false);
   const [unfollow, setUnfollow] = React.useState(false);
-  const [otherUserPosts, setProfilePosts] = React.useState([]);
-  const [postListners, setPostListners] = React.useState([]);
 
-  const user = useCheckUserName({
-    username: nameSearch,
-    queryCharacter: false,
-  });
+  const queryCharacter = false;
+  const limitSearch = false;
+
+  // Checks the username against the dynamic page route
+  const user = useCheckUserName({ nameSearch, queryCharacter });
+  // This custom hook will get post details if the dynamic page route is for another user (not their own profile), and if the user exists. It uses useCheckUserName results to check this.
+  const otherUser = useGetOtherUserPosts({ user, nameSearch, limitSearch });
 
   // Switch - if the user is requesting another users profile page then use those fetched details, otherwise use the users own profile details.
-  const profilePosts = user.otherUser ? otherUserPosts : userPosts;
+  const profilePosts = user.otherUser ? otherUser.profilePosts : userPosts;
   const profileDetails = user.otherUser ? {} : userDetails;
   const profileNotifications: notificationTypes = user.otherUser
     ? user.otherUserNotifications
     : userNotifications;
 
-  function getUserPosts() {
-    const q = query(
-      collection(db, `${nameSearch}Posts`),
-      orderBy('createdAt', 'desc')
-    );
-    const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
-      const postsArray: any = [];
-      querySnapshot.forEach((document: any) => {
-        postsArray.push(document.data());
-      });
-      setProfilePosts(postsArray);
-    });
-    setPostListners((current) => [...current, unsubscribe]);
-  }
-
-  function handleFollowUser() {
-    const userRef = doc(db, 'users', userNotifications.username);
-    const otherUserRef = doc(db, 'users', profileNotifications.username);
-
-    updateDoc(userRef, {
-      following: arrayUnion(profileNotifications.username),
-    });
-
-    updateDoc(otherUserRef, {
-      followers: arrayUnion(userNotifications.username),
-    });
-  }
-
-  React.useEffect(() => {
-    if (user.userExists) {
-      getUserPosts();
-    }
-  }, [user.userExists, nameSearch]);
-
   // loading page while checking auth and checking route profile name
-  if (!userStatus || user.checkingUser) {
-    return (
-      <div
-        className={
-          userStatus
-            ? ''
-            : 'flex h-[100vh] w-full items-center justify-center dark:bg-[#131313]'
-        }
-      >
-        <Head>
-          <title>Profile • Instagram photos and videos</title>
-          <meta name="description" content="Instagram Clone" />
-          <link rel="icon" href="/instagram.png" />
-        </Head>
-        {userStatus ? <Header page="Profile" /> : ''}
-        <div
-          className={
-            userStatus
-              ? 'flex h-[calc(100vh-60px)] w-full items-center justify-center dark:bg-[#131313]'
-              : ''
-          }
-        >
-          <picture>
-            <img src="/instagramLoading.png" alt="loading" />
-          </picture>
-        </div>
-      </div>
-    );
+  if (!userStatus) {
+    return <LoadingPage checkingUserRoute={false} />;
+  }
+  // loading page while checking dynamic route query name
+  if (user.checkingUser && nameSearch !== userDetails.displayName) {
+    return <LoadingPage checkingUserRoute />;
   }
 
   // If a user does not exist render the following
@@ -240,7 +176,12 @@ function Profile() {
                       ) : (
                         <button
                           type="button"
-                          onClick={() => handleFollowUser()}
+                          onClick={() =>
+                            handleFollowUser({
+                              userName: userNotifications.username,
+                              otherUserName: profileNotifications.username,
+                            })
+                          } //
                         >
                           <p className="bg-[#0095F6] py-1 px-6 text-white">
                             Follow

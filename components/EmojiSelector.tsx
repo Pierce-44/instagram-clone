@@ -28,7 +28,6 @@ function EmojiSelector({
       <div className="flex flex-wrap justify-between  ">
         {mostPopularEmojis.map((emoji, index) => (
           <p
-            data-emoji="emoji"
             id={emoji}
             className="text-[32px]"
             key={`mostPopEmojis${index}`}
@@ -44,7 +43,6 @@ function EmojiSelector({
       <div className="flex flex-wrap justify-between ">
         {smileysPeopleEmojis.map((emoji, index) => (
           <p
-            data-emoji="emoji"
             id={emoji}
             className="text-[32px]"
             key={`smileysEmojis${index}`}
@@ -60,7 +58,6 @@ function EmojiSelector({
       <div className="flex flex-wrap justify-between ">
         {animalNatureEmojis.map((emoji, index) => (
           <p
-            data-emoji="emoji"
             id={emoji}
             className="text-[32px]"
             key={`animalsEmojis${index}`}
@@ -76,7 +73,6 @@ function EmojiSelector({
       <div className="flex flex-wrap justify-between ">
         {travelEmojis.map((emoji, index) => (
           <p
-            data-emoji="emoji"
             id={emoji}
             className="text-[32px]"
             key={`travelEmojis${index}`}

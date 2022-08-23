@@ -47,8 +47,8 @@ export const usernameValidate = (values: string) => {
       'Username must contain atleast one lowercase, uppercase letter, and only alphabetic characters';
   } else if (values.length < 5) {
     errors = 'Password be must be five characters or longer';
-  } else if (values.length > 11) {
-    errors = 'Passwrod cannot exceed more than 10 characters';
+  } else if (values.length > 13) {
+    errors = 'Password cannot exceed more than 13 characters';
   }
 
   return errors;

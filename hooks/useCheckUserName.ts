@@ -12,10 +12,10 @@ import atoms from '../util/atoms';
 import app from '../util/firbaseConfig';
 
 function useCheckUserName({
-  username,
+  nameSearch,
   queryCharacter,
 }: {
-  username: string | string[] | undefined;
+  nameSearch: string | string[] | undefined;
   queryCharacter: boolean;
 }) {
   const [userStatus] = useAtom(atoms.userStatus);
@@ -26,15 +26,15 @@ function useCheckUserName({
     []
   );
   const [userExists, setUserExists] = React.useState(false);
-  const [otherUser, setOtherUser] = React.useState(false);
   const [checkingUser, setCheckingUser] = React.useState(true);
+  const [otherUser, setOtherUser] = React.useState(false);
 
   const db = getFirestore(app);
   const usersRef = collection(db, 'users');
 
   async function checkNameInDB() {
     // Create a query against the all registered users collection.
-    const q = query(usersRef, where('username', '==', username));
+    const q = query(usersRef, where('username', '==', nameSearch));
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
@@ -43,9 +43,9 @@ function useCheckUserName({
       setUserExists(true);
       if (doc.data().username !== userDetails.displayName) {
         setOtherUser(true);
+      } else {
+        setOtherUser(false);
       }
-
-      // getUserPosts();
     });
     setCheckingUser(false);
   }
@@ -55,7 +55,7 @@ function useCheckUserName({
     const queryArray: any = [];
 
     // Create a query against the collection.
-    const q = query(Ref, where('usernameQuery', 'array-contains', username));
+    const q = query(Ref, where('usernameQuery', 'array-contains', nameSearch));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       // if user/document exists
@@ -70,7 +70,11 @@ function useCheckUserName({
   }
 
   React.useEffect(() => {
-    if (username !== userDetails.displayName && userStatus && !queryCharacter) {
+    if (
+      nameSearch !== userDetails.displayName &&
+      userStatus &&
+      !queryCharacter
+    ) {
       checkNameInDB();
       setCheckingUser(true);
     }
@@ -79,18 +83,22 @@ function useCheckUserName({
     // This will bypass the checkSearchName DB query to render the users profile.
     // This will be triggered once the user has been authorised and their userDetails recorded
     // Required since the dynamic route nameSearch is returned before the user is authorised
-    if (username === userDetails.displayName && userStatus && !queryCharacter) {
+    if (
+      nameSearch === userDetails.displayName &&
+      userStatus &&
+      !queryCharacter
+    ) {
       setCheckingUser(false);
       setOtherUser(false);
       setUserExists(true);
       checkNameInDB();
     }
 
-    if (queryCharacter && username !== '') {
+    if (queryCharacter && nameSearch !== '') {
       queryNameCharacter();
       setCheckingUser(true);
     }
-  }, [username, userDetails, userStatus]);
+  }, [nameSearch, userDetails, userStatus]);
 
   return {
     otherUserNotifications,

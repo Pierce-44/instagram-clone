@@ -10,7 +10,7 @@ function HeartHollow() {
       // color={darkMode ? '#f1f5f9' : '#262626'}
       className={
         darkMode
-          ? 'fill-[#f1f5f9] hover:fill-black'
+          ? 'fill-[#f1f5f9] hover:fill-[#999999]'
           : 'fill-[#262626] hover:fill-[#999999]'
       }
       // fill={darkMode ? '#f1f5f9' : '#262626'}

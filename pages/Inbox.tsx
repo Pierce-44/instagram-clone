@@ -2,59 +2,28 @@
 /* eslint-disable react/no-array-index-key */
 import Head from 'next/head';
 import React from 'react';
-import { getFirestore, updateDoc, doc } from 'firebase/firestore';
 import { useAtom } from 'jotai';
-import app from '../util/firbaseConfig';
 import ChatRoom from '../components/ChatRoom';
 import CreateChatRoom from '../components/CreateChatRoom';
 import SendMessage from '../components/SendMessage';
+import LoadingPage from '../components/loadingPages/LoadingPage';
 import NewMessageSVG from '../components/svg/NewMessageSVG';
 import Header from '../components/Header';
 import atoms from '../util/atoms';
 
 function Inbox() {
-  const db = getFirestore(app);
   const [userStatus] = useAtom(atoms.userStatus);
   const [userDetails] = useAtom(atoms.userDetails);
   const [userNotifications] = useAtom(atoms.userNotifications);
   const [activeChat, setActiveChat] = React.useState('');
   const [createChatRoom, setCreateChatRoom] = React.useState(false);
-  const [displayEmojiSelector, setDisplayEmojiSelector] = React.useState(false);
-
-  function closeEmojiSelectorOnClick(e: any) {
-    if (e.target.dataset.emoji === 'emoji') {
-      return;
-    }
-    setDisplayEmojiSelector(false);
-  }
-
-  React.useEffect(() => {
-    // set message notifications to zero
-    if (userDetails.displayName) {
-      const countRef = doc(db, 'users', userDetails.displayName);
-      updateDoc(countRef, {
-        messageCount: 0,
-      });
-    }
-  }, [userDetails, db]);
 
   if (!userStatus) {
-    return (
-      <div className="flex h-[100vh] w-full items-center justify-center dark:bg-[#131313]">
-        <picture>
-          <img src="/instagramLoading.png" alt="loading" />
-        </picture>
-      </div>
-    );
+    return <LoadingPage checkingUserRoute={false} />;
   }
 
   return (
-    <div
-      className="h-screen cursor-default bg-[#fafafa] text-[#231f20] dark:bg-[#131313] dark:text-slate-100"
-      onClick={(e) => closeEmojiSelectorOnClick(e)}
-      role="button"
-      tabIndex={0}
-    >
+    <div className="h-screen cursor-default bg-[#fafafa] text-[#231f20] dark:bg-[#131313] dark:text-slate-100">
       <Head>
         <title>Instagram • Chats</title>
         <meta name="description" content="Instagram Clone" />
@@ -97,8 +66,6 @@ function Inbox() {
                     userID={userDetails.displayName}
                     activeChat={activeChat}
                     activeChatId={`chatRoom${index}`}
-                    displayEmojiSelector={displayEmojiSelector}
-                    setDisplayEmojiSelector={setDisplayEmojiSelector}
                   />
                 </div>
               )

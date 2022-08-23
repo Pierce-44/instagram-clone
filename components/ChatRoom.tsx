@@ -23,20 +23,17 @@ function ChatRoom({
   userID,
   activeChat,
   activeChatId,
-  displayEmojiSelector,
-  setDisplayEmojiSelector,
 }: {
   chatRoomID: string;
   userID: string;
   activeChat: string;
   activeChatId: string;
-  displayEmojiSelector: boolean;
-  setDisplayEmojiSelector: any;
 }) {
   const [darkMode] = useAtom(atoms.darkMode);
   const [allChatRoomMessages] = useAtom(atoms.allChatRoomMessages);
 
   const [inputText, setInputText] = React.useState('');
+  const [displayEmojiSelector, setDisplayEmojiSelector] = React.useState(false);
 
   const messages = allChatRoomMessages[chatRoomID]?.slice(0, -1);
   const chatName =
@@ -59,6 +56,16 @@ function ChatRoom({
       });
     }
   }
+
+  React.useEffect(() => {
+    const emojiListner = window.addEventListener('click', (e: any) => {
+      // if outside of emoji tab close
+      if (e.target.id !== 'emoji') {
+        setDisplayEmojiSelector(false);
+      }
+    });
+    return emojiListner;
+  }, []);
 
   return (
     <div className="dark:text-slate-100">
@@ -101,7 +108,7 @@ function ChatRoom({
             <img
               className={`${
                 avatarURL ? '' : 'hidden'
-              } h-14 w-14 rounded-full object-cover`}
+              } h-14 w-14 rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131]`}
               src={avatarURL}
               alt="avatar"
             />
@@ -149,7 +156,7 @@ function ChatRoom({
             >
               <div>
                 <svg
-                  data-emoji="emoji"
+                  id="emoji"
                   aria-label="Emoji"
                   fill={darkMode ? '#a9a9a9' : '#262626'}
                   height="24"
@@ -157,7 +164,10 @@ function ChatRoom({
                   viewBox="0 0 24 24"
                   width="24"
                 >
-                  <path d="M15.83 10.997a1.167 1.167 0 101.167 1.167 1.167 1.167 0 00-1.167-1.167zm-6.5 1.167a1.167 1.167 0 10-1.166 1.167 1.167 1.167 0 001.166-1.167zm5.163 3.24a3.406 3.406 0 01-4.982.007 1 1 0 10-1.557 1.256 5.397 5.397 0 008.09 0 1 1 0 00-1.55-1.263zM12 .503a11.5 11.5 0 1011.5 11.5A11.513 11.513 0 0012 .503zm0 21a9.5 9.5 0 119.5-9.5 9.51 9.51 0 01-9.5 9.5z" />
+                  <path
+                    id="emoji"
+                    d="M15.83 10.997a1.167 1.167 0 101.167 1.167 1.167 1.167 0 00-1.167-1.167zm-6.5 1.167a1.167 1.167 0 10-1.166 1.167 1.167 1.167 0 001.166-1.167zm5.163 3.24a3.406 3.406 0 01-4.982.007 1 1 0 10-1.557 1.256 5.397 5.397 0 008.09 0 1 1 0 00-1.55-1.263zM12 .503a11.5 11.5 0 1011.5 11.5A11.513 11.513 0 0012 .503zm0 21a9.5 9.5 0 119.5-9.5 9.51 9.51 0 01-9.5 9.5z"
+                  />
                 </svg>
               </div>
             </button>
@@ -172,23 +182,26 @@ function ChatRoom({
             />
             <button
               id="sendMessage"
-              className="pr-4 pl-2 text-sm font-semibold text-[#0095F6]"
+              className={`${
+                inputText === ''
+                  ? 'pointer-events-none text-[#9dd8ff]'
+                  : 'text-[#0095F6]'
+              } pr-4 pl-2 text-sm font-semibold `}
               type="button"
               onClick={(e) => sendMessage(e)}
             >
               Send
             </button>
-            <div
-              id="emojiSelector"
-              className={`${
-                displayEmojiSelector ? '' : 'hidden'
-              } absolute left-0 top-[-340px] `}
-            >
-              <EmojiSelector
-                setInputText={setInputText}
-                inputText={inputText}
-              />
-            </div>
+            {displayEmojiSelector ? (
+              <div id="emojiSelector" className="absolute left-0 top-[-340px]">
+                <EmojiSelector
+                  setInputText={setInputText}
+                  inputText={inputText}
+                />
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         </div>
       ) : (

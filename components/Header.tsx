@@ -27,12 +27,12 @@ function Header({ page }: { page: string }) {
 
   const [avatarDropDown, setAvatarDropDown] = React.useState(false);
   const [addPost, setAddPost] = React.useState(false);
-  const [searchName, setSearchName] = React.useState('');
+  const [nameSearch, setNameSearch] = React.useState('');
   const [searchWindow, setSearchWindow] = React.useState(false);
 
-  const user = useCheckUserName({ username: searchName, queryCharacter: true });
+  const queryCharacter = true;
 
-  // console.log(user.queryUserNotifications);
+  const user = useCheckUserName({ nameSearch, queryCharacter });
 
   function handleSignOut() {
     signOut(auth)
@@ -80,8 +80,8 @@ function Header({ page }: { page: string }) {
             className=" w-[200px] rounded-lg bg-[#efefef] py-[6px] pl-[45px] focus:outline-0 dark:bg-[#131313]  lg:w-[275px]"
             type="text"
             placeholder="Search"
-            value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
+            value={nameSearch}
+            onChange={(e) => setNameSearch(e.target.value)}
             onFocus={() => setSearchWindow(true)}
             onBlur={() => {
               setTimeout(handleTimeout, 200);
@@ -91,7 +91,7 @@ function Header({ page }: { page: string }) {
             <HeaderSearchWindow
               loading={user.checkingUser}
               userDetails={user.queryNotificationsArray}
-              searchName={searchName}
+              searchName={nameSearch}
             />
           ) : (
             ''

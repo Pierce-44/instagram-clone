@@ -32,7 +32,7 @@ function HeaderSearchWindow({
           <div className="h-full w-full overflow-y-scroll py-3">
             {userDetails.length === 0 ? (
               <div className="flex h-full w-full items-center justify-center">
-                <div className="">No users with this name found</div>
+                <div className="">No user with this name was found</div>
               </div>
             ) : (
               userDetails.map((details: any, index: number) => (
