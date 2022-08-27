@@ -2,11 +2,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAtom } from 'jotai';
-import CloseBtnSVG from './svg/CloseBtnSVG';
-import HeartHollow from './svg/HeartHollow';
-import HeartSVG from './svg/HeartSVG';
+import CloseBtnSVG from './svgComps/CloseBtnSVG';
+import HeartHollow from './svgComps/HeartHollow';
+import HeartSVG from './svgComps/HeartSVG';
 import PostTextArea from './PostTextArea';
-import CommentSVG from './svg/CommentSVG';
+import CommentSVG from './svgComps/CommentSVG';
 import handleLikePost from '../util/handleLikePost';
 import atoms from '../util/atoms';
 
@@ -33,7 +33,7 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
           document.body.style.overflow = 'initial';
         }}
       >
-        <CloseBtnSVG lightColor="white" darkColor="white" />
+        <CloseBtnSVG lightColor="white" darkColor="white" heightWidth="18" />
       </div>
       <div className="mx-20 flex h-[520px] overflow-hidden rounded-md dark:border dark:border-stone-700">
         <div className="flex items-center bg-black">
@@ -157,19 +157,19 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
                 <p>
                   Liked by{' '}
                   <b>
-                    {postInformation.likes.length > 0
+                    {postInformation.likes?.length > 0
                       ? postInformation.likes[0]
                       : ''}
                   </b>{' '}
                 </p>
-                {postInformation.likes.length === 1 ? (
+                {postInformation.likes?.length === 1 ? (
                   ''
                 ) : (
                   <div className="pl-1">
-                    {postInformation.likes.length > 0 ? 'and' : ''}{' '}
+                    {postInformation.likes?.length > 0 ? 'and' : ''}{' '}
                     <b>
-                      {postInformation.likes.length} other
-                      {postInformation.likes.length === 1 ? '' : 's'}
+                      {postInformation.likes?.length} other
+                      {postInformation.likes?.length === 1 ? '' : 's'}
                     </b>
                   </div>
                 )}

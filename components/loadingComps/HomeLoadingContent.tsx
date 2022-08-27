@@ -1,9 +1,14 @@
+import SpinnerSVG from '../svgComps/SpinnerSVG';
+
 function HomeLoadingContent() {
   const circles = [1, 2, 3, 4, 5, 6];
   return (
     <div className="h-full">
       <div className="mx-auto  max-w-[822px]">
-        <div className="mt-6 flex w-[470px] justify-between rounded-lg border border-stone-300 bg-white px-5 py-4 dark:border-stone-700 dark:bg-[#1c1c1c]">
+        <div className="my-4 flex w-[470px] justify-center">
+          <SpinnerSVG />
+        </div>
+        <div className=" flex w-[470px] justify-between rounded-lg border border-stone-300 bg-white px-5 py-4 dark:border-stone-700 dark:bg-[#1c1c1c]">
           {circles.map((index) => (
             <div
               key={index}

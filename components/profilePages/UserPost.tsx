@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import CommentSVG from './svg/CommentSVG';
-import HeartSVG from './svg/HeartSVG';
-import PostPopUp from './PostPopUp';
+import CommentSVG from '../svgComps/CommentSVG';
+import HeartSVG from '../svgComps/HeartSVG';
+import PostPopUp from '../PostPopUp';
 
 type postObject = {
   comments: [];

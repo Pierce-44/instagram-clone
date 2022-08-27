@@ -5,9 +5,11 @@ import atoms from '../../util/atoms';
 function CloseBtnSVG({
   lightColor,
   darkColor,
+  heightWidth,
 }: {
   lightColor: string;
   darkColor: string;
+  heightWidth: string;
 }) {
   const [darkMode] = useAtom(atoms.darkMode);
   return (
@@ -15,10 +17,10 @@ function CloseBtnSVG({
       aria-label="Close"
       color={darkMode ? darkColor : lightColor}
       // fill="#262626"
-      height="18"
+      height={heightWidth}
       role="img"
       viewBox="0 0 24 24"
-      width="18"
+      width={heightWidth}
     >
       <polyline
         fill="none"

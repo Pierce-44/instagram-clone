@@ -3,12 +3,12 @@
 import Head from 'next/head';
 import React from 'react';
 import { useAtom } from 'jotai';
-import ChatRoom from '../components/ChatRoom';
-import CreateChatRoom from '../components/CreateChatRoom';
-import SendMessage from '../components/SendMessage';
-import LoadingPage from '../components/loadingPages/LoadingPage';
-import NewMessageSVG from '../components/svg/NewMessageSVG';
-import Header from '../components/Header';
+import ChatRoom from '../components/InboxPage/ChatRoom';
+import CreateChatRoom from '../components/InboxPage/CreateChatRoom';
+import SendMessage from '../components/InboxPage/SendMessage';
+import LoadingPage from '../components/loadingComps/LoadingPage';
+import NewMessageSVG from '../components/svgComps/NewMessageSVG';
+import Header from '../components/header/Header';
 import atoms from '../util/atoms';
 
 function Inbox() {

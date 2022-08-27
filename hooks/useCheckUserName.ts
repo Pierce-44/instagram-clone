@@ -11,6 +11,15 @@ import { useAtom } from 'jotai';
 import atoms from '../util/atoms';
 import app from '../util/firbaseConfig';
 
+type notificationTypes = {
+  username?: string;
+  userId?: string;
+  postCount?: number;
+  followers?: [];
+  following?: string[];
+  avatarURL?: string;
+};
+
 function useCheckUserName({
   nameSearch,
   queryCharacter,
@@ -21,7 +30,8 @@ function useCheckUserName({
   const [userStatus] = useAtom(atoms.userStatus);
   const [userDetails] = useAtom(atoms.userDetails);
 
-  const [otherUserNotifications, setProfileNotifications] = React.useState({});
+  const [otherUserNotifications, setProfileNotifications] =
+    React.useState<notificationTypes>({});
   const [queryNotificationsArray, setQueryNotificationsArray] = React.useState(
     []
   );

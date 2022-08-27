@@ -79,6 +79,8 @@ function SignUp() {
         // followingCount: 0,
         followers: [],
         following: [],
+        story: '',
+        storyViews: [],
       })
         .then(() => {
           // Profile updated!

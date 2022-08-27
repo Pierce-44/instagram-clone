@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import SpinnerSVG from './svg/SpinnerSVG';
+import SpinnerSVG from '../svgComps/SpinnerSVG';
 
 type notificationTypes = {
   [key: string]: any;

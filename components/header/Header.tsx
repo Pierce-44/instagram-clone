@@ -5,13 +5,13 @@ import React from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import Link from 'next/link';
 import { useAtom } from 'jotai';
-import app from '../util/firbaseConfig';
-import ProfilePicSVG from './svg/ProfilePicSVG';
+import app from '../../util/firbaseConfig';
+import ProfilePicSVG from '../svgComps/ProfilePicSVG';
 import DarkModeButton from './DarkModeButton';
-import atoms from '../util/atoms';
+import atoms from '../../util/atoms';
 import AddNewPost from './AddNewPost';
 import HeaderSearchWindow from './HeaderSearchWindow';
-import useCheckUserName from '../hooks/useCheckUserName';
+import useCheckUserName from '../../hooks/useCheckUserName';
 
 function Header({ page }: { page: string }) {
   // eslint-disable-next-line no-unused-expressions
@@ -24,6 +24,12 @@ function Header({ page }: { page: string }) {
   const [, setUserNotifications] = useAtom(atoms.userNotifications);
   const [, setUserDetails] = useAtom(atoms.userDetails);
   const [, setLoggingIn] = useAtom(atoms.loggingIn);
+  const [, setHomePogePostsFetched] = useAtom(atoms.homePogePostsFetched);
+  const [, setHomePagePosts] = useAtom(atoms.homePagePosts);
+  const [, setStoriesArray] = useAtom(atoms.storiesArray);
+  const [, setFollowingArray] = useAtom(atoms.followingArray);
+  const [, setStories] = useAtom(atoms.stories);
+  const [, setUserPosts] = useAtom(atoms.userPosts);
 
   const [avatarDropDown, setAvatarDropDown] = React.useState(false);
   const [addPost, setAddPost] = React.useState(false);
@@ -41,6 +47,12 @@ function Header({ page }: { page: string }) {
         setUserNotifications({});
         setUserDetails({});
         setLoggingIn(false);
+        setHomePogePostsFetched(false);
+        setHomePagePosts({});
+        setStoriesArray([]);
+        setFollowingArray([]);
+        setStories({});
+        setUserPosts([]);
 
         // removes all firebase listener
         listeners.forEach((unsubscribe: any) => unsubscribe());
@@ -64,7 +76,7 @@ function Header({ page }: { page: string }) {
   }, []);
 
   return (
-    <div className="sticky top-0 z-10 border-b border-stone-300 bg-white dark:border-stone-700 dark:bg-[#1c1c1c] dark:text-slate-100">
+    <div className="sticky top-0 z-50 border-b border-stone-300 bg-white dark:border-stone-700 dark:bg-[#1c1c1c] dark:text-slate-100">
       <div className=" flex h-[60px] items-center justify-between px-[5px] sm:px-[20px] lg:justify-center ">
         <div className="flex h-[60px] w-[330px] min-w-[103px] items-center ">
           <Link href="/">
@@ -273,7 +285,7 @@ function Header({ page }: { page: string }) {
                 id="avatarDropDown"
                 src={userDetails.photoURL}
                 alt="avatar"
-                className="h-6 w-6 cursor-pointer rounded-full object-cover"
+                className="h-6 w-6 cursor-pointer rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131]"
               />
             ) : (
               <ProfilePicSVG height="24" width="24" strokeWidth="1.5" />

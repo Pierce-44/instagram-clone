@@ -24,9 +24,10 @@ function useGetOtherUserPosts({
   const db = getFirestore(app);
 
   const [userDetails] = useAtom(atoms.userDetails);
+  // const [userNotifications] = useAtom(atoms.userNotifications);
 
-  const [postListners, setPostListners] = React.useState([]);
-  const [profilePosts, setProfilePosts] = React.useState<any>([]);
+  const [, setPostListners] = React.useState<any[]>([]);
+  const [profilePosts, setProfilePosts] = React.useState<any[]>([]);
 
   function getUserPosts() {
     const q = query(
@@ -35,7 +36,7 @@ function useGetOtherUserPosts({
       limitSearch ? limit(1) : limit(50)
     );
     const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
-      const postsArray: any = [];
+      const postsArray: any[] = [];
       querySnapshot.forEach((document: any) => {
         postsArray.push(document.data());
       });

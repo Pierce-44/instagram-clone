@@ -11,12 +11,12 @@ import {
   DocumentData,
 } from 'firebase/firestore';
 import { useAtom } from 'jotai';
-import SearchBtnSVG from './svg/SearchBtnSVG';
-import CloseBtnSVG from './svg/CloseBtnSVG';
-import ProfilePicSVG from './svg/ProfilePicSVG';
-import app from '../util/firbaseConfig';
-import SelectionBtnSVG from './svg/SelectionBtnSVG';
-import atoms from '../util/atoms';
+import SearchBtnSVG from '../svgComps/SearchBtnSVG';
+import CloseBtnSVG from '../svgComps/CloseBtnSVG';
+import ProfilePicSVG from '../svgComps/ProfilePicSVG';
+import app from '../../util/firbaseConfig';
+import SelectionBtnSVG from '../svgComps/SelectionBtnSVG';
+import atoms from '../../util/atoms';
 
 function CreateChatRoom({ setCreateChatRoom }: { setCreateChatRoom: any }) {
   const db = getFirestore(app);

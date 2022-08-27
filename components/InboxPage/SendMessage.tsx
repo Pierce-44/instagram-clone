@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAtom } from 'jotai';
-import atoms from '../util/atoms';
+import atoms from '../../util/atoms';
 
 function SendMessage({ setCreateChatRoom }: { setCreateChatRoom: any }) {
   const [darkMode] = useAtom(atoms.darkMode);

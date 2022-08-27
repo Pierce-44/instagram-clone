@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import Link from 'next/link';
-import atoms from '../util/atoms';
+import atoms from '../../util/atoms';
 
 function UserSuggestions() {
   const [userDetails] = useAtom(atoms.userDetails);
@@ -13,7 +13,7 @@ function UserSuggestions() {
             <picture>
               <img
                 className="h-14 w-14 cursor-pointer rounded-full object-cover"
-                src={userDetails.photoURL}
+                src={userDetails.photoURL!}
                 alt="avatar"
               />
             </picture>

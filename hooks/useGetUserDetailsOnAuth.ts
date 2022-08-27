@@ -9,6 +9,7 @@ import {
   orderBy,
   collection,
   limit,
+  getDoc,
 } from 'firebase/firestore';
 import { useAtom } from 'jotai';
 import React from 'react';
@@ -25,9 +26,14 @@ function useGetUserDetailsOnAuth() {
   const [, setAllChatRoomMessages] = useAtom(atoms.allChatRoomMessages);
   const [, setUserNotifications] = useAtom(atoms.userNotifications);
   const [, setUserPosts] = useAtom(atoms.userPosts);
+  const [, setHomePagePosts] = useAtom(atoms.homePagePosts);
+  const [, setStories] = useAtom(atoms.stories);
+  const [, setHomePogePostsFetched] = useAtom(atoms.homePogePostsFetched);
+
+  const [homePageListners, setHomePageListners] = React.useState<any[]>([]);
 
   function getChatRoomMessages(notifications: any) {
-    notifications?.chatRoomIds.forEach((chatRoomID: any) => {
+    notifications?.chatRoomIds?.forEach((chatRoomID: any) => {
       const q = query(
         collection(db, chatRoomID),
         orderBy('createdAt', 'desc'),
@@ -47,12 +53,58 @@ function useGetUserDetailsOnAuth() {
     });
   }
 
+  async function getHomePagePosts(notifications: any) {
+    homePageListners.forEach((unsubscribe: any) => unsubscribe());
+
+    await notifications?.following?.forEach((username: string) => {
+      const q = query(
+        collection(db, `${username}Posts`),
+        orderBy('createdAt', 'desc'),
+        limit(1)
+      );
+
+      const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
+        querySnapshot.forEach((document: any) => {
+          setHomePagePosts((prevState) => ({
+            ...prevState,
+            [username]: document.data(),
+          }));
+        });
+      });
+      setHomePageListners((current) => [...current, unsubscribe]);
+    });
+    setHomePogePostsFetched(true);
+  }
+
+  async function getFollowingStories(notifications: any) {
+    notifications?.following?.forEach((username: string) => {
+      const docRef = doc(db, 'users', username);
+
+      async function handle() {
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.data()!.story !== '') {
+          setStories((prevState) => ({
+            ...prevState,
+            [username]: docSnap.data()!.story,
+            [`${username}Views`]: docSnap.data()!.storyViews,
+            [`${username}Photo`]: docSnap.data()!.avatarURL,
+          }));
+        }
+      }
+
+      handle();
+    });
+  }
+
   function userLiveUpdates(user: any) {
     const unsubscribe = onSnapshot(
       doc(db, 'users', user.displayName),
       (document: any) => {
         setUserNotifications(document.data());
         getChatRoomMessages(document.data());
+        getHomePagePosts(document.data());
+        getFollowingStories(document.data());
         // when you get to it add getFollowingPosts(), i want it to update with notifications
       }
     );

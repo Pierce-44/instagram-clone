@@ -16,11 +16,11 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { useAtom } from 'jotai';
-import CloseBtnSVG from './svg/CloseBtnSVG';
-import DragPhotosVideos from './svg/DragPhotosVideos';
-import ReturnArrow from './svg/ReturnArrow';
-import app from '../util/firbaseConfig';
-import atoms from '../util/atoms';
+import CloseBtnSVG from '../svgComps/CloseBtnSVG';
+import DragPhotosVideos from '../svgComps/DragPhotosVideos';
+import ReturnArrow from '../svgComps/ReturnArrow';
+import app from '../../util/firbaseConfig';
+import atoms from '../../util/atoms';
 
 function AddNewPost({ setAddPost }: { setAddPost: any }) {
   const [userDetails] = useAtom(atoms.userDetails);

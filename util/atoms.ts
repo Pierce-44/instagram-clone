@@ -1,37 +1,58 @@
+import { User } from 'firebase/auth';
 import { atom } from 'jotai';
 
-type objectUnkown = {
-  [key: string]: any;
+type chatRoomMessagesTypes = {
+  createdAt?: string;
+  name?: string;
+  text?: string;
 };
 
 type userDetailTypes = {
-  [key: string]: any;
   displayName?: string;
   photoURL?: string;
 };
 
 type notificationTypes = {
-  [key: string]: any;
   username?: string;
   userId?: string;
   postCount?: number;
-  followerCount?: number;
-  followingCount?: number;
+  followers?: [];
+  following?: string[];
+  avatarURL?: string;
+  likedPosts?: string[];
+};
+
+type storyTypes = {
+  [index: string]: string;
+};
+
+type homePagePostTypes = {
+  [index: string]: {};
+};
+
+type postImgHeightTypes = {
+  [index: string]: string;
 };
 
 const darkMode = atom(false);
 const userStatus = atom(false);
-const allChatRoomMessages = atom<objectUnkown>({});
-const userDetails = atom<userDetailTypes>({});
+const allChatRoomMessages = atom<chatRoomMessagesTypes>({});
+const userDetails = atom<userDetailTypes | User>({});
 const userNotifications = atom<notificationTypes>({});
-const listeners = atom([]);
-const loggingIn = atom(false);
+const listeners = atom<any[]>([]);
+const loggingIn = atom(true);
 const userPostsStatus = atom(false);
 const userPosts = atom([]);
+const homePagePosts = atom<homePagePostTypes>({});
+const postImgHeight = atom<postImgHeightTypes>({});
+const stories = atom<storyTypes>({});
+const followingArray = atom<any[]>([]);
+const homePogePostsFetched = atom(false);
+const storiesArray = atom<string[]>([]);
 
-const profilePosts = atom((get) => get(userPosts));
-const profileDetails = atom((get) => get(userDetails));
-const profileNotifications = atom((get) => get(userNotifications));
+// const profilePosts = atom((get) => get(userPosts));
+// const profileDetails = atom((get) => get(userDetails));
+// const profileNotifications = atom((get) => get(userNotifications));
 
 const atoms = {
   darkMode,
@@ -43,9 +64,15 @@ const atoms = {
   loggingIn,
   userPostsStatus,
   userPosts,
-  profilePosts,
-  profileDetails,
-  profileNotifications,
+  // profilePosts,
+  // profileDetails,
+  // profileNotifications,
+  homePagePosts,
+  postImgHeight,
+  stories,
+  followingArray,
+  homePogePostsFetched,
+  storiesArray,
 };
 
 export default atoms;

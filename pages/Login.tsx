@@ -15,7 +15,7 @@ function Login() {
   app;
   const auth = getAuth();
   const [listeners] = useAtom(atoms.listeners);
-  const [, setLoggingIn] = useAtom(atoms.loggingIn);
+  const [loggingIn, setLoggingIn] = useAtom(atoms.loggingIn);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [emailFormErrors, setEmailFormErrors] = React.useState('');
@@ -45,7 +45,7 @@ function Login() {
   React.useEffect(() => {
     if (isSubmit) {
       // triggers the firebase Auth listner to activate so that it can start pulling from the database, plus redirects to the home page
-      setLoggingIn(true);
+      setLoggingIn(!loggingIn);
       Router.push('/');
     }
     setEmailFormErrors(emailValidate(email));

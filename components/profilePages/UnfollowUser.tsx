@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { doc, arrayRemove, updateDoc, getFirestore } from 'firebase/firestore';
-import CloseBtnSVG from './svg/CloseBtnSVG';
-import app from '../util/firbaseConfig';
+import CloseBtnSVG from '../svgComps/CloseBtnSVG';
+import app from '../../util/firbaseConfig';
 
 function UnfollowUser({
   setUnfollow,
@@ -11,7 +11,7 @@ function UnfollowUser({
   profileNotifications,
 }: {
   setUnfollow: any;
-  imgURL: string;
+  imgURL: string | undefined;
   username: string | undefined;
   userNotifications: any;
   profileNotifications: any;
@@ -55,7 +55,7 @@ function UnfollowUser({
           document.body.style.overflow = 'initial';
         }}
       >
-        <CloseBtnSVG lightColor="white" darkColor="white" />
+        <CloseBtnSVG lightColor="white" darkColor="white" heightWidth="18" />
       </div>
       <div className="flex w-[400px] flex-col items-center justify-center rounded-xl bg-white text-center text-sm font-normal dark:border dark:border-stone-300 dark:bg-[#000000]">
         <picture>

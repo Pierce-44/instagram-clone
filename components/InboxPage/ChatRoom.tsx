@@ -11,10 +11,10 @@ import {
 } from 'firebase/firestore';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useAtom } from 'jotai';
-import EmojiSelector from './EmojiSelector';
-import ProfilePicSVG from './svg/ProfilePicSVG';
-import app from '../util/firbaseConfig';
-import atoms from '../util/atoms';
+import EmojiSelector from '../EmojiSelector';
+import ProfilePicSVG from '../svgComps/ProfilePicSVG';
+import app from '../../util/firbaseConfig';
+import atoms from '../../util/atoms';
 
 const db = getFirestore(app);
 

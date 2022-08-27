@@ -4,28 +4,19 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
-import Header from '../components/Header';
-import UnfollowUser from '../components/UnfollowUser';
-import AddProfilePhoto from '../components/AddProfilePhoto';
+import Header from '../components/header/Header';
+import UnfollowUser from '../components/profilePages/UnfollowUser';
+import AddProfilePhoto from '../components/profilePages/AddProfilePhoto';
 import handleFollowUser from '../util/handleFollowUser';
-import PostSVG from '../components/svg/PostSVG';
+import PostSVG from '../components/svgComps/PostSVG';
 import useCheckUserName from '../hooks/useCheckUserName';
-import FollowingSVG from '../components/svg/FollowingSVG';
-import CameraSVG from '../components/svg/CameraSVG';
-import ProfilePicSVG from '../components/svg/ProfilePicSVG';
-import LoadingPage from '../components/loadingPages/LoadingPage';
-import UserPost from '../components/UserPost';
+import FollowingSVG from '../components/svgComps/FollowingSVG';
+import CameraSVG from '../components/svgComps/CameraSVG';
+import ProfilePicSVG from '../components/svgComps/ProfilePicSVG';
+import LoadingPage from '../components/loadingComps/LoadingPage';
+import UserPost from '../components/profilePages/UserPost';
 import useGetOtherUserPosts from '../hooks/useGetOtherUserPosts';
 import atoms from '../util/atoms';
-
-type notificationTypes = {
-  [key: string]: any;
-  username?: string;
-  userId?: string;
-  postCount?: number;
-  followerCount?: number;
-  followingCount?: number;
-};
 
 function Profile() {
   const router = useRouter();
@@ -50,7 +41,7 @@ function Profile() {
   // Switch - if the user is requesting another users profile page then use those fetched details, otherwise use the users own profile details.
   const profilePosts = user.otherUser ? otherUser.profilePosts : userPosts;
   const profileDetails = user.otherUser ? {} : userDetails;
-  const profileNotifications: notificationTypes = user.otherUser
+  const profileNotifications = user.otherUser
     ? user.otherUserNotifications
     : userNotifications;
 
@@ -149,7 +140,7 @@ function Profile() {
                       // onClick={() => setFollowing(!following)}
                     >
                       {userNotifications.following?.includes(
-                        profileNotifications.username
+                        profileNotifications.username!
                       ) ? (
                         <div>
                           <button

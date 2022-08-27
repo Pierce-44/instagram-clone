@@ -16,6 +16,11 @@ function PostTextArea({ postUserDetails, postInformation }) {
   const date = new Date().toLocaleDateString();
 
   function addComment(e: any) {
+    // quick random ID, incase the user sends the same message twice in a row
+    const randomID = Math.floor(
+      Math.random() * Math.floor(Math.random() * Date.now())
+    );
+
     // submit on key enter
     if (
       e.code === 'Enter' ||
@@ -34,6 +39,7 @@ function PostTextArea({ postUserDetails, postInformation }) {
         avatarURL: userDetails.photoURL,
         username: userDetails.displayName,
         createdAt: date,
+        randomID,
       };
 
       updateDoc(docRef, {

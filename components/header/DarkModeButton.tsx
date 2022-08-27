@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import { useAtom } from 'jotai';
-import atomStorage from '../util/atoms';
+import atomStorage from '../../util/atoms';
 
 function DarkModeButton() {
   const [darkMode, setDarkMode] = useAtom(atomStorage.darkMode);
