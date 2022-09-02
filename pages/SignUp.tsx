@@ -17,6 +17,8 @@ import {
 } from 'firebase/firestore';
 import Head from 'next/head';
 import { useAtom } from 'jotai';
+import { NextPage } from 'next';
+import handleCreateUsernameQueryArray from '../util/handleCreateUsernameQueryArray';
 import app from '../util/firbaseConfig';
 import {
   emailValidate,
@@ -25,7 +27,7 @@ import {
 } from '../util/validate';
 import atoms from '../util/atoms';
 
-function SignUp() {
+const SignUp: NextPage = () => {
   app;
   const auth = getAuth();
   const db = getFirestore(app);
@@ -37,24 +39,23 @@ function SignUp() {
   const [usernameFormErrors, setUsernameFormErrors] = React.useState('');
   const [isSubmit, setIsSubmit] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [, setLoggingIn] = useAtom(atoms.loggingIn);
+  const [loggingIn, setLoggingIn] = useAtom(atoms.loggingIn);
   const [listeners] = useAtom(atoms.listeners);
 
   async function submitUser() {
-    const docRef = doc(db, 'users', username);
+    const docRef = doc(db, 'userList', username);
     const docSnap = await getDoc(docRef);
     let userId: any;
 
     if (docSnap.exists()) {
       setPasswordFormErrors('Username already exists');
     } else {
-      // removes initial firebase auth listener from app load
-      listeners.forEach((unsubscribe: any) => unsubscribe());
       setLoading(true);
 
       await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential, error) => {
           // Signed in
+          console.log(userCredential);
           userId = userCredential.user.uid;
           updateProfile(userCredential.user, {
             displayName: username,
@@ -64,7 +65,7 @@ function SignUp() {
           setPasswordFormErrors(error.message.slice(22, -2));
         });
 
-      await setDoc(doc(db, 'users', username), {
+      setDoc(doc(db, 'users', username), {
         // eslint-disable-next-line object-shorthand
         userId: userId,
         avatarURL: '',
@@ -81,6 +82,7 @@ function SignUp() {
         following: [],
         story: '',
         storyViews: [],
+        usernameQuery: handleCreateUsernameQueryArray(username),
       })
         .then(() => {
           // Profile updated!
@@ -91,7 +93,7 @@ function SignUp() {
         });
 
       // create user post collection
-      await setDoc(doc(db, `${username}Posts`, 'userPosts'), {
+      setDoc(doc(db, `${username}Posts`, 'userPosts'), {
         createdAt: serverTimestamp(),
         postsListArray: [],
       });
@@ -110,9 +112,12 @@ function SignUp() {
   }
 
   React.useEffect(() => {
+    // removes initial firebase auth listener from app load
+    listeners.forEach((unsubscribe: any) => unsubscribe());
+
     if (isSubmit) {
       // triggers the firebase Auth listner to activate so that it can start pulling from the database, plus redirects to the home page
-      setLoggingIn(true);
+      setLoggingIn(!loggingIn);
       Router.push('/');
     }
     setEmailFormErrors(emailValidate(email));
@@ -223,6 +228,6 @@ function SignUp() {
       </div>
     </div>
   );
-}
+};
 
 export default SignUp;

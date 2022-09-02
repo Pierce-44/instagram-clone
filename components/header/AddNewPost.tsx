@@ -32,7 +32,7 @@ function AddNewPost({ setAddPost }: { setAddPost: any }) {
   const storage = getStorage();
   const options = {
     maxSizeMB: 1,
-    maxWidthOrHeight: 400,
+    maxWidthOrHeight: 600,
     useWebWorker: true,
   };
 
@@ -92,6 +92,7 @@ function AddNewPost({ setAddPost }: { setAddPost: any }) {
       likeCount: 0,
       comments: [postCaption],
       postID: '',
+      likes: [],
     });
 
     // get latest added doc ID

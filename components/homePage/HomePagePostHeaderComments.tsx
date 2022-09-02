@@ -4,24 +4,7 @@ function HomePagePostHeaderComments({ postDetails }: { postDetails: any }) {
   return (
     <div>
       {postDetails.comments[0]?.text === '' ? (
-        <div className="pt-2 text-sm">
-          <p>
-            <b>
-              <Link href={postDetails.comments[1]?.username}>
-                {postDetails.comments[1]?.username}
-              </Link>
-            </b>{' '}
-            {postDetails.comments[1]?.text}
-          </p>
-          <p className="pt-2">
-            <b>
-              <Link href={postDetails.comments[2]?.username}>
-                {postDetails.comments[2]?.username}
-              </Link>
-            </b>{' '}
-            {postDetails.comments[2]?.text}
-          </p>
-        </div>
+        ''
       ) : (
         <div className="pt-2 text-sm">
           <p>
@@ -32,7 +15,11 @@ function HomePagePostHeaderComments({ postDetails }: { postDetails: any }) {
             </b>{' '}
             {postDetails.comments[0]?.text}
           </p>
-          <p className="pt-2">
+        </div>
+      )}
+      {postDetails.comments.length > 1 ? (
+        <div className="pt-2 text-sm">
+          <p>
             <b>
               <Link href={postDetails.comments[1]?.username}>
                 {postDetails.comments[1]?.username}
@@ -41,6 +28,23 @@ function HomePagePostHeaderComments({ postDetails }: { postDetails: any }) {
             {postDetails.comments[1]?.text}
           </p>
         </div>
+      ) : (
+        ''
+      )}
+      {postDetails.comments.length > 2 &&
+      postDetails.comments[0]?.text === '' ? (
+        <div className="pt-2 text-sm">
+          <p>
+            <b>
+              <Link href={postDetails.comments[2]?.username}>
+                {postDetails.comments[2]?.username}
+              </Link>
+            </b>{' '}
+            {postDetails.comments[2]?.text}
+          </p>
+        </div>
+      ) : (
+        ''
       )}
     </div>
   );

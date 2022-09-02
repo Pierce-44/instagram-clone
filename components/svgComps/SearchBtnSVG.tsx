@@ -1,13 +1,13 @@
-function SearchBtnSVG() {
+function SearchBtnSVG({ heightWidth }: { heightWidth: string }) {
   return (
     <svg
-      className="mr-5 cursor-pointer"
+      className="cursor-pointer"
       aria-label="Search"
       color="#8e8e8e"
-      height="20"
+      height={heightWidth}
       role="img"
       viewBox="0 0 24 24"
-      width="20"
+      width={heightWidth}
     >
       <path
         d="M19 10.5A8.5 8.5 0 1110.5 2a8.5 8.5 0 018.5 8.5z"

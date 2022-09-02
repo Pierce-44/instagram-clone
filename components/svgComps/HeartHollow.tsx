@@ -8,11 +8,7 @@ function HeartHollow() {
       id="like"
       aria-label="Like"
       // color={darkMode ? '#f1f5f9' : '#262626'}
-      className={
-        darkMode
-          ? 'fill-[#f1f5f9] hover:fill-[#999999]'
-          : 'fill-[#262626] hover:fill-[#999999]'
-      }
+      className={darkMode ? 'fill-[#f1f5f9]' : 'fill-[#262626]'}
       // fill={darkMode ? '#f1f5f9' : '#262626'}
       height="24"
       role="img"

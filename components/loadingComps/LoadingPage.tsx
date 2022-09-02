@@ -4,14 +4,14 @@ import Header from '../header/Header';
 function LoadingPage({ checkingUserRoute }: { checkingUserRoute: boolean }) {
   return (
     <div
-      className={
+      className={`${
         checkingUserRoute
-          ? 'flex h-screen w-full flex-col justify-start dark:bg-[#131313]'
-          : 'flex h-screen w-full items-center justify-center dark:bg-[#131313]'
-      }
+          ? 'flex-col justify-start overflow-y-scroll'
+          : 'items-center justify-center'
+      } flex h-screen w-full  dark:bg-[#131313]`}
     >
       <Head>
-        <title>Profile • Instagram photos and videos</title>
+        <title>Instagram</title>
         <meta name="description" content="Instagram Clone" />
         <link rel="icon" href="/instagram.png" />
       </Head>

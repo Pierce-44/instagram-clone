@@ -80,7 +80,7 @@ function ChatRoom({
           <Link href={`/${chatName}`}>
             <picture>
               <img
-                className="h-7 w-7 cursor-pointer rounded-full object-cover"
+                className="h-7 w-7 cursor-pointer select-none rounded-full object-cover"
                 src={avatarURL}
                 alt="avatar"
               />
@@ -108,7 +108,7 @@ function ChatRoom({
             <img
               className={`${
                 avatarURL ? '' : 'hidden'
-              } h-14 w-14 rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131]`}
+              } h-14 w-14 select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131]`}
               src={avatarURL}
               alt="avatar"
             />
@@ -226,7 +226,7 @@ function ChatIcon({
         <Link href={`/${chatName}`}>
           <picture>
             <img
-              className="h-6 w-6 cursor-pointer rounded-full object-cover"
+              className="h-6 w-6 cursor-pointer select-none rounded-full object-cover"
               src={photoURL}
               alt="avatar"
             />

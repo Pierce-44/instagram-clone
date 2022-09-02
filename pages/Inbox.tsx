@@ -3,6 +3,7 @@
 import Head from 'next/head';
 import React from 'react';
 import { useAtom } from 'jotai';
+import { NextPage } from 'next';
 import ChatRoom from '../components/InboxPage/ChatRoom';
 import CreateChatRoom from '../components/InboxPage/CreateChatRoom';
 import SendMessage from '../components/InboxPage/SendMessage';
@@ -11,7 +12,7 @@ import NewMessageSVG from '../components/svgComps/NewMessageSVG';
 import Header from '../components/header/Header';
 import atoms from '../util/atoms';
 
-function Inbox() {
+const Inbox: NextPage = () => {
   const [userStatus] = useAtom(atoms.userStatus);
   const [userDetails] = useAtom(atoms.userDetails);
   const [userNotifications] = useAtom(atoms.userNotifications);
@@ -23,7 +24,7 @@ function Inbox() {
   }
 
   return (
-    <div className="h-screen cursor-default bg-[#fafafa] text-[#231f20] dark:bg-[#131313] dark:text-slate-100">
+    <div className="h-screen cursor-default overflow-y-scroll bg-[#fafafa] text-[#231f20] dark:bg-[#131313] dark:text-slate-100">
       <Head>
         <title>Instagram • Chats</title>
         <meta name="description" content="Instagram Clone" />
@@ -63,7 +64,7 @@ function Inbox() {
                 >
                   <ChatRoom
                     chatRoomID={chatRoomId}
-                    userID={userDetails.displayName}
+                    userID={userDetails.displayName!}
                     activeChat={activeChat}
                     activeChatId={`chatRoom${index}`}
                   />
@@ -85,6 +86,6 @@ function Inbox() {
       </div>
     </div>
   );
-}
+};
 
 export default Inbox;

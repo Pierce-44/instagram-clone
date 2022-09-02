@@ -9,7 +9,6 @@ import {
   orderBy,
   collection,
   limit,
-  getDoc,
 } from 'firebase/firestore';
 import { useAtom } from 'jotai';
 import React from 'react';
@@ -29,8 +28,10 @@ function useGetUserDetailsOnAuth() {
   const [, setHomePagePosts] = useAtom(atoms.homePagePosts);
   const [, setStories] = useAtom(atoms.stories);
   const [, setHomePogePostsFetched] = useAtom(atoms.homePogePostsFetched);
+  const [, setUsersListArray] = useAtom(atoms.usersListArray);
 
   const [homePageListners, setHomePageListners] = React.useState<any[]>([]);
+  const [storiesListners, setStoriesListners] = React.useState<any[]>([]);
 
   function getChatRoomMessages(notifications: any) {
     notifications?.chatRoomIds?.forEach((chatRoomID: any) => {
@@ -77,23 +78,20 @@ function useGetUserDetailsOnAuth() {
   }
 
   async function getFollowingStories(notifications: any) {
+    storiesListners.forEach((unsubscribe: any) => unsubscribe());
+
     notifications?.following?.forEach((username: string) => {
-      const docRef = doc(db, 'users', username);
-
-      async function handle() {
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.data()!.story !== '') {
+      const unsub = onSnapshot(doc(db, 'users', username), (docs) => {
+        if (docs.data()!.story !== '') {
           setStories((prevState) => ({
             ...prevState,
-            [username]: docSnap.data()!.story,
-            [`${username}Views`]: docSnap.data()!.storyViews,
-            [`${username}Photo`]: docSnap.data()!.avatarURL,
+            [username]: docs.data()!.story,
+            [`${username}Views`]: docs.data()!.storyViews,
+            [`${username}Photo`]: docs.data()!.avatarURL,
           }));
         }
-      }
-
-      handle();
+      });
+      setStoriesListners((current) => [...current, unsub]);
     });
   }
 
@@ -105,7 +103,6 @@ function useGetUserDetailsOnAuth() {
         getChatRoomMessages(document.data());
         getHomePagePosts(document.data());
         getFollowingStories(document.data());
-        // when you get to it add getFollowingPosts(), i want it to update with notifications
       }
     );
     setListeners((current) => [...current, unsubscribe]);
@@ -126,6 +123,18 @@ function useGetUserDetailsOnAuth() {
     setListeners((current) => [...current, unsubscribe]);
   }
 
+  function getAllUsersList() {
+    const q = query(collection(db, 'userList'), limit(1000));
+    const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
+      const usersArray: any = [];
+      querySnapshot.forEach((document: any) => {
+        usersArray.push(document.id);
+      });
+      setUsersListArray(usersArray);
+    });
+    setListeners((current) => [...current, unsubscribe]);
+  }
+
   // checks if user is authorised, runs once on app load, and again on login/sign up to subscribe the listener once they have entered their credentials (this is done in the case that the user does not refresh the page after logging out. Additionally the user is unsubscribed from all listeners on logout)
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -134,6 +143,7 @@ function useGetUserDetailsOnAuth() {
         setUserDetails(user);
         userLiveUpdates(user);
         getUserPosts(user);
+        getAllUsersList();
       } else {
         Router.push('/Login');
       }

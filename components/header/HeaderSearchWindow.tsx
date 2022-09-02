@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ProfilePicSVG from '../svgComps/ProfilePicSVG';
 import SpinnerSVG from '../svgComps/SpinnerSVG';
 
 type notificationTypes = {
@@ -41,13 +42,17 @@ function HeaderSearchWindow({
                 <Link href={`/${details.username}`} key={index}>
                   <div className="flex cursor-pointer items-center py-3 pl-5 hover:bg-[#f8f8f8] dark:hover:bg-[#131313]">
                     {' '}
-                    <picture>
-                      <img
-                        className="h-[44px] w-[44px] rounded-full object-cover"
-                        src={details.avatarURL}
-                        alt="avatar"
-                      />
-                    </picture>
+                    {details.avatarURL ? (
+                      <picture>
+                        <img
+                          className="h-[44px] w-[44px] rounded-full object-cover"
+                          src={details.avatarURL}
+                          alt="avatar"
+                        />
+                      </picture>
+                    ) : (
+                      <ProfilePicSVG height="44" width="44" strokeWidth="1" />
+                    )}
                     <p className="ml-5">{details?.username}</p>
                   </div>
                 </Link>

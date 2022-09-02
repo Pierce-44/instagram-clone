@@ -26,7 +26,7 @@ function UserPost({
     <div className="relative overflow-hidden">
       <picture>
         <img
-          className="h-[300px] w-[300px] bg-[#ebebeb] object-cover dark:bg-[#313131]"
+          className="h-[300px] w-[300px] select-none bg-[#ebebeb] object-cover dark:bg-[#313131]"
           src={postInformation.imgURL}
           alt="user post"
         />

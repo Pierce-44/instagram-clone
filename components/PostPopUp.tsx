@@ -39,7 +39,7 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
         <div className="flex items-center bg-black">
           <picture>
             <img
-              className="h-[520px] w-[520px] object-contain"
+              className="h-[520px] w-[520px] select-none object-contain"
               src={postInformation.imgURL}
               alt="post"
             />
@@ -47,14 +47,20 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
         </div>
         <div className="flex flex-col bg-white dark:bg-[#1c1c1c]">
           <div className="flex w-[500px] items-center justify-start gap-3 border-b border-stone-200 p-4 dark:border-stone-700">
-            <picture>
-              <img
-                className="h-8 w-8 rounded-full object-cover"
-                src={postUserDetails.avatarURL}
-                alt="avatar"
-              />
-            </picture>
-            <p className="text-sm font-semibold">{postUserDetails.username}</p>
+            <Link href={postUserDetails.username}>
+              <picture>
+                <img
+                  className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
+                  src={postUserDetails.avatarURL}
+                  alt="avatar"
+                />
+              </picture>
+            </Link>
+            <Link href={postUserDetails.username}>
+              <p className="cursor-pointer text-sm font-semibold">
+                {postUserDetails.username}
+              </p>
+            </Link>
           </div>
           <div className="w-[500px] flex-grow overflow-y-auto bg-[#fafafa] text-sm dark:bg-[#131313] dark:[color-scheme:dark]">
             {postInformation.comments?.map(
@@ -78,7 +84,7 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
                         >
                           <picture>
                             <img
-                              className="mr-4 h-8 w-8 flex-shrink-0 rounded-full object-cover"
+                              className="mr-4 h-8 w-8 flex-shrink-0 select-none rounded-full object-cover"
                               src={commentInfo.avatarURL}
                               alt="avatar"
                             />
@@ -128,7 +134,11 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
                       })
                     }
                   >
-                    <HeartSVG fillColor="#ed4956" height="24" width="24" />
+                    <div className="group">
+                      <div className="group-hover:animate-bounce">
+                        <HeartSVG fillColor="#ed4956" height="24" width="24" />
+                      </div>
+                    </div>
                   </button>
                 ) : (
                   <button
@@ -143,7 +153,11 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
                       })
                     }
                   >
-                    <HeartHollow />
+                    <div className="group">
+                      <div className="group-hover:animate-bounce">
+                        <HeartHollow />
+                      </div>
+                    </div>
                   </button>
                 )}
                 <CommentSVG

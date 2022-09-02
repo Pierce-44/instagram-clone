@@ -5,10 +5,13 @@ import atoms from '../util/atoms';
 
 function useShuffleFollowingArray() {
   const [userNotifications] = useAtom(atoms.userNotifications);
-  const [, setFollowingArray] = useAtom(atoms.followingArray);
+  const [followingArray, setFollowingArray] = useAtom(atoms.followingArray);
 
   React.useEffect(() => {
-    if (userNotifications.following) {
+    if (
+      userNotifications.following &&
+      followingArray.length !== userNotifications.following.length
+    ) {
       setFollowingArray(
         [...userNotifications.following].sort(() => Math.random() - 0.5)
       );

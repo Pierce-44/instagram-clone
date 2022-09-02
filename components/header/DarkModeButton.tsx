@@ -1,15 +1,28 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import { useAtom } from 'jotai';
-import atomStorage from '../../util/atoms';
+import atoms from '../../util/atoms';
 
 function DarkModeButton() {
-  const [darkMode, setDarkMode] = useAtom(atomStorage.darkMode);
+  const [darkMode, setDarkMode] = useAtom(atoms.darkMode);
+
+  function handleDarkMode() {
+    // changing from darkmode to lightmode
+    if (darkMode) {
+      localStorage.setItem('darkModeInstagram', 'false');
+    }
+    // changing from lightmode to darkmode
+    else {
+      localStorage.setItem('darkModeInstagram', 'true');
+    }
+
+    setDarkMode(!darkMode);
+  }
 
   return (
     <button
       className="relative flex cursor-pointer items-center gap-2 rounded-xl  bg-[#0095f6] py-[2px] px-1 dark:bg-[#000000]"
-      onClick={() => setDarkMode(!darkMode)}
+      onClick={() => handleDarkMode()}
       type="button"
     >
       <div

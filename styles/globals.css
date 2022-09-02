@@ -7,3 +7,36 @@ body {
   padding: 0;
   margin: 0;
 }
+
+.scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #e4e4e4 rgba(255, 255, 255, 0);
+}
+
+.scrollbarDark {
+  scrollbar-width: thin;
+  scrollbar-color: #4d4d4d rgba(255, 255, 255, 0);
+}
+
+
+/* For Chrome, EDGE, Opera, Others */
+.scrollbar::-webkit-scrollbar {
+  width: 20px;
+  height: 7px;
+}
+
+.scrollbar::-webkit-scrollbar-track { 
+  background: rgba(255, 255, 255, 0);
+}
+
+.scrollbarLight::-webkit-scrollbar-thumb { 
+  background: #e4e4e4;
+  border-radius: 10px;
+  border-radius: 10px;
+}
+
+.scrollbarDark::-webkit-scrollbar-thumb { 
+  background: #4d4d4d;
+  border-radius: 10px;
+  border-radius: 10px;
+}

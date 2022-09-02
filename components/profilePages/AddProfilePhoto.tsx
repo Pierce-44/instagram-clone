@@ -49,7 +49,7 @@ function AddProfilePhoto({ setAddPhoto }: { setAddPhoto: any }) {
                   e,
                   location: 'profilePhotos',
                   username: userDetails.displayName,
-                  maxWidthOrHeight: 200,
+                  maxWidthOrHeight: 400,
                   chatRoomIDs: userNotifications.chatRoomIds,
                   handleImgURLFunction: handleUpdateProfilePhoto,
                 })

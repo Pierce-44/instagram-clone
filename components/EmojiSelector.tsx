@@ -27,61 +27,74 @@ function EmojiSelector({
       <h1 className="mt-2 mb-1 font-semibold">Most popular</h1>
       <div className="flex flex-wrap justify-between  ">
         {mostPopularEmojis.map((emoji, index) => (
-          <p
-            id={emoji}
-            className="text-[32px]"
-            key={`mostPopEmojis${index}`}
-            onClick={(e) => handleSelection(e)}
-            role="button"
-            tabIndex={0}
-          >
-            {emoji}
-          </p>
+          <div className="group" key={`mostPopEmojis${index}`}>
+            <div className="group-hover:animate-bounce">
+              <p
+                id={emoji}
+                className="text-[32px]"
+                key={`mostPopEmojis${index}`}
+                onClick={(e) => handleSelection(e)}
+                role="button"
+                tabIndex={0}
+              >
+                {emoji}
+              </p>
+            </div>
+          </div>
         ))}
       </div>
       <h1 className="mt-2 mb-1 font-semibold">Smileys & people</h1>
       <div className="flex flex-wrap justify-between ">
         {smileysPeopleEmojis.map((emoji, index) => (
-          <p
-            id={emoji}
-            className="text-[32px]"
-            key={`smileysEmojis${index}`}
-            onClick={(e) => handleSelection(e)}
-            role="button"
-            tabIndex={0}
-          >
-            {emoji}
-          </p>
+          <div className="group" key={`smileysEmojis${index}`}>
+            <div className="group-hover:animate-bounce">
+              <p
+                id={emoji}
+                className="text-[32px]"
+                onClick={(e) => handleSelection(e)}
+                role="button"
+                tabIndex={0}
+              >
+                {emoji}
+              </p>
+            </div>
+          </div>
         ))}
       </div>
       <h1 className="mt-2 mb-1 font-semibold">Animals & nature</h1>
       <div className="flex flex-wrap justify-between ">
         {animalNatureEmojis.map((emoji, index) => (
-          <p
-            id={emoji}
-            className="text-[32px]"
-            key={`animalsEmojis${index}`}
-            onClick={(e) => handleSelection(e)}
-            role="button"
-            tabIndex={0}
-          >
-            {emoji}
-          </p>
+          <div className="group" key={`animalsEmojis${index}`}>
+            <div className="group-hover:animate-bounce">
+              <p
+                id={emoji}
+                className="text-[32px]"
+                onClick={(e) => handleSelection(e)}
+                role="button"
+                tabIndex={0}
+              >
+                {emoji}
+              </p>
+            </div>
+          </div>
         ))}
       </div>
       <h1 className="mt-2 mb-1 font-semibold">Travel & places</h1>
       <div className="flex flex-wrap justify-between ">
         {travelEmojis.map((emoji, index) => (
-          <p
-            id={emoji}
-            className="text-[32px]"
-            key={`travelEmojis${index}`}
-            onClick={(e) => handleSelection(e)}
-            role="button"
-            tabIndex={0}
-          >
-            {emoji}
-          </p>
+          <div className="group" key={`travelEmojis${index}`}>
+            <div className="group-hover:animate-bounce">
+              <p
+                id={emoji}
+                className="text-[32px]"
+                onClick={(e) => handleSelection(e)}
+                role="button"
+                tabIndex={0}
+              >
+                {emoji}
+              </p>
+            </div>
+          </div>
         ))}
       </div>
     </div>

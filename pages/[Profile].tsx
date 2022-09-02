@@ -4,6 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
+import type { NextPage } from 'next';
 import Header from '../components/header/Header';
 import UnfollowUser from '../components/profilePages/UnfollowUser';
 import AddProfilePhoto from '../components/profilePages/AddProfilePhoto';
@@ -18,7 +19,7 @@ import UserPost from '../components/profilePages/UserPost';
 import useGetOtherUserPosts from '../hooks/useGetOtherUserPosts';
 import atoms from '../util/atoms';
 
-function Profile() {
+const Profile: NextPage = () => {
   const router = useRouter();
   const nameSearch = router.query.Profile;
 
@@ -57,7 +58,7 @@ function Profile() {
   // If a user does not exist render the following
   if (!user.userExists && !user.checkingUser) {
     return (
-      <div className="h-[100vh] w-full dark:bg-[#131313] dark:text-slate-100">
+      <div className="h-[100vh] w-full overflow-y-scroll dark:bg-[#131313] dark:text-slate-100">
         <Head>
           <title>Profile • Instagram photos and videos</title>
           <meta name="description" content="Instagram Clone" />
@@ -71,156 +72,151 @@ function Profile() {
     );
   }
 
-  // A user needs to exist to render a profile page
-  if (nameSearch === userDetails.displayName || user.userExists) {
-    return (
-      <div className="min-h-[100vh] bg-[#fafafa] text-[#231f20] dark:bg-[#131313] dark:text-slate-100">
-        <Head>
-          <title>Profile • Instagram photos and videos</title>
-          <meta name="description" content="Instagram Clone" />
-          <link rel="icon" href="/instagram.png" />
-        </Head>
-        <Header page="Profile" />
-        {addPhoto ? <AddProfilePhoto setAddPhoto={setAddPhoto} /> : <div />}
-        <div className="mx-auto  max-w-[935px] pt-8">
-          <div className="flex items-stretch border-b border-stone-300 pb-11 dark:border-stone-700">
-            <button
-              onClick={() =>
-                nameSearch === profileDetails.displayName
-                  ? setAddPhoto(true)
-                  : ''
-              }
-              type="button"
-              className="relative mr-4 grow-[1]"
-            >
-              {profileDetails.photoURL || profileNotifications.avatarURL ? (
-                <div>
-                  <picture>
-                    <img
-                      className="h-[150px] w-[150px] rounded-full object-cover"
-                      src={
-                        profileDetails.photoURL ||
-                        profileNotifications.avatarURL
-                      }
-                      alt="avatar"
-                    />
-                  </picture>
-                </div>
-              ) : (
-                <ProfilePicSVG height="150" width="150" strokeWidth="1" />
-              )}
+  // If a user exists render profile page
+  return (
+    <div className="h-[100vh] overflow-y-scroll bg-[#fafafa] text-[#231f20] dark:bg-[#131313] dark:text-slate-100">
+      <Head>
+        <title>Profile • Instagram photos and videos</title>
+        <meta name="description" content="Instagram Clone" />
+        <link rel="icon" href="/instagram.png" />
+      </Head>
+      <Header page="Profile" />
+      {addPhoto ? <AddProfilePhoto setAddPhoto={setAddPhoto} /> : <div />}
+      <div className="mx-auto  max-w-[935px] pt-8">
+        <div className="flex items-stretch border-b border-stone-300 pb-11 dark:border-stone-700">
+          <button
+            onClick={() =>
+              nameSearch === profileDetails.displayName ? setAddPhoto(true) : ''
+            }
+            type="button"
+            className="relative mr-4 grow-[1]"
+          >
+            {profileDetails.photoURL || profileNotifications.avatarURL ? (
+              <div>
+                <picture>
+                  <img
+                    className="h-[150px] w-[150px] select-none rounded-full object-cover"
+                    src={
+                      profileDetails.photoURL || profileNotifications.avatarURL
+                    }
+                    alt="avatar"
+                  />
+                </picture>
+              </div>
+            ) : (
+              <ProfilePicSVG height="150" width="150" strokeWidth="1" />
+            )}
+            {nameSearch === profileDetails.displayName ? (
+              <div className="absolute left-[130px] bottom-0">
+                <CameraSVG />
+              </div>
+            ) : (
+              ''
+            )}
+          </button>
+          <div className="grow-[3]">
+            <div className="flex items-center">
+              <h1 className="my-5 text-3xl">
+                {profileDetails.displayName || profileNotifications.username}
+              </h1>
               {nameSearch === profileDetails.displayName ? (
-                <div className="absolute left-[130px] bottom-0">
-                  <CameraSVG />
-                </div>
-              ) : (
                 ''
-              )}
-            </button>
-            <div className="grow-[3]">
-              <div className="flex items-center">
-                <h1 className="my-5 text-3xl">
-                  {profileDetails.displayName || profileNotifications.username}
-                </h1>
-                {nameSearch === profileDetails.displayName ? (
-                  ''
-                ) : (
-                  <div className="flex flex-row items-center pl-7">
-                    <Link href="/Inbox">
-                      <button
-                        className="mr-2  rounded-[4px] border border-stone-300 py-1 px-2 text-sm font-semibold dark:border-stone-700"
-                        type="button"
-                      >
-                        Message
-                      </button>
-                    </Link>
-                    <div
-                      className=" overflow-hidden rounded-[4px] text-sm font-semibold"
-                      // type="button"
-                      // onClick={() => setFollowing(!following)}
+              ) : (
+                <div className="flex flex-row items-center pl-7">
+                  <Link href="/Inbox">
+                    <button
+                      className="mr-2  rounded-[4px] border border-stone-300 py-1 px-2 text-sm font-semibold dark:border-stone-700"
+                      type="button"
                     >
-                      {userNotifications.following?.includes(
-                        profileNotifications.username!
-                      ) ? (
-                        <div>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setUnfollow(true);
-                              document.body.style.overflow = 'hidden';
-                            }}
-                          >
-                            <FollowingSVG />
-                          </button>
-                          {unfollow ? (
-                            <UnfollowUser
-                              setUnfollow={setUnfollow}
-                              imgURL={profileNotifications.avatarURL}
-                              username={profileNotifications.username}
-                              userNotifications={userNotifications}
-                              profileNotifications={profileNotifications}
-                            />
-                          ) : (
-                            ''
-                          )}
-                        </div>
-                      ) : (
+                      Message
+                    </button>
+                  </Link>
+                  <div
+                    className=" overflow-hidden rounded-[4px] text-sm font-semibold"
+                    // type="button"
+                    // onClick={() => setFollowing(!following)}
+                  >
+                    {userNotifications.following?.includes(
+                      profileNotifications.username!
+                    ) ? (
+                      <div>
                         <button
                           type="button"
-                          onClick={() =>
-                            handleFollowUser({
-                              userName: userNotifications.username,
-                              otherUserName: profileNotifications.username,
-                            })
-                          } //
+                          onClick={() => {
+                            setUnfollow(true);
+                            document.body.style.overflow = 'hidden';
+                          }}
                         >
-                          <p className="bg-[#0095F6] py-1 px-6 text-white">
-                            Follow
-                          </p>
+                          <FollowingSVG />
                         </button>
-                      )}
-                    </div>
+                        {unfollow ? (
+                          <UnfollowUser
+                            setUnfollow={setUnfollow}
+                            imgURL={profileNotifications.avatarURL}
+                            username={profileNotifications.username}
+                            userNotifications={userNotifications}
+                            profileNotifications={profileNotifications}
+                          />
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleFollowUser({
+                            userName: userNotifications.username,
+                            otherUserName: profileNotifications.username,
+                          })
+                        } //
+                      >
+                        <p className="bg-[#0095F6] py-1 px-6 text-white">
+                          Follow
+                        </p>
+                      </button>
+                    )}
                   </div>
-                )}
-              </div>
-
-              {profileNotifications.userId ? (
-                <div className="flex justify-start gap-7">
-                  <p>
-                    <b>{profileNotifications.postCount}</b> posts
-                  </p>
-                  <p>
-                    <b>{profileNotifications.followers?.length}</b> followers
-                  </p>
-                  <p>
-                    <b>{profileNotifications.following?.length}</b> following
-                  </p>
                 </div>
-              ) : (
-                <div className="h-6 w-[250px] rounded-md bg-[#efefef] dark:bg-[#070707]" />
               )}
             </div>
+
+            {profileNotifications.userId ? (
+              <div className="flex justify-start gap-7">
+                <p>
+                  <b>{profileNotifications.postCount}</b> posts
+                </p>
+                <p>
+                  <b>{profileNotifications.followers?.length}</b> followers
+                </p>
+                <p>
+                  <b>{profileNotifications.following?.length}</b> following
+                </p>
+              </div>
+            ) : (
+              <div className="h-6 w-[250px] rounded-md bg-[#efefef] dark:bg-[#070707]" />
+            )}
           </div>
-          <div>
-            <div className="flex items-center justify-center gap-2 py-6">
-              <PostSVG />
-              <p className="text-sm font-semibold">POSTS</p>
-            </div>
-            <div className="grid max-w-[935px] grid-cols-3 pb-10 sm:gap-2 md:gap-4">
-              {profilePosts.slice(0, -1).map((postInformation, index) => (
-                <UserPost
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`post${index}`}
-                  postInformation={postInformation}
-                  postUserDetails={profileNotifications}
-                />
-              ))}
-            </div>
+        </div>
+        <div>
+          <div className="flex items-center justify-center gap-2 py-6">
+            <PostSVG />
+            <p className="text-sm font-semibold">POSTS</p>
+          </div>
+          <div className="grid max-w-[935px] grid-cols-3 pb-10 sm:gap-2 md:gap-4">
+            {profilePosts.slice(0, -1).map((postInformation, index) => (
+              <UserPost
+                // eslint-disable-next-line react/no-array-index-key
+                key={`post${index}`}
+                postInformation={postInformation}
+                postUserDetails={profileNotifications}
+              />
+            ))}
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Profile;

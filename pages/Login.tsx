@@ -7,11 +7,12 @@ import Image from 'next/image';
 import Head from 'next/head';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useAtom } from 'jotai';
+import { NextPage } from 'next';
 import app from '../util/firbaseConfig';
 import { emailValidate, passwordValidate } from '../util/validate';
 import atoms from '../util/atoms';
 
-function Login() {
+const Login: NextPage = () => {
   app;
   const auth = getAuth();
   const [listeners] = useAtom(atoms.listeners);
@@ -174,7 +175,7 @@ function Login() {
             </div>
           </div>
           <div className="mt-2 flex w-[350px] justify-center border border-stone-300 bg-white py-5 text-[14px]">
-            <p>Don't have an account?</p>
+            <p>Do not have an account?</p>
             <button
               className="ml-1 font-semibold text-[#0095f6]"
               type="button"
@@ -187,6 +188,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

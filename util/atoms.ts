@@ -49,6 +49,8 @@ const stories = atom<storyTypes>({});
 const followingArray = atom<any[]>([]);
 const homePogePostsFetched = atom(false);
 const storiesArray = atom<string[]>([]);
+const usersListArray = atom<string[]>([]);
+const spotlightUsers = atom<any[]>([]);
 
 // const profilePosts = atom((get) => get(userPosts));
 // const profileDetails = atom((get) => get(userDetails));
@@ -73,6 +75,8 @@ const atoms = {
   followingArray,
   homePogePostsFetched,
   storiesArray,
+  usersListArray,
+  spotlightUsers,
 };
 
 export default atoms;

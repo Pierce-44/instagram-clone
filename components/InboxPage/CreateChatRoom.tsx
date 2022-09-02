@@ -132,7 +132,9 @@ function CreateChatRoom({ setCreateChatRoom }: { setCreateChatRoom: any }) {
               />
             </label>
           </form>
-          <SearchBtnSVG />
+          <div className="mr-5">
+            <SearchBtnSVG heightWidth="20" />
+          </div>
         </div>
         <div>
           {searchedUser ? (

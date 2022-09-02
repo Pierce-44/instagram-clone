@@ -14,9 +14,7 @@ import atoms from '../util/atoms';
 
 const Home: NextPage = () => {
   const [userStatus] = useAtom(atoms.userStatus);
-  // const [userNotifications] = useAtom(atoms.userNotifications);
   const [followingArray] = useAtom(atoms.followingArray);
-  // const [homePagePosts] = useAtom(atoms.homePagePosts);
   const [homePogePostsFetched] = useAtom(atoms.homePogePostsFetched);
 
   if (!userStatus) {
@@ -24,7 +22,7 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-[#262626] dark:bg-[#131313] dark:text-[#f1f5f9]">
+    <div className="h-screen overflow-y-scroll bg-[#fafafa] text-[#262626] dark:bg-[#131313] dark:text-[#f1f5f9]">
       <Head>
         <title>Instagram</title>
         <meta name="description" content="Instagram Clone" />
@@ -35,7 +33,7 @@ const Home: NextPage = () => {
         <div className="mx-auto flex max-w-[822px] pb-16">
           <div className="mr-8  max-w-[470px] flex-grow">
             <StoryBoard />
-            {followingArray.map((username: any, index: number) => (
+            {followingArray.map((username: string, index: number) => (
               // No removing or rearranging posts from the home page, therefore key index is allowed
               // eslint-disable-next-line react/no-array-index-key
               <HomePagePost username={username} key={username + index} />

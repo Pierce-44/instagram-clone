@@ -12,16 +12,19 @@ import HomePagePostHeaderComments from './HomePagePostHeaderComments';
 import PostTextArea from '../PostTextArea';
 import atoms from '../../util/atoms';
 
-function HomePagePost({ username }: { username: string }) {
-  const [userNotifications] = useAtom(atoms.userNotifications);
-  const [userDetails] = useAtom(atoms.userDetails);
+interface Props {
+  username: string;
+}
+
+const HomePagePost = ({ username }: Props) => {
   const [darkMode] = useAtom(atoms.darkMode);
+  const [userDetails] = useAtom(atoms.userDetails);
   const [homePagePosts] = useAtom(atoms.homePagePosts);
+  const [userNotifications] = useAtom(atoms.userNotifications);
   const [postImgHeight, setPostImgHeight] = useAtom(atoms.postImgHeight);
 
-  const [postPopUp, setPostPopUp] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
-  const [commentSVGHover, setCommentSVGHover] = React.useState(false);
+  const [postPopUp, setPostPopUp] = React.useState(false);
 
   const postDetails: any = homePagePosts[username];
 
@@ -43,16 +46,16 @@ function HomePagePost({ username }: { username: string }) {
           ''
         )}
         <div className="ml-3 flex items-center py-3">
-          <Link href={postDetails.comments[0]?.username}>
+          <Link href={username}>
             <picture>
               <img
-                className="h-8 w-8 cursor-pointer rounded-full object-cover"
+                className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
                 src={postDetails?.comments[0]?.avatarURL}
                 alt=""
               />
             </picture>
           </Link>
-          <Link href={postDetails.comments[0]?.username}>
+          <Link href={username}>
             <p className="ml-4 cursor-pointer">
               {postDetails?.comments[0]?.username}
             </p>
@@ -64,7 +67,7 @@ function HomePagePost({ username }: { username: string }) {
             postImgHeight[username]
               ? `h-[${postImgHeight[username]}px]  items-center justify-center overflow-hidden`
               : 'relative h-[300px]'
-          } flex w-full bg-[#ebebeb] dark:bg-[#313131]`}
+          } flex min-h-[150px] w-full bg-[#ebebeb] dark:bg-[#313131]`}
           role="button"
           tabIndex={0}
           onClick={() => {
@@ -77,7 +80,7 @@ function HomePagePost({ username }: { username: string }) {
               className={
                 loading && !postImgHeight[username]
                   ? 'h-auto  w-full opacity-0'
-                  : 'h-auto  w-full'
+                  : 'h-auto  w-full select-none'
               }
               src={postDetails?.imgURL}
               alt="post"
@@ -116,7 +119,11 @@ function HomePagePost({ username }: { username: string }) {
                     })
                   }
                 >
-                  <HeartSVG fillColor="#ed4956" height="24" width="24" />
+                  <div className="group">
+                    <div className="group-hover:animate-bounce">
+                      <HeartSVG fillColor="#ed4956" height="24" width="24" />
+                    </div>
+                  </div>
                 </button>
               ) : (
                 <button
@@ -131,34 +138,31 @@ function HomePagePost({ username }: { username: string }) {
                     })
                   }
                 >
-                  <HeartHollow />
+                  <div className="group">
+                    <div className="group-hover:animate-bounce">
+                      <HeartHollow />
+                    </div>
+                  </div>
                 </button>
               )}
               <button
                 type="button"
                 className="h-6 w-6 cursor-pointer"
-                onMouseEnter={() => setCommentSVGHover(true)}
-                onMouseLeave={() => setCommentSVGHover(false)}
                 onClick={() => {
                   setPostPopUp(true);
                   document.body.style.overflow = 'hidden';
                 }}
               >
-                {commentSVGHover ? (
-                  <CommentSVG
-                    outline="#999999"
-                    height="24"
-                    width="24"
-                    fill="none"
-                  />
-                ) : (
-                  <CommentSVG
-                    outline={darkMode ? '#f1f5f9' : '#262626'}
-                    height="24"
-                    width="24"
-                    fill="none"
-                  />
-                )}
+                <div className="group">
+                  <div className="group-hover:animate-bounce">
+                    <CommentSVG
+                      outline={darkMode ? '#f1f5f9' : '#262626'}
+                      height="24"
+                      width="24"
+                      fill="none"
+                    />
+                  </div>
+                </div>
               </button>
             </div>
             <div className="flex text-sm">
@@ -187,14 +191,7 @@ function HomePagePost({ username }: { username: string }) {
               )}
             </div>
             <div className="max-h-[260px] overflow-hidden">
-              <div>
-                {postDetails.comments.length === 1 &&
-                postDetails.comments[0]?.text === '' ? (
-                  ''
-                ) : (
-                  <HomePagePostHeaderComments postDetails={postDetails} />
-                )}
-              </div>
+              <HomePagePostHeaderComments postDetails={postDetails} />
             </div>
             <button
               className="mt-3 text-xs text-[#a5a5a5]"
@@ -229,6 +226,6 @@ function HomePagePost({ username }: { username: string }) {
       </div>
     </div>
   );
-}
+};
 
 export default HomePagePost;

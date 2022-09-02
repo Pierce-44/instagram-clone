@@ -4,13 +4,7 @@ import atoms from '../../util/atoms';
 import useCheckNameLength from '../../hooks/useCheckNameLength';
 import ViewAllStories from './ViewAllStories';
 
-function StoryBoardTag({
-  username,
-  storiesArray,
-}: {
-  username: string;
-  storiesArray: string[];
-}) {
+function StoryBoardTag({ username }: { username: string }) {
   const [stories] = useAtom(atoms.stories);
   const [userDetails] = useAtom(atoms.userDetails);
 
@@ -27,16 +21,12 @@ function StoryBoardTag({
   return (
     <div className="ml-1 flex cursor-pointer flex-col items-start">
       {openStories ? (
-        <ViewAllStories
-          username={username}
-          setOpenStories={setOpenStories}
-          storiesArray={storiesArray}
-        />
+        <ViewAllStories username={username} setOpenStories={setOpenStories} />
       ) : (
         ''
       )}
       <button
-        className="relative"
+        className="group relative"
         type="button"
         onClick={() => {
           setOpenStories(true);
@@ -46,19 +36,18 @@ function StoryBoardTag({
         <div className="w-[74px]">
           <picture>
             <img
-              className="relative z-10 h-14 w-14 rounded-full bg-[#ebebeb] object-cover p-[2px] dark:bg-[#313131]"
+              className=" relative z-10 h-14 w-14 select-none rounded-full bg-[#ebebeb] object-cover p-[2px] dark:bg-[#1c1c1c]"
               src={stories[`${username}Photo`]}
               alt="avatar"
             />
           </picture>
         </div>
-
         <div
           className={`${
             didView
               ? 'bg-[#e4e4e4] dark:bg-[#4d4d4d]'
               : 'bg-gradient-to-tr from-[#ffee00] to-[#d300c8]'
-          } absolute top-[-2px] left-[-2px] z-0 h-[60px] w-[60px] rounded-full`}
+          } absolute top-[-2px] left-[-2px] z-0 h-[60px] w-[60px] rounded-full group-hover:animate-ping`}
         />
       </button>
       <div className="relative mt-2 max-w-[74px] overflow-hidden text-xs">
