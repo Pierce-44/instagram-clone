@@ -1,100 +1,28 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import React from 'react';
-import {
-  getFirestore,
-  getDoc,
-  doc,
-  setDoc,
-  serverTimestamp,
-  updateDoc,
-  arrayUnion,
-  DocumentData,
-} from 'firebase/firestore';
 import { useAtom } from 'jotai';
 import SearchBtnSVG from '../svgComps/SearchBtnSVG';
 import CloseBtnSVG from '../svgComps/CloseBtnSVG';
 import ProfilePicSVG from '../svgComps/ProfilePicSVG';
-import app from '../../util/firbaseConfig';
 import SelectionBtnSVG from '../svgComps/SelectionBtnSVG';
-import atoms from '../../util/atoms';
+import atoms, { notificationTypes } from '../../util/atoms';
+import handleCheckChatRoomExists from '../../util/handleCheckChatRoomExists';
+import handleCreateChatRoom from '../../util/handleCreateChatRoom';
 
-function CreateChatRoom({ setCreateChatRoom }: { setCreateChatRoom: any }) {
-  const db = getFirestore(app);
+interface Props {
+  setCreateChatRoom: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function CreateChatRoom({ setCreateChatRoom }: Props) {
   const [userNotifications] = useAtom(atoms.userNotifications);
   const [search, setSearch] = React.useState('');
   const [error, setError] = React.useState('');
   const [searchedUser, setSearchedUser] = React.useState(false);
-  const [searchedUserData, setSearchedUserData] = React.useState<
-    DocumentData | undefined
-  >({});
+  const [searchedUserData, setSearchedUserData] =
+    React.useState<notificationTypes>({});
   const [ticked, setTicked] = React.useState(false);
   const [imgLoadStatus, setImgLoadStatus] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState(false);
-
-  async function handleSearch(e: any) {
-    e.preventDefault();
-
-    if (search === '') {
-      setError('Please input a username');
-      setSearchedUser(false);
-    } else if (search === userNotifications.username) {
-      setError('Can not create a chatroom with yourself ');
-      setSearchedUser(false);
-    } else {
-      const docRef = doc(db, 'users', search);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.data()) {
-        setSearchedUserData(docSnap.data());
-        setSearchedUser(true);
-      } else {
-        setError('User not found');
-        setSearchedUser(false);
-      }
-    }
-  }
-
-  async function handleCreateChatRoom() {
-    const firstCheck = userNotifications.chatRoomIds.includes(
-      searchedUserData?.userId + userNotifications.userId
-    );
-    const secondCheck = userNotifications.chatRoomIds.includes(
-      userNotifications.userId + searchedUserData?.userId
-    );
-
-    if (firstCheck || secondCheck) {
-      setError('Chatroom already exists');
-      setSearchedUser(false);
-    } else {
-      // create chatroom collection
-      setLoading(true);
-      await setDoc(
-        doc(db, userNotifications.userId + searchedUserData?.userId, 'users'),
-        {
-          createdAt: serverTimestamp(),
-          [`${searchedUserData?.username}ChatName`]: userNotifications.username,
-          [`${searchedUserData?.username}Avatar`]: searchedUserData?.avatarURL,
-          [`${userNotifications.username}ChatName`]: searchedUserData?.username,
-          [`${userNotifications.username}Avatar`]: userNotifications.avatarURL,
-        }
-      );
-      const userOne = doc(db, 'users', userNotifications.username);
-      const userTwo = doc(db, 'users', searchedUserData?.username);
-
-      // subscribe the users to the chatroom (add chatroom ID to the users details)
-      await updateDoc(userOne, {
-        chatRoomIds: arrayUnion(
-          userNotifications.userId + searchedUserData?.userId
-        ),
-      });
-      await updateDoc(userTwo, {
-        chatRoomIds: arrayUnion(
-          userNotifications.userId + searchedUserData?.userId
-        ),
-      });
-      setCreateChatRoom(false);
-    }
-  }
 
   return (
     <div className="fixed top-0 left-0 z-50 flex h-[100vh] w-full items-center justify-center bg-[#0000008f] dark:bg-[#000000d7]">
@@ -107,19 +35,44 @@ function CreateChatRoom({ setCreateChatRoom }: { setCreateChatRoom: any }) {
           }
         >
           <button onClick={() => setCreateChatRoom(false)} type="button">
-            <CloseBtnSVG lightColor="#262626" darkColor="#f1f5f9" />
+            <CloseBtnSVG
+              lightColor="#262626"
+              darkColor="#f1f5f9"
+              heightWidth="20"
+            />
           </button>
           <p className="font-bold">New message</p>
           <button
             className={`${ticked ? 'text-[#0095f6]' : 'pointer-events-none'}`}
             type="button"
-            onClick={() => handleCreateChatRoom()}
+            onClick={() =>
+              handleCreateChatRoom({
+                userNotifications,
+                searchedUserData,
+                setError,
+                setLoading,
+                setSearchedUser,
+                setCreateChatRoom,
+              })
+            }
           >
             Create
           </button>
         </div>
         <div className="mb-5 flex items-center justify-between border-b border-stone-300 py-5 dark:border-stone-700">
-          <form action="" onSubmit={(e) => handleSearch(e)}>
+          <form
+            action=""
+            onSubmit={(e) =>
+              handleCheckChatRoomExists({
+                e,
+                search,
+                setError,
+                setSearchedUser,
+                setSearchedUserData,
+                userNotifications,
+              })
+            }
+          >
             <label className=" pl-3 text-lg" htmlFor="searchForUser">
               To:
               <input

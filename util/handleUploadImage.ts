@@ -1,12 +1,24 @@
+/* eslint-disable no-unused-vars */
+import React from 'react';
 import imageCompression from 'browser-image-compression';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { userDetailTypes } from './atoms';
+
+interface Props {
+  e: any;
+  location: string;
+  username: string;
+  maxWidthOrHeight: number;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 async function handleUploadToCloud({
   e,
   location,
   username,
   maxWidthOrHeight,
-}) {
+  setLoading,
+}: Props) {
   const fileType = e.target.files[0].type;
   const imageFile = e.target.files[0];
   const options = {
@@ -24,7 +36,7 @@ async function handleUploadToCloud({
     fileType === 'image/jpg' ||
     fileType === 'image/jpeg'
   ) {
-    // setLoading(true);
+    setLoading(true);
 
     // compress the image
     const compressedFile = await imageCompression(imageFile, options);
@@ -40,6 +52,7 @@ async function handleUploadToCloud({
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   } else {
     console.log('please only use .png, .jpg, .jpeg file types');
@@ -48,23 +61,42 @@ async function handleUploadToCloud({
   return { photoURL };
 }
 
+interface handleUploadImageProps {
+  e: any;
+  location: string;
+  username: string;
+  maxWidthOrHeight: number;
+  chatRoomIDs: string[] | null;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setAddPhoto: React.Dispatch<React.SetStateAction<boolean>>;
+  handleImgURLFunction: any;
+}
+
 function handleUploadImage({
   e,
   location,
   username,
   maxWidthOrHeight,
   chatRoomIDs,
+  setLoading,
+  setAddPhoto,
   handleImgURLFunction,
-}) {
+}: handleUploadImageProps) {
   async function handler() {
-    const testresult = await handleUploadToCloud({
+    const userDetails: userDetailTypes = await handleUploadToCloud({
       e,
       location,
       username,
       maxWidthOrHeight,
+      setLoading,
     });
-    console.log(testresult.photoURL);
-    handleImgURLFunction(testresult.photoURL, username, chatRoomIDs);
+    handleImgURLFunction({
+      url: userDetails.photoURL!,
+      username,
+      chatRoomIDs,
+      setLoading,
+      setAddPhoto,
+    });
   }
   handler();
 }

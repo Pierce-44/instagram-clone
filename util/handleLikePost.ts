@@ -1,3 +1,4 @@
+import { User } from 'firebase/auth';
 import {
   getFirestore,
   updateDoc,
@@ -5,16 +6,29 @@ import {
   arrayUnion,
   arrayRemove,
 } from 'firebase/firestore';
+import { postCommentTypes, postType, userDetailTypes } from './atoms';
 import app from './firbaseConfig';
 
-function handleLikePost({ e, userDetails, postUserDetails, postInformation }) {
+interface Props {
+  e: any;
+  userDetails: userDetailTypes | User;
+  postUserDetails: postCommentTypes;
+  postInformation: postType;
+}
+
+function handleLikePost({
+  e,
+  userDetails,
+  postUserDetails,
+  postInformation,
+}: Props) {
   const db = getFirestore(app);
   const postDocRef = doc(
     db,
     `${postUserDetails.username}Posts`,
     postInformation.postID
   );
-  const userRef = doc(db, 'users', userDetails.displayName);
+  const userRef = doc(db, 'users', userDetails.displayName!);
 
   if (e.target.id === 'like') {
     updateDoc(postDocRef, {

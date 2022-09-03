@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 /* eslint-disable react/no-array-index-key */
+import React from 'react';
 import {
   mostPopularEmojis,
   smileysPeopleEmojis,
@@ -8,13 +9,12 @@ import {
   travelEmojis,
 } from '../util/emojiArray';
 
-function EmojiSelector({
-  setInputText,
-  inputText,
-}: {
-  setInputText: any;
+interface Props {
   inputText: string;
-}) {
+  setInputText: React.Dispatch<React.SetStateAction<string>>;
+}
+
+function EmojiSelector({ inputText, setInputText }: Props) {
   function handleSelection(e: any) {
     setInputText(inputText.concat(e.target.id));
   }

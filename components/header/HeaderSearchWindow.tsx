@@ -1,16 +1,7 @@
 import Link from 'next/link';
+import { notificationTypes } from '../../util/atoms';
 import ProfilePicSVG from '../svgComps/ProfilePicSVG';
 import SpinnerSVG from '../svgComps/SpinnerSVG';
-
-type notificationTypes = {
-  [key: string]: any;
-  username?: string;
-  userId?: string;
-  postCount?: number;
-  followerCount?: number;
-  followingCount?: number;
-  avatarURL?: string;
-};
 
 function HeaderSearchWindow({
   loading,
@@ -18,7 +9,7 @@ function HeaderSearchWindow({
   searchName,
 }: {
   loading: boolean;
-  userDetails: notificationTypes;
+  userDetails: notificationTypes[];
   searchName: string;
 }) {
   return (
@@ -36,7 +27,7 @@ function HeaderSearchWindow({
                 <div className="">No user with this name was found</div>
               </div>
             ) : (
-              userDetails.map((details: any, index: number) => (
+              userDetails.map((details, index) => (
                 // item will not be deleted or updated so it is okay to use index as a key
                 // eslint-disable-next-line react/no-array-index-key
                 <Link href={`/${details.username}`} key={index}>
@@ -53,7 +44,7 @@ function HeaderSearchWindow({
                     ) : (
                       <ProfilePicSVG height="44" width="44" strokeWidth="1" />
                     )}
-                    <p className="ml-5">{details?.username}</p>
+                    <p className="ml-5">{details.username}</p>
                   </div>
                 </Link>
               ))

@@ -26,7 +26,7 @@ const HomePagePost = ({ username }: Props) => {
   const [loading, setLoading] = React.useState(true);
   const [postPopUp, setPostPopUp] = React.useState(false);
 
-  const postDetails: any = homePagePosts[username];
+  const postDetails = homePagePosts[username];
 
   // if the user deos not have any posts published show nothing.
   if (!postDetails?.comments) {
@@ -50,14 +50,14 @@ const HomePagePost = ({ username }: Props) => {
             <picture>
               <img
                 className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
-                src={postDetails?.comments[0]?.avatarURL}
+                src={postDetails.comments[0].avatarURL}
                 alt=""
               />
             </picture>
           </Link>
           <Link href={username}>
             <p className="ml-4 cursor-pointer">
-              {postDetails?.comments[0]?.username}
+              {postDetails.comments[0].username}
             </p>
           </Link>
         </div>
@@ -82,7 +82,7 @@ const HomePagePost = ({ username }: Props) => {
                   ? 'h-auto  w-full opacity-0'
                   : 'h-auto  w-full select-none'
               }
-              src={postDetails?.imgURL}
+              src={postDetails.imgURL}
               alt="post"
               // on image load store the images height so that it can be used in the future. I want to reduce different div height flickers when the page re renders (before the first render the image height is unknown).
               onLoad={(e: any) => {
@@ -106,7 +106,7 @@ const HomePagePost = ({ username }: Props) => {
         <div>
           <div className="border-t border-stone-200 px-5 py-4 dark:border-stone-700">
             <div className="mb-3 flex gap-4">
-              {userNotifications.likedPosts!.includes(postDetails?.postID) ? (
+              {userNotifications.likedPosts!.includes(postDetails.postID) ? (
                 <button
                   id="unlike"
                   type="button"
@@ -169,7 +169,7 @@ const HomePagePost = ({ username }: Props) => {
               <p>
                 Liked by{' '}
                 <b>
-                  {postDetails.likes?.length > 0 ? (
+                  {postDetails.likes.length > 0 ? (
                     <Link href={postDetails.likes[0]}>
                       {postDetails.likes[0]}
                     </Link>
@@ -178,14 +178,14 @@ const HomePagePost = ({ username }: Props) => {
                   )}
                 </b>{' '}
               </p>
-              {postDetails.likes?.length === 1 ? (
+              {postDetails.likes.length === 1 ? (
                 ''
               ) : (
                 <div className="pl-1">
-                  {postDetails.likes?.length > 0 ? 'and' : ''}{' '}
+                  {postDetails.likes.length > 0 ? 'and' : ''}{' '}
                   <b>
-                    {postDetails.likes?.length} other
-                    {postDetails.likes?.length === 1 ? '' : 's'}
+                    {postDetails.likes.length} other
+                    {postDetails.likes.length === 1 ? '' : 's'}
                   </b>
                 </div>
               )}
@@ -202,7 +202,7 @@ const HomePagePost = ({ username }: Props) => {
               }}
             >
               {postDetails.comments.length === 1 &&
-              postDetails.comments[0]?.text === '' ? (
+              postDetails.comments[0].text === '' ? (
                 <div>No comments</div>
               ) : (
                 <div>

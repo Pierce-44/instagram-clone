@@ -10,6 +10,10 @@ import ProfilePicSVG from '../svgComps/ProfilePicSVG';
 function AddStory() {
   const [userDetails] = useAtom(atoms.userDetails);
 
+  // you need to make a loading state
+  const [loading, setLoading] = React.useState(false);
+  const [addPhoto, setAddPhoto] = React.useState(false);
+
   const widthRef = React.useRef<HTMLDivElement>(null);
   const checkLength = useCheckNameLength({ widthRef });
 
@@ -24,9 +28,11 @@ function AddStory() {
           handleUploadImage({
             e,
             location: 'stories',
-            username: userDetails.displayName,
+            username: userDetails.displayName!,
             maxWidthOrHeight: 800,
             chatRoomIDs: null,
+            setLoading,
+            setAddPhoto,
             handleImgURLFunction: handleUpdateUserStory,
           })
         }

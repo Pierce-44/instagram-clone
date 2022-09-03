@@ -5,8 +5,8 @@ function handleFollowUser({
   userName,
   otherUserName,
 }: {
-  userName: string | undefined;
-  otherUserName: string | undefined;
+  userName: string;
+  otherUserName: string;
 }) {
   if (userName && otherUserName) {
     const db = getFirestore(app);

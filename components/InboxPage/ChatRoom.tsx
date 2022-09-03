@@ -1,71 +1,39 @@
-/* eslint-disable no-use-before-define */
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import Link from 'next/link';
-import {
-  getFirestore,
-  collection,
-  serverTimestamp,
-  addDoc,
-} from 'firebase/firestore';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useAtom } from 'jotai';
 import EmojiSelector from '../EmojiSelector';
 import ProfilePicSVG from '../svgComps/ProfilePicSVG';
-import app from '../../util/firbaseConfig';
-import atoms from '../../util/atoms';
+import atoms, { chatRoomMessagesTypes } from '../../util/atoms';
+import useHandleEmojiPopUp from '../../hooks/useHandleEmojiPopUp';
+import sendChatRoomMessage from '../../util/handleSendChatRoomMessage';
 
-const db = getFirestore(app);
-
-function ChatRoom({
-  chatRoomID,
-  userID,
-  activeChat,
-  activeChatId,
-}: {
+interface Props {
   chatRoomID: string;
   userID: string;
   activeChat: string;
   activeChatId: string;
-}) {
+}
+
+function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
   const [darkMode] = useAtom(atoms.darkMode);
   const [allChatRoomMessages] = useAtom(atoms.allChatRoomMessages);
 
   const [inputText, setInputText] = React.useState('');
   const [displayEmojiSelector, setDisplayEmojiSelector] = React.useState(false);
 
-  const messages = allChatRoomMessages[chatRoomID]?.slice(0, -1);
+  const messages: chatRoomMessagesTypes[] = allChatRoomMessages[
+    chatRoomID
+  ]?.slice(0, -1);
   const chatName =
     allChatRoomMessages[chatRoomID]?.slice(-1)[0][`${userID}ChatName`];
   const avatarURL =
     allChatRoomMessages[chatRoomID]?.slice(-1)[0][`${chatName}Avatar`];
 
-  function sendMessage(e: any) {
-    // submit on key enter
-    if (
-      e.code === 'Enter' ||
-      e.code === 'NumpadEnter' ||
-      e.target.id === 'sendMessage'
-    ) {
-      setInputText('');
-      addDoc(collection(db, chatRoomID), {
-        createdAt: serverTimestamp(),
-        name: userID,
-        text: inputText,
-      });
-    }
-  }
-
-  React.useEffect(() => {
-    const emojiListner = window.addEventListener('click', (e: any) => {
-      // if outside of emoji tab close
-      if (e.target.id !== 'emoji') {
-        setDisplayEmojiSelector(false);
-      }
-    });
-    return emojiListner;
-  }, []);
+  useHandleEmojiPopUp({ setDisplayEmojiSelector });
 
   return (
     <div className="dark:text-slate-100">
@@ -124,7 +92,7 @@ function ChatRoom({
       {activeChat === activeChatId ? (
         <div className="absolute bottom-0 top-[59px] left-[350px] flex w-[calc(100%-350px)] cursor-default flex-col justify-end  border-l border-t border-stone-300 dark:border-stone-700">
           <div className="flex cursor-default flex-col-reverse gap-5 overflow-y-auto p-5 px-5 py-2 dark:[color-scheme:dark]">
-            {messages?.map((message: any, index: number) => (
+            {messages.map((message, index) => (
               <div
                 key={`key${index}`}
                 className={`${
@@ -178,7 +146,15 @@ function ChatRoom({
               placeholder="Message..."
               maxRows={4}
               minRows={1}
-              onKeyPress={(e) => sendMessage(e)}
+              onKeyPress={(e: any) =>
+                sendChatRoomMessage({
+                  e,
+                  chatRoomID,
+                  inputText,
+                  userID,
+                  setInputText,
+                })
+              }
             />
             <button
               id="sendMessage"
@@ -188,7 +164,15 @@ function ChatRoom({
                   : 'text-[#0095F6]'
               } pr-4 pl-2 text-sm font-semibold `}
               type="button"
-              onClick={(e) => sendMessage(e)}
+              onClick={(e: any) =>
+                sendChatRoomMessage({
+                  e,
+                  chatRoomID,
+                  inputText,
+                  userID,
+                  setInputText,
+                })
+              }
             >
               Send
             </button>

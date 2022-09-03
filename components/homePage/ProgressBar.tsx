@@ -25,12 +25,12 @@ function ProgressBar({
   const [playStatus, setPlayStatus] = React.useState(true);
 
   const progressBar = useProgressBar({
-    setProgress,
-    playStatus,
     userName,
-    positionIndex,
-    setPositionIndex,
+    playStatus,
     storiesArray,
+    positionIndex,
+    setProgress,
+    setPositionIndex,
     setStoryUsername,
   });
 

@@ -74,7 +74,7 @@ const Profile: NextPage = () => {
 
   // If a user exists render profile page
   return (
-    <div className="h-[100vh] overflow-y-scroll bg-[#fafafa] text-[#231f20] dark:bg-[#131313] dark:text-slate-100">
+    <div className="h-[100vh] overflow-y-scroll bg-[#fafafa] text-[#231f20] dark:bg-[#131313] dark:text-slate-100 dark:[color-scheme:dark]">
       <Head>
         <title>Profile • Instagram photos and videos</title>
         <meta name="description" content="Instagram Clone" />
@@ -131,11 +131,7 @@ const Profile: NextPage = () => {
                       Message
                     </button>
                   </Link>
-                  <div
-                    className=" overflow-hidden rounded-[4px] text-sm font-semibold"
-                    // type="button"
-                    // onClick={() => setFollowing(!following)}
-                  >
+                  <div className=" overflow-hidden rounded-[4px] text-sm font-semibold">
                     {userNotifications.following?.includes(
                       profileNotifications.username!
                     ) ? (
@@ -152,8 +148,8 @@ const Profile: NextPage = () => {
                         {unfollow ? (
                           <UnfollowUser
                             setUnfollow={setUnfollow}
-                            imgURL={profileNotifications.avatarURL}
-                            username={profileNotifications.username}
+                            imgURL={profileNotifications.avatarURL!}
+                            username={profileNotifications.username!}
                             userNotifications={userNotifications}
                             profileNotifications={profileNotifications}
                           />
@@ -166,8 +162,8 @@ const Profile: NextPage = () => {
                         type="button"
                         onClick={() =>
                           handleFollowUser({
-                            userName: userNotifications.username,
-                            otherUserName: profileNotifications.username,
+                            userName: userNotifications.username!,
+                            otherUserName: profileNotifications.username!,
                           })
                         } //
                       >

@@ -10,7 +10,7 @@ import {
 } from 'firebase/firestore';
 import { useAtom } from 'jotai';
 import app from '../util/firbaseConfig';
-import atoms from '../util/atoms';
+import atoms, { notificationTypes } from '../util/atoms';
 
 function useExploreUsers(requestMoreUsers: boolean) {
   const db = getFirestore(app);
@@ -19,7 +19,7 @@ function useExploreUsers(requestMoreUsers: boolean) {
 
   const [firstFetch, setFirstFetch] = React.useState(true);
   const [lastVisibleSnapshot, setLastVisibleSnapshot] = React.useState({});
-  const [usersArray, setUsersArray] = React.useState<any[]>([]);
+  const [usersArray, setUsersArray] = React.useState<notificationTypes[]>([]);
   const [moreUsers, setMoreUsers] = React.useState(true);
 
   const first = query(collection(db, 'users'), limit(5));
@@ -27,7 +27,7 @@ function useExploreUsers(requestMoreUsers: boolean) {
   async function handleFirstQuery() {
     const documentSnapshot = await getDocs(first);
 
-    const array: any[] = [];
+    const array: notificationTypes[] = [];
 
     documentSnapshot.forEach((doc) => {
       if (doc.data().username === userDetails.displayName) {

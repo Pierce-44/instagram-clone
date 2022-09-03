@@ -8,7 +8,7 @@ function LoadingPage({ checkingUserRoute }: { checkingUserRoute: boolean }) {
         checkingUserRoute
           ? 'flex-col justify-start overflow-y-scroll'
           : 'items-center justify-center'
-      } flex h-screen w-full  dark:bg-[#131313]`}
+      } flex h-screen w-full dark:bg-[#131313]  dark:[color-scheme:dark]`}
     >
       <Head>
         <title>Instagram</title>

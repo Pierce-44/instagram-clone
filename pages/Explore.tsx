@@ -28,8 +28,8 @@ const Explore: NextPage = () => {
 
   return (
     <div
-      className="h-screen overflow-y-scroll bg-[#fafafa] text-[#231f20]
-    dark:bg-[#131313] dark:text-slate-100"
+      className="h-screen overflow-y-scroll bg-[#fafafa] text-[#231f20] dark:bg-[#131313]
+    dark:text-slate-100 dark:[color-scheme:dark]"
     >
       <Head>
         <title>Instagram • Explore</title>
@@ -47,7 +47,7 @@ const Explore: NextPage = () => {
             key={userDocs.userId}
           >
             <div className="flex items-center gap-3">
-              <Link href={userDocs.username}>
+              <Link href={userDocs.username!}>
                 {userDocs.avatarURL ? (
                   <picture>
                     <img
@@ -61,21 +61,21 @@ const Explore: NextPage = () => {
                 )}
               </Link>
               <div>
-                <Link href={userDocs.username}>
+                <Link href={userDocs.username!}>
                   <p className="cursor-pointer text-sm font-semibold">
                     {userDocs.username}
                   </p>
                 </Link>
                 <p className="text-xs text-[#818181]">
-                  Followed by {userDocs.followers.length}{' '}
-                  {userDocs.followers.length === 1 ? 'user' : 'users'}{' '}
-                  {userDocs.followers.includes(userDetails.displayName)
+                  Followed by {userDocs.followers!.length}{' '}
+                  {userDocs.followers!.length === 1 ? 'user' : 'users'}{' '}
+                  {userDocs.followers!.includes(userDetails.displayName!)
                     ? 'including you'
                     : ''}
                 </p>
               </div>
             </div>
-            <Link href={userDocs.username}>
+            <Link href={userDocs.username!}>
               <p className="cursor-pointer pr-5 text-xs font-semibold text-[#0095f6]">
                 Profile
               </p>
@@ -96,7 +96,7 @@ const Explore: NextPage = () => {
             type="button"
             onClick={() => setRequestMoreUsers(!requestMoreUsers)}
           >
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0095f6] group-hover:animate-bounce  ">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0095f6]   group-hover:animate-bounce">
               <div className="h-5 w-5 pt-[1px]">
                 <div className="h-5 w-5 rotate-90 ">
                   <ArrowSVG white />

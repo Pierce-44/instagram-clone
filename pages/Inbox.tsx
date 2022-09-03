@@ -24,7 +24,7 @@ const Inbox: NextPage = () => {
   }
 
   return (
-    <div className="h-screen cursor-default overflow-y-scroll bg-[#fafafa] text-[#231f20] dark:bg-[#131313] dark:text-slate-100">
+    <div className="h-screen cursor-default overflow-y-scroll bg-[#fafafa] text-[#231f20] dark:bg-[#131313] dark:text-slate-100 dark:[color-scheme:dark]">
       <Head>
         <title>Instagram • Chats</title>
         <meta name="description" content="Instagram Clone" />
@@ -54,23 +54,21 @@ const Inbox: NextPage = () => {
 
         <div className="h-[calc(100%-60px)] w-[350px] overflow-y-auto overflow-x-hidden dark:[color-scheme:dark]">
           {userNotifications.chatRoomIds ? (
-            userNotifications.chatRoomIds?.map(
-              (chatRoomId: any, index: number) => (
-                <div
-                  key={`chatRoomKey${index}`}
-                  onClick={() => setActiveChat(`chatRoom${index}`)}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <ChatRoom
-                    chatRoomID={chatRoomId}
-                    userID={userDetails.displayName!}
-                    activeChat={activeChat}
-                    activeChatId={`chatRoom${index}`}
-                  />
-                </div>
-              )
-            )
+            userNotifications.chatRoomIds.map((chatRoomId, index) => (
+              <div
+                key={`chatRoomKey${index}`}
+                onClick={() => setActiveChat(`chatRoom${index}`)}
+                role="button"
+                tabIndex={0}
+              >
+                <ChatRoom
+                  chatRoomID={chatRoomId}
+                  userID={userDetails.displayName!}
+                  activeChat={activeChat}
+                  activeChatId={`chatRoom${index}`}
+                />
+              </div>
+            ))
           ) : (
             <div className="flex h-[calc(100%-60px)] w-[350px] items-center justify-center">
               <picture>

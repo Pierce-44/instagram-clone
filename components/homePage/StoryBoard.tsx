@@ -16,7 +16,7 @@ function StoryBoard() {
       } scrollbar mt-6 flex overflow-x-auto rounded-lg border border-stone-300 bg-white py-4 pl-4 dark:border-stone-700 dark:bg-[#1c1c1c]`}
     >
       <AddStory />
-      {storiesArray.map((username: string, index) => (
+      {storiesArray.map((username, index) => (
         <StoryBoardTag username={username} key={username + index} />
       ))}
     </div>

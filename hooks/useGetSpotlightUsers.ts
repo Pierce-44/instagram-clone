@@ -19,7 +19,7 @@ function useGetSpotlightedUsers() {
   async function getDetails(username: string) {
     const docRef = doc(db, 'users', username);
     const docSnap = await getDoc(docRef);
-    setSpotlightUsers((prev) => [...prev, docSnap.data()]);
+    setSpotlightUsers((prev) => [...prev, docSnap.data()!]);
   }
 
   React.useEffect(() => {

@@ -1,8 +1,5 @@
-/* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable @next/next/no-img-element */
 import React from 'react';
-import { getAuth, signOut } from 'firebase/auth';
 import Link from 'next/link';
 import { useAtom } from 'jotai';
 import ProfilePicSVG from '../svgComps/ProfilePicSVG';
@@ -17,78 +14,38 @@ import HeartHollow from '../svgComps/HeartHollow';
 import IndexSVG from '../svgComps/IndexSVG';
 import HomeSVG from '../svgComps/HomeSVG';
 import SearchBtnSVG from '../svgComps/SearchBtnSVG';
+import useHandleSignOut from '../../hooks/useHandleSignOut';
+import useHandleAvatarDropDown from '../../hooks/useHandleAvatarDropDown';
 
 function Header({ page }: { page: string }) {
   // eslint-disable-next-line no-unused-expressions
-  const auth = getAuth();
   const [darkMode] = useAtom(atoms.darkMode);
   const [userDetails] = useAtom(atoms.userDetails);
   const [userNotifications] = useAtom(atoms.userNotifications);
-  const [listeners] = useAtom(atoms.listeners);
-  const [, setUserNotifications] = useAtom(atoms.userNotifications);
-  const [, setUserDetails] = useAtom(atoms.userDetails);
-  const [, setLoggingIn] = useAtom(atoms.loggingIn);
-  const [, setHomePogePostsFetched] = useAtom(atoms.homePogePostsFetched);
-  const [, setHomePagePosts] = useAtom(atoms.homePagePosts);
-  const [, setStoriesArray] = useAtom(atoms.storiesArray);
-  const [, setFollowingArray] = useAtom(atoms.followingArray);
-  const [, setStories] = useAtom(atoms.stories);
-  const [, setUserPosts] = useAtom(atoms.userPosts);
 
   const [avatarDropDown, setAvatarDropDown] = React.useState(false);
   const [addPost, setAddPost] = React.useState(false);
   const [nameSearch, setNameSearch] = React.useState('');
   const [searchWindow, setSearchWindow] = React.useState(false);
-
+  const [signUserOut, setSignUserOut] = React.useState(false);
   const queryCharacter = true;
 
   const user = useCheckUserName({ nameSearch, queryCharacter });
-
-  function handleSignOut() {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        setUserNotifications({});
-        setUserDetails({});
-        setLoggingIn(false);
-        setHomePogePostsFetched(false);
-        setHomePagePosts({});
-        setStoriesArray([]);
-        setFollowingArray([]);
-        setStories({});
-        setUserPosts([]);
-
-        // removes all firebase listener
-        listeners.forEach((unsubscribe: any) => unsubscribe());
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function handleTimeout() {
-    setSearchWindow(false);
-  }
-
-  React.useEffect(() => {
-    window.addEventListener('click', (e: any) => {
-      // if outside of dropdown close dropdown
-      if (e.target.id !== 'avatarDropDown') {
-        setAvatarDropDown(false);
-      }
-    });
-  }, []);
+  useHandleSignOut({ signUserOut });
+  useHandleAvatarDropDown(setAvatarDropDown);
 
   return (
     <div className="sticky top-0 z-50 border-b border-stone-300 bg-white dark:border-stone-700 dark:bg-[#1c1c1c] dark:text-slate-100">
       <div className=" flex h-[60px] items-center justify-between px-[5px] sm:px-[20px] lg:justify-center ">
         <div className="flex h-[60px] w-[330px] min-w-[103px] items-center ">
           <Link href="/">
-            <img
-              src={darkMode ? '/instagramWhite.png' : '/instagramBlack.png'}
-              alt="Instagram"
-              className="cursor-pointer select-none"
-            />
+            <picture>
+              <img
+                src={darkMode ? '/instagramWhite.png' : '/instagramBlack.png'}
+                alt="Instagram"
+                className="cursor-pointer select-none"
+              />
+            </picture>
           </Link>
         </div>
         <div className="relative hidden sm:flex">
@@ -100,7 +57,7 @@ function Header({ page }: { page: string }) {
             onChange={(e) => setNameSearch(e.target.value)}
             onFocus={() => setSearchWindow(true)}
             onBlur={() => {
-              setTimeout(handleTimeout, 200);
+              setTimeout(() => setSearchWindow(false), 200);
             }}
           />
           {searchWindow ? (
@@ -150,12 +107,14 @@ function Header({ page }: { page: string }) {
             onClick={() => setAvatarDropDown(!avatarDropDown)}
           >
             {userDetails.photoURL ? (
-              <img
-                id="avatarDropDown"
-                src={userDetails.photoURL}
-                alt="avatar"
-                className="h-6 w-6 cursor-pointer select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131]"
-              />
+              <picture>
+                <img
+                  id="avatarDropDown"
+                  src={userDetails.photoURL}
+                  alt="avatar"
+                  className="h-6 w-6 cursor-pointer select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131]"
+                />
+              </picture>
             ) : (
               <ProfilePicSVG height="24" width="24" strokeWidth="1.5" />
             )}
@@ -187,7 +146,7 @@ function Header({ page }: { page: string }) {
                 className="border-t border-stone-300 py-2 px-4 text-start hover:bg-[#f8f8f8] dark:border-stone-700 dark:hover:bg-[#080808]"
                 role="button"
                 tabIndex={0}
-                onClick={() => handleSignOut()}
+                onClick={() => setSignUserOut(true)}
               >
                 Log out
               </div>

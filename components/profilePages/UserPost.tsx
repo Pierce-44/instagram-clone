@@ -3,20 +3,13 @@ import React from 'react';
 import CommentSVG from '../svgComps/CommentSVG';
 import HeartSVG from '../svgComps/HeartSVG';
 import PostPopUp from '../PostPopUp';
-
-type postObject = {
-  comments: [];
-  imgURL: string;
-  likes: any;
-  createdAt: any;
-  postID: string;
-};
+import { postType } from '../../util/atoms';
 
 function UserPost({
   postInformation,
   postUserDetails,
 }: {
-  postInformation: postObject;
+  postInformation: postType;
   postUserDetails: any;
 }) {
   const [postInfo, setPostInfo] = React.useState(false);
@@ -47,13 +40,13 @@ function UserPost({
             <div className="flex items-center">
               <HeartSVG fillColor="white" height="20" width="20" />
               <p className="pl-1 text-lg font-semibold">
-                {postInformation.likes?.length}
+                {postInformation.likes.length}
               </p>
             </div>
             <div className="flex items-center">
               <CommentSVG outline="white" height="20" width="20" fill="white" />
               <p className="pl-1 text-lg font-semibold">
-                {postInformation.comments?.length}
+                {postInformation.comments.length}
               </p>
             </div>
           </div>

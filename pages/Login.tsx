@@ -1,57 +1,34 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import Router from 'next/router';
 import Image from 'next/image';
 import Head from 'next/head';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
-import app from '../util/firbaseConfig';
-import { emailValidate, passwordValidate } from '../util/validate';
+import useSetFormErrors from '../hooks/useSetFormErrors';
 import atoms from '../util/atoms';
+import useHandleSignIn from '../hooks/useHandleSignIn';
+import handleSignIn from '../util/handleSignIn';
 
 const Login: NextPage = () => {
-  app;
-  const auth = getAuth();
   const [listeners] = useAtom(atoms.listeners);
-  const [loggingIn, setLoggingIn] = useAtom(atoms.loggingIn);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [emailFormErrors, setEmailFormErrors] = React.useState('');
   const [passwordFormErrors, setPasswordFormErrors] = React.useState('');
+  // eslint-disable-next-line no-unused-vars
+  const [usernameFormErrors, setUsernameFormErrors] = React.useState('');
   const [isSubmit, setIsSubmit] = React.useState(false);
 
-  function handleSignIn(e: any) {
-    e.preventDefault();
+  useSetFormErrors({
+    email,
+    password,
+    setEmailFormErrors,
+    setPasswordFormErrors,
+    setUsernameFormErrors,
+  });
 
-    // removes initial firebase auth listener from app load
-    listeners.forEach((unsubscribe: any) => unsubscribe());
-
-    if (passwordFormErrors === '' && emailFormErrors === '') {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential, error) => {
-          // Signed in
-          if (error === undefined) {
-            setIsSubmit(true);
-          }
-        })
-        .catch((error) => {
-          setPasswordFormErrors(error.message);
-        });
-    }
-  }
-
-  React.useEffect(() => {
-    if (isSubmit) {
-      // triggers the firebase Auth listner to activate so that it can start pulling from the database, plus redirects to the home page
-      setLoggingIn(!loggingIn);
-      Router.push('/');
-    }
-    setEmailFormErrors(emailValidate(email));
-    setPasswordFormErrors(passwordValidate(password));
-  }, [isSubmit, email, password]);
+  useHandleSignIn({ isSubmit });
 
   return (
     <div>
@@ -118,7 +95,18 @@ const Login: NextPage = () => {
               <form
                 action=""
                 className="signInPageFormContainer"
-                onSubmit={(e) => handleSignIn(e)}
+                onSubmit={(e: any) =>
+                  handleSignIn({
+                    e,
+                    listeners,
+                    passwordFormErrors,
+                    emailFormErrors,
+                    email,
+                    password,
+                    setIsSubmit,
+                    setPasswordFormErrors,
+                  })
+                }
               >
                 <label htmlFor="signInPageEmail">
                   {' '}

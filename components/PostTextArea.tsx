@@ -1,63 +1,24 @@
 import React from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useAtom } from 'jotai';
-import { getFirestore, updateDoc, doc, arrayUnion } from 'firebase/firestore';
-import atoms from '../util/atoms';
+import atoms, { postCommentTypes, postType } from '../util/atoms';
 import EmojiSelector from './EmojiSelector';
-import app from '../util/firbaseConfig';
+import useHandleEmojiPopUp from '../hooks/useHandleEmojiPopUp';
+import handleSendPostMessage from '../util/handleSendPostMessage';
 
-function PostTextArea({ postUserDetails, postInformation }) {
+interface Props {
+  postInformation: postType;
+  postUserDetails: postCommentTypes;
+}
+
+function PostTextArea({ postInformation, postUserDetails }: Props) {
   const [darkMode] = useAtom(atoms.darkMode);
   const [userDetails] = useAtom(atoms.userDetails);
 
   const [commentText, setCommentText] = React.useState('');
   const [displayEmojiSelector, setDisplayEmojiSelector] = React.useState(false);
 
-  const date = new Date().toLocaleDateString();
-
-  function addComment(e: any) {
-    // quick random ID, incase the user sends the same message twice in a row
-    const randomID = Math.floor(
-      Math.random() * Math.floor(Math.random() * Date.now())
-    );
-
-    // submit on key enter
-    if (
-      e.code === 'Enter' ||
-      e.code === 'NumpadEnter' ||
-      e.target.id === 'sendMessage'
-    ) {
-      const db = getFirestore(app);
-      const docRef = doc(
-        db,
-        `${postUserDetails.username}Posts`,
-        postInformation.postID
-      );
-
-      const newComment = {
-        text: commentText,
-        avatarURL: userDetails.photoURL,
-        username: userDetails.displayName,
-        createdAt: date,
-        randomID,
-      };
-
-      updateDoc(docRef, {
-        comments: arrayUnion(newComment),
-      });
-      setCommentText('');
-    }
-  }
-
-  React.useEffect(() => {
-    const emojiListner = window.addEventListener('click', (e: any) => {
-      // if outside of emoji tab close
-      if (e.target.id !== 'emoji') {
-        setDisplayEmojiSelector(false);
-      }
-    });
-    return emojiListner;
-  }, []);
+  useHandleEmojiPopUp({ setDisplayEmojiSelector });
 
   return (
     <div className="relative flex justify-between border-t border-stone-200 pb-1 dark:border-stone-700">
@@ -87,7 +48,16 @@ function PostTextArea({ postUserDetails, postInformation }) {
         placeholder="Add a comment..."
         maxRows={4}
         minRows={1}
-        onKeyPress={(e) => addComment(e)}
+        onKeyPress={(e: any) =>
+          handleSendPostMessage({
+            e,
+            postInformation,
+            postUserDetails,
+            userDetails,
+            commentText,
+            setCommentText,
+          })
+        }
       />
       <button
         id="sendMessage"
@@ -97,7 +67,16 @@ function PostTextArea({ postUserDetails, postInformation }) {
             : 'text-[#0095F6]'
         } pr-4 pl-2 text-sm font-semibold `}
         type="button"
-        onClick={(e) => addComment(e)}
+        onClick={(e: any) =>
+          handleSendPostMessage({
+            e,
+            postInformation,
+            postUserDetails,
+            userDetails,
+            commentText,
+            setCommentText,
+          })
+        }
       >
         Send
       </button>

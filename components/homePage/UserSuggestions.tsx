@@ -46,7 +46,7 @@ function UserSuggestions() {
           </Link>
         </div>
         <div>
-          {spotlightUsers.map((spotlightUserDetails: any) => (
+          {spotlightUsers.map((spotlightUserDetails) => (
             <div
               key={`${spotlightUserDetails.userId}Spotlight`}
               className="flex items-center justify-between py-2"
@@ -68,8 +68,8 @@ function UserSuggestions() {
                     </p>
                   </Link>
                   <p className="text-xs text-[#818181]">
-                    Followed by {spotlightUserDetails.followers.length}{' '}
-                    {spotlightUserDetails.followers.length === 1
+                    Followed by {spotlightUserDetails.followers!.length}{' '}
+                    {spotlightUserDetails.followers!.length === 1
                       ? 'user'
                       : 'users'}
                   </p>

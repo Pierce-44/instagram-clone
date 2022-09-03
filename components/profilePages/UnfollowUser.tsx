@@ -1,7 +1,16 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { doc, arrayRemove, updateDoc, getFirestore } from 'firebase/firestore';
+import React from 'react';
+import { notificationTypes } from '../../util/atoms';
+import handleUnfollow from '../../util/handleUnfollow';
 import CloseBtnSVG from '../svgComps/CloseBtnSVG';
-import app from '../../util/firbaseConfig';
+
+interface Props {
+  setUnfollow: React.Dispatch<React.SetStateAction<boolean>>;
+  imgURL: string;
+  username: string;
+  userNotifications: notificationTypes;
+  profileNotifications: notificationTypes;
+}
 
 function UnfollowUser({
   setUnfollow,
@@ -9,30 +18,7 @@ function UnfollowUser({
   username,
   userNotifications,
   profileNotifications,
-}: {
-  setUnfollow: any;
-  imgURL: string | undefined;
-  username: string | undefined;
-  userNotifications: any;
-  profileNotifications: any;
-}) {
-  function handleUnfollow() {
-    setUnfollow(false);
-    document.body.style.overflow = 'initial';
-
-    const db = getFirestore(app);
-    const userRef = doc(db, 'users', userNotifications.username);
-    const otherUserRef = doc(db, 'users', profileNotifications.username);
-
-    updateDoc(userRef, {
-      following: arrayRemove(profileNotifications.username),
-    });
-
-    updateDoc(otherUserRef, {
-      followers: arrayRemove(userNotifications.username),
-    });
-  }
-
+}: Props) {
   return (
     <div
       id="close"
@@ -73,7 +59,11 @@ function UnfollowUser({
           role="button"
           tabIndex={0}
           onClick={() => {
-            handleUnfollow();
+            handleUnfollow({
+              setUnfollow,
+              userNotifications,
+              profileNotifications,
+            });
           }}
         >
           Unfollow

@@ -1,16 +1,29 @@
+import React from 'react';
 import { getStorage, ref, deleteObject } from 'firebase/storage';
 import { getFirestore, updateDoc, doc } from 'firebase/firestore';
 import { getAuth, updateProfile } from 'firebase/auth';
 import app from './firbaseConfig';
 
-async function handleRemoveProfilePhoto({ username, chatRoomIds }) {
+interface Props {
+  username: string;
+  chatRoomIds: string[];
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setAddPhoto: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+async function handleRemoveProfilePhoto({
+  username,
+  chatRoomIds,
+  setLoading,
+  setAddPhoto,
+}: Props) {
   const auth = getAuth();
   const db = getFirestore(app);
   const storage = getStorage();
   const countRef = doc(db, 'users', username);
 
   const desertRef = ref(storage, `profilePhotos/${username}`);
-  // setLoading(true);
+  setLoading(true);
 
   // delete image from all subscribed chatrooms
   await chatRoomIds.forEach((element: string) => {
@@ -32,21 +45,23 @@ async function handleRemoveProfilePhoto({ username, chatRoomIds }) {
     })
     .catch((error) => {
       console.log(error);
+      setLoading(false);
     });
 
   // update auth user details to reflect changes
-  await updateProfile(auth.currentUser, {
+  await updateProfile(auth.currentUser!, {
     // eslint-disable-next-line object-shorthand
     photoURL: '',
   })
     .then(() => {
       // Profile updated!
-      // setLoading(false);
-      // setAddPhoto(false);
+      setLoading(false);
+      setAddPhoto(false);
     })
     .catch((error) => {
       // An error occurred
       console.log(error);
+      setLoading(false);
     });
 }
 

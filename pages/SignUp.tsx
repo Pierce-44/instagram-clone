@@ -3,34 +3,15 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import Router from 'next/router';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from 'firebase/auth';
-import {
-  doc,
-  getDoc,
-  getFirestore,
-  setDoc,
-  serverTimestamp,
-} from 'firebase/firestore';
 import Head from 'next/head';
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
-import handleCreateUsernameQueryArray from '../util/handleCreateUsernameQueryArray';
-import app from '../util/firbaseConfig';
-import {
-  emailValidate,
-  passwordValidate,
-  usernameValidate,
-} from '../util/validate';
 import atoms from '../util/atoms';
+import useHandleSignIn from '../hooks/useHandleSignIn';
+import useSetFormErrors from '../hooks/useSetFormErrors';
+import handleCreateUser from '../util/handleCreateUser';
 
 const SignUp: NextPage = () => {
-  app;
-  const auth = getAuth();
-  const db = getFirestore(app);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [username, setUsername] = React.useState('');
@@ -39,91 +20,19 @@ const SignUp: NextPage = () => {
   const [usernameFormErrors, setUsernameFormErrors] = React.useState('');
   const [isSubmit, setIsSubmit] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [loggingIn, setLoggingIn] = useAtom(atoms.loggingIn);
+
   const [listeners] = useAtom(atoms.listeners);
 
-  async function submitUser() {
-    const docRef = doc(db, 'userList', username);
-    const docSnap = await getDoc(docRef);
-    let userId: any;
+  useSetFormErrors({
+    email,
+    password,
+    username,
+    setEmailFormErrors,
+    setPasswordFormErrors,
+    setUsernameFormErrors,
+  });
 
-    if (docSnap.exists()) {
-      setPasswordFormErrors('Username already exists');
-    } else {
-      setLoading(true);
-
-      await createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential, error) => {
-          // Signed in
-          console.log(userCredential);
-          userId = userCredential.user.uid;
-          updateProfile(userCredential.user, {
-            displayName: username,
-          });
-        })
-        .catch((error) => {
-          setPasswordFormErrors(error.message.slice(22, -2));
-        });
-
-      setDoc(doc(db, 'users', username), {
-        // eslint-disable-next-line object-shorthand
-        userId: userId,
-        avatarURL: '',
-        chatRoomIds: [],
-        messageCount: 0,
-        likes: false,
-        likedPosts: [],
-        username,
-        postCount: 0,
-        // dont think i need
-        // followerCount: 0,
-        // followingCount: 0,
-        followers: [],
-        following: [],
-        story: '',
-        storyViews: [],
-        usernameQuery: handleCreateUsernameQueryArray(username),
-      })
-        .then(() => {
-          // Profile updated!
-          setIsSubmit(true);
-        })
-        .catch((errorProfile) => {
-          console.log(errorProfile);
-        });
-
-      // create user post collection
-      setDoc(doc(db, `${username}Posts`, 'userPosts'), {
-        createdAt: serverTimestamp(),
-        postsListArray: [],
-      });
-    }
-  }
-
-  function handleSubmit(e: any) {
-    e.preventDefault();
-    if (
-      passwordFormErrors === '' &&
-      emailFormErrors === '' &&
-      usernameFormErrors === ''
-    ) {
-      submitUser();
-    }
-  }
-
-  React.useEffect(() => {
-    // removes initial firebase auth listener from app load
-    listeners.forEach((unsubscribe: any) => unsubscribe());
-
-    if (isSubmit) {
-      // triggers the firebase Auth listner to activate so that it can start pulling from the database, plus redirects to the home page
-      setLoggingIn(!loggingIn);
-      Router.push('/');
-    }
-    setEmailFormErrors(emailValidate(email));
-    setPasswordFormErrors(passwordValidate(password));
-    setUsernameFormErrors(usernameValidate(username));
-  }, [isSubmit, email, password, username]);
+  useHandleSignIn({ isSubmit });
 
   if (loading) {
     return (
@@ -157,7 +66,21 @@ const SignUp: NextPage = () => {
               <form
                 action=""
                 className="signInPageFormContainer"
-                onSubmit={(e) => handleSubmit(e)}
+                onSubmit={(e: any) =>
+                  handleCreateUser({
+                    e,
+                    listeners,
+                    username,
+                    email,
+                    password,
+                    passwordFormErrors,
+                    emailFormErrors,
+                    usernameFormErrors,
+                    setIsSubmit,
+                    setLoading,
+                    setPasswordFormErrors,
+                  })
+                }
               >
                 <label htmlFor="signInPageUserName">
                   {' '}

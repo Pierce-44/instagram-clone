@@ -2,7 +2,11 @@ import React from 'react';
 import { useAtom } from 'jotai';
 import atoms from '../../util/atoms';
 
-function SendMessage({ setCreateChatRoom }: { setCreateChatRoom: any }) {
+function SendMessage({
+  setCreateChatRoom,
+}: {
+  setCreateChatRoom: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [darkMode] = useAtom(atoms.darkMode);
   return (
     <div className="absolute bottom-0 top-0 left-[350px] flex w-[calc(100%-350px)] flex-col items-center justify-center border-l border-stone-300 bg-white p-6 dark:border-stone-700 dark:bg-[#1c1c1c]">

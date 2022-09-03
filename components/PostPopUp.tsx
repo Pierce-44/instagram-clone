@@ -8,16 +8,15 @@ import HeartSVG from './svgComps/HeartSVG';
 import PostTextArea from './PostTextArea';
 import CommentSVG from './svgComps/CommentSVG';
 import handleLikePost from '../util/handleLikePost';
-import atoms from '../util/atoms';
+import atoms, { postCommentTypes, postType } from '../util/atoms';
 
-type commentObject = {
-  text: string;
-  avatarURL: string;
-  username: string;
-  createdAt: string;
-};
+interface Props {
+  postInformation: postType;
+  postUserDetails: postCommentTypes;
+  setPostPopUp: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
+function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
   const [userNotifications] = useAtom(atoms.userNotifications);
   const [userDetails] = useAtom(atoms.userDetails);
   const [darkMode] = useAtom(atoms.darkMode);
@@ -63,17 +62,36 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
             </Link>
           </div>
           <div className="w-[500px] flex-grow overflow-y-auto bg-[#fafafa] text-sm dark:bg-[#131313] dark:[color-scheme:dark]">
-            {postInformation.comments?.map(
-              (commentInfo: commentObject, index: number) =>
-                commentInfo.text === '' ? (
-                  ''
-                ) : (
-                  <div
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={`post${index}`}
-                    className="flex p-4"
-                  >
-                    <div className="flex-shrink-0">
+            {postInformation.comments.map((commentInfo, index) =>
+              commentInfo.text === '' ? (
+                ''
+              ) : (
+                <div
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`post${index}`}
+                  className="flex p-4"
+                >
+                  <div className="flex-shrink-0">
+                    <Link href={`/${commentInfo.username}`}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPostPopUp(false);
+                          document.body.style.overflow = 'initial';
+                        }}
+                      >
+                        <picture>
+                          <img
+                            className="mr-4 h-8 w-8 flex-shrink-0 select-none rounded-full object-cover"
+                            src={commentInfo.avatarURL}
+                            alt="avatar"
+                          />
+                        </picture>
+                      </button>
+                    </Link>
+                  </div>
+                  <div>
+                    <p className="">
                       <Link href={`/${commentInfo.username}`}>
                         <button
                           type="button"
@@ -82,44 +100,24 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
                             document.body.style.overflow = 'initial';
                           }}
                         >
-                          <picture>
-                            <img
-                              className="mr-4 h-8 w-8 flex-shrink-0 select-none rounded-full object-cover"
-                              src={commentInfo.avatarURL}
-                              alt="avatar"
-                            />
-                          </picture>
+                          <b>{commentInfo.username}</b>
                         </button>
                       </Link>
-                    </div>
-                    <div>
-                      <p className="">
-                        <Link href={`/${commentInfo.username}`}>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setPostPopUp(false);
-                              document.body.style.overflow = 'initial';
-                            }}
-                          >
-                            <b>{commentInfo.username}</b>
-                          </button>
-                        </Link>
 
-                        {` - ${commentInfo.text}`}
-                      </p>
-                      <p className="pt-1 text-xs text-[#a5a5a5]">
-                        {commentInfo.createdAt}
-                      </p>
-                    </div>
+                      {` - ${commentInfo.text}`}
+                    </p>
+                    <p className="pt-1 text-xs text-[#a5a5a5]">
+                      {commentInfo.createdAt}
+                    </p>
                   </div>
-                )
+                </div>
+              )
             )}
           </div>
           <div className="dark:bg-[#1c1c1c]">
             <div className="border-t border-stone-200 px-5 pt-4 pb-1 dark:border-stone-700">
               <div className="mb-3 flex gap-4">
-                {userNotifications.likedPosts.includes(
+                {userNotifications.likedPosts!.includes(
                   postInformation.postID
                 ) ? (
                   <button
@@ -171,7 +169,7 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
                 <p>
                   Liked by{' '}
                   <b>
-                    {postInformation.likes?.length > 0
+                    {postInformation.likes.length > 0
                       ? postInformation.likes[0]
                       : ''}
                   </b>{' '}
@@ -180,10 +178,10 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }) {
                   ''
                 ) : (
                   <div className="pl-1">
-                    {postInformation.likes?.length > 0 ? 'and' : ''}{' '}
+                    {postInformation.likes.length > 0 ? 'and' : ''}{' '}
                     <b>
-                      {postInformation.likes?.length} other
-                      {postInformation.likes?.length === 1 ? '' : 's'}
+                      {postInformation.likes.length} other
+                      {postInformation.likes.length === 1 ? '' : 's'}
                     </b>
                   </div>
                 )}

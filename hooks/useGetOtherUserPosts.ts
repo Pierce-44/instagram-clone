@@ -9,7 +9,7 @@ import {
   limit,
 } from 'firebase/firestore';
 import { useAtom } from 'jotai';
-import atoms from '../util/atoms';
+import atoms, { postType } from '../util/atoms';
 import app from '../util/firbaseConfig';
 
 function useGetOtherUserPosts({
@@ -17,17 +17,19 @@ function useGetOtherUserPosts({
   nameSearch,
   limitSearch,
 }: {
-  user: any;
-  nameSearch: any;
+  user: {
+    userExists: boolean;
+    otherUser: boolean;
+  };
+  nameSearch: string | string[] | undefined;
   limitSearch: boolean;
 }) {
   const db = getFirestore(app);
 
   const [userDetails] = useAtom(atoms.userDetails);
-  // const [userNotifications] = useAtom(atoms.userNotifications);
 
   const [, setPostListners] = React.useState<any[]>([]);
-  const [profilePosts, setProfilePosts] = React.useState<any[]>([]);
+  const [profilePosts, setProfilePosts] = React.useState<postType[]>([]);
 
   function getUserPosts() {
     const q = query(
@@ -36,7 +38,7 @@ function useGetOtherUserPosts({
       limitSearch ? limit(1) : limit(50)
     );
     const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
-      const postsArray: any[] = [];
+      const postsArray: postType[] = [];
       querySnapshot.forEach((document: any) => {
         postsArray.push(document.data());
       });

@@ -1,60 +1,90 @@
 import { User } from 'firebase/auth';
 import { atom } from 'jotai';
 
-type chatRoomMessagesTypes = {
+export interface chatRoomMessagesTypes {
   createdAt?: string;
   name?: string;
   text?: string;
-};
+}
 
-type userDetailTypes = {
+export interface userDetailTypes {
   displayName?: string;
   photoURL?: string;
-};
+}
 
-type notificationTypes = {
-  username?: string;
-  userId?: string;
-  postCount?: number;
-  followers?: [];
-  following?: string[];
+export interface notificationTypes {
   avatarURL?: string;
+  chatRoomIds?: string[];
+  followers?: string[];
+  following?: string[];
   likedPosts?: string[];
-};
+  messageCount?: number;
+  postCount?: number;
+  story?: string;
+  storyViews?: string[];
+  userId?: string;
+  username?: string;
+  usernameQuery?: string[];
+}
 
-type storyTypes = {
+interface storyTypes {
   [index: string]: string;
-};
+}
 
-type homePagePostTypes = {
-  [index: string]: {};
-};
+export interface postCommentTypes {
+  avatarURL: string;
+  createdAt: string;
+  text: string;
+  username: string;
+}
 
-type postImgHeightTypes = {
+export interface postType {
+  comments: postCommentTypes[];
+  createdAt: any;
+  imgURL: string;
+  likeCount: number;
+  likes: string[];
+  postID: string;
+}
+
+export interface userPostsInfoType {
+  createdAt: any;
+  postListArray: string[];
+}
+
+interface homePagePostTypes {
+  [index: string]: postType;
+}
+
+interface postImgHeightTypes {
+  [index: string]: number;
+}
+
+interface chatRoomInfoTypes {
   [index: string]: string;
-};
+}
+
+interface allChatRoomMessagesTypes {
+  [index: string]: chatRoomInfoTypes[];
+}
 
 const darkMode = atom(false);
 const userStatus = atom(false);
-const allChatRoomMessages = atom<chatRoomMessagesTypes>({});
+const allChatRoomMessages = atom<allChatRoomMessagesTypes>({});
 const userDetails = atom<userDetailTypes | User>({});
 const userNotifications = atom<notificationTypes>({});
 const listeners = atom<any[]>([]);
 const loggingIn = atom(true);
 const userPostsStatus = atom(false);
-const userPosts = atom([]);
+const userPosts = atom<postType[]>([]);
 const homePagePosts = atom<homePagePostTypes>({});
 const postImgHeight = atom<postImgHeightTypes>({});
 const stories = atom<storyTypes>({});
-const followingArray = atom<any[]>([]);
+const followingArray = atom<string[]>([]);
 const homePogePostsFetched = atom(false);
 const storiesArray = atom<string[]>([]);
 const usersListArray = atom<string[]>([]);
-const spotlightUsers = atom<any[]>([]);
-
-// const profilePosts = atom((get) => get(userPosts));
-// const profileDetails = atom((get) => get(userDetails));
-// const profileNotifications = atom((get) => get(userNotifications));
+const spotlightUsers = atom<notificationTypes[]>([]);
 
 const atoms = {
   darkMode,
@@ -66,9 +96,6 @@ const atoms = {
   loggingIn,
   userPostsStatus,
   userPosts,
-  // profilePosts,
-  // profileDetails,
-  // profileNotifications,
   homePagePosts,
   postImgHeight,
   stories,

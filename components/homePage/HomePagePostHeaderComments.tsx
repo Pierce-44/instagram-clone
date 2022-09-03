@@ -1,19 +1,24 @@
 import Link from 'next/link';
+import { postType } from '../../util/atoms';
 
-function HomePagePostHeaderComments({ postDetails }: { postDetails: any }) {
+function HomePagePostHeaderComments({
+  postDetails,
+}: {
+  postDetails: postType;
+}) {
   return (
     <div>
-      {postDetails.comments[0]?.text === '' ? (
+      {postDetails.comments[0].text === '' ? (
         ''
       ) : (
         <div className="pt-2 text-sm">
           <p>
             <b>
-              <Link href={postDetails.comments[0]?.username}>
-                {postDetails.comments[0]?.username}
+              <Link href={postDetails.comments[0].username}>
+                {postDetails.comments[0].username}
               </Link>
             </b>{' '}
-            {postDetails.comments[0]?.text}
+            {postDetails.comments[0].text}
           </p>
         </div>
       )}
@@ -21,26 +26,26 @@ function HomePagePostHeaderComments({ postDetails }: { postDetails: any }) {
         <div className="pt-2 text-sm">
           <p>
             <b>
-              <Link href={postDetails.comments[1]?.username}>
-                {postDetails.comments[1]?.username}
+              <Link href={postDetails.comments[1].username}>
+                {postDetails.comments[1].username}
               </Link>
             </b>{' '}
-            {postDetails.comments[1]?.text}
+            {postDetails.comments[1].text}
           </p>
         </div>
       ) : (
         ''
       )}
       {postDetails.comments.length > 2 &&
-      postDetails.comments[0]?.text === '' ? (
+      postDetails.comments[0].text === '' ? (
         <div className="pt-2 text-sm">
           <p>
             <b>
-              <Link href={postDetails.comments[2]?.username}>
-                {postDetails.comments[2]?.username}
+              <Link href={postDetails.comments[2].username}>
+                {postDetails.comments[2].username}
               </Link>
             </b>{' '}
-            {postDetails.comments[2]?.text}
+            {postDetails.comments[2].text}
           </p>
         </div>
       ) : (

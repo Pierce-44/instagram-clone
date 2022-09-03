@@ -8,17 +8,8 @@ import {
   getFirestore,
 } from 'firebase/firestore';
 import { useAtom } from 'jotai';
-import atoms from '../util/atoms';
+import atoms, { notificationTypes } from '../util/atoms';
 import app from '../util/firbaseConfig';
-
-type notificationTypes = {
-  username?: string;
-  userId?: string;
-  postCount?: number;
-  followers?: [];
-  following?: string[];
-  avatarURL?: string;
-};
 
 function useCheckUserName({
   nameSearch,
@@ -32,9 +23,9 @@ function useCheckUserName({
 
   const [otherUserNotifications, setProfileNotifications] =
     React.useState<notificationTypes>({});
-  const [queryNotificationsArray, setQueryNotificationsArray] = React.useState(
-    []
-  );
+  const [queryNotificationsArray, setQueryNotificationsArray] = React.useState<
+    notificationTypes[]
+  >([]);
   const [userExists, setUserExists] = React.useState(false);
   const [checkingUser, setCheckingUser] = React.useState(true);
   const [otherUser, setOtherUser] = React.useState(false);
@@ -62,7 +53,7 @@ function useCheckUserName({
 
   async function queryNameCharacter() {
     const Ref = collection(db, 'users');
-    const queryArray: any = [];
+    const queryArray: notificationTypes[] = [];
 
     // Create a query against the collection.
     const q = query(Ref, where('usernameQuery', 'array-contains', nameSearch));

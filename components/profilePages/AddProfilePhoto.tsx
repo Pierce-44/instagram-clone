@@ -5,7 +5,11 @@ import handleUpdateProfilePhoto from '../../util/handleUpdateProfilePhoto';
 import handleRemoveProfilePhoto from '../../util/handleRemoveProfilePhoto';
 import atoms from '../../util/atoms';
 
-function AddProfilePhoto({ setAddPhoto }: { setAddPhoto: any }) {
+function AddProfilePhoto({
+  setAddPhoto,
+}: {
+  setAddPhoto: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [loading, setLoading] = React.useState(false);
   const [userDetails] = useAtom(atoms.userDetails);
   const [userNotifications] = useAtom(atoms.userNotifications);
@@ -48,9 +52,11 @@ function AddProfilePhoto({ setAddPhoto }: { setAddPhoto: any }) {
                 handleUploadImage({
                   e,
                   location: 'profilePhotos',
-                  username: userDetails.displayName,
+                  username: userDetails.displayName!,
                   maxWidthOrHeight: 400,
-                  chatRoomIDs: userNotifications.chatRoomIds,
+                  chatRoomIDs: userNotifications.chatRoomIds!,
+                  setLoading,
+                  setAddPhoto,
                   handleImgURLFunction: handleUpdateProfilePhoto,
                 })
               }
@@ -62,8 +68,10 @@ function AddProfilePhoto({ setAddPhoto }: { setAddPhoto: any }) {
           type="button"
           onClick={() =>
             handleRemoveProfilePhoto({
-              username: userDetails.displayName,
-              chatRoomIds: userNotifications.chatRoomIds,
+              username: userDetails.displayName!,
+              chatRoomIds: userNotifications.chatRoomIds!,
+              setLoading,
+              setAddPhoto,
             })
           }
         >

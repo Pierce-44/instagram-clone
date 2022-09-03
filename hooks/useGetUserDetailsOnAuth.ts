@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Router from 'next/router';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import {
   getFirestore,
   doc,
@@ -13,7 +13,12 @@ import {
 import { useAtom } from 'jotai';
 import React from 'react';
 import app from '../util/firbaseConfig';
-import atoms from '../util/atoms';
+import atoms, {
+  notificationTypes,
+  chatRoomMessagesTypes,
+  postType,
+  userPostsInfoType,
+} from '../util/atoms';
 
 function useGetUserDetailsOnAuth() {
   const db = getFirestore(app);
@@ -33,15 +38,15 @@ function useGetUserDetailsOnAuth() {
   const [homePageListners, setHomePageListners] = React.useState<any[]>([]);
   const [storiesListners, setStoriesListners] = React.useState<any[]>([]);
 
-  function getChatRoomMessages(notifications: any) {
-    notifications?.chatRoomIds?.forEach((chatRoomID: any) => {
+  function getChatRoomMessages(notifications: notificationTypes) {
+    notifications.chatRoomIds?.forEach((chatRoomID: string) => {
       const q = query(
         collection(db, chatRoomID),
         orderBy('createdAt', 'desc'),
         limit(50)
       );
       const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
-        const messages: any = [];
+        const messages: chatRoomMessagesTypes[] = [];
         querySnapshot.forEach((document: any) => {
           messages.push(document.data());
         });
@@ -54,17 +59,17 @@ function useGetUserDetailsOnAuth() {
     });
   }
 
-  async function getHomePagePosts(notifications: any) {
+  function getHomePagePosts(notifications: notificationTypes) {
     homePageListners.forEach((unsubscribe: any) => unsubscribe());
 
-    await notifications?.following?.forEach((username: string) => {
+    notifications.following?.forEach((username: string) => {
       const q = query(
         collection(db, `${username}Posts`),
         orderBy('createdAt', 'desc'),
         limit(1)
       );
 
-      const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((document: any) => {
           setHomePagePosts((prevState) => ({
             ...prevState,
@@ -77,10 +82,10 @@ function useGetUserDetailsOnAuth() {
     setHomePogePostsFetched(true);
   }
 
-  async function getFollowingStories(notifications: any) {
+  function getFollowingStories(notifications: notificationTypes) {
     storiesListners.forEach((unsubscribe: any) => unsubscribe());
 
-    notifications?.following?.forEach((username: string) => {
+    notifications.following?.forEach((username: string) => {
       const unsub = onSnapshot(doc(db, 'users', username), (docs) => {
         if (docs.data()!.story !== '') {
           setStories((prevState) => ({
@@ -95,9 +100,9 @@ function useGetUserDetailsOnAuth() {
     });
   }
 
-  function userLiveUpdates(user: any) {
+  function userLiveUpdates(user: User) {
     const unsubscribe = onSnapshot(
-      doc(db, 'users', user.displayName),
+      doc(db, 'users', user.displayName!),
       (document: any) => {
         setUserNotifications(document.data());
         getChatRoomMessages(document.data());
@@ -108,13 +113,13 @@ function useGetUserDetailsOnAuth() {
     setListeners((current) => [...current, unsubscribe]);
   }
 
-  function getUserPosts(user: any) {
+  function getUserPosts(user: User) {
     const q = query(
       collection(db, `${user.displayName}Posts`),
       orderBy('createdAt', 'desc')
     );
     const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
-      const postsArray: any = [];
+      const postsArray: postType[] | userPostsInfoType[] = [];
       querySnapshot.forEach((document: any) => {
         postsArray.push(document.data());
       });
@@ -126,7 +131,7 @@ function useGetUserDetailsOnAuth() {
   function getAllUsersList() {
     const q = query(collection(db, 'userList'), limit(1000));
     const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
-      const usersArray: any = [];
+      const usersArray: string[] = [];
       querySnapshot.forEach((document: any) => {
         usersArray.push(document.id);
       });

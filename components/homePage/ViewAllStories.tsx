@@ -56,7 +56,7 @@ function ViewAllStories({
           transform: `translate(calc(${positionIndex} * -13vw))`,
         }}
       >
-        {storiesArray.map((userName: string, index: number) => (
+        {storiesArray.map((userName, index) => (
           <div key={userName}>
             <div className="group relative flex">
               {storyUsername === userName ? (
