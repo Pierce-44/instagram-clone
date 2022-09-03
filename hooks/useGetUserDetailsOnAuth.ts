@@ -17,7 +17,6 @@ import atoms, {
   notificationTypes,
   chatRoomMessagesTypes,
   postType,
-  userPostsInfoType,
 } from '../util/atoms';
 
 function useGetUserDetailsOnAuth() {
@@ -119,7 +118,7 @@ function useGetUserDetailsOnAuth() {
       orderBy('createdAt', 'desc')
     );
     const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
-      const postsArray: postType[] | userPostsInfoType[] = [];
+      const postsArray: postType[] = [];
       querySnapshot.forEach((document: any) => {
         postsArray.push(document.data());
       });

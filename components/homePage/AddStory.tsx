@@ -14,6 +14,8 @@ function AddStory() {
   const [loading, setLoading] = React.useState(false);
   const [addPhoto, setAddPhoto] = React.useState(false);
 
+  console.log({ loading, addPhoto });
+
   const widthRef = React.useRef<HTMLDivElement>(null);
   const checkLength = useCheckNameLength({ widthRef });
 

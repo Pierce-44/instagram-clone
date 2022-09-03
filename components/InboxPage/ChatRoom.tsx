@@ -7,7 +7,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { useAtom } from 'jotai';
 import EmojiSelector from '../EmojiSelector';
 import ProfilePicSVG from '../svgComps/ProfilePicSVG';
-import atoms, { chatRoomMessagesTypes } from '../../util/atoms';
+import atoms from '../../util/atoms';
 import useHandleEmojiPopUp from '../../hooks/useHandleEmojiPopUp';
 import sendChatRoomMessage from '../../util/handleSendChatRoomMessage';
 
@@ -25,9 +25,7 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
   const [inputText, setInputText] = React.useState('');
   const [displayEmojiSelector, setDisplayEmojiSelector] = React.useState(false);
 
-  const messages: chatRoomMessagesTypes[] = allChatRoomMessages[
-    chatRoomID
-  ]?.slice(0, -1);
+  const messages = allChatRoomMessages[chatRoomID]?.slice(0, -1);
   const chatName =
     allChatRoomMessages[chatRoomID]?.slice(-1)[0][`${userID}ChatName`];
   const avatarURL =

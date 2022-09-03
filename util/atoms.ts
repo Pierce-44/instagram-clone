@@ -5,6 +5,8 @@ export interface chatRoomMessagesTypes {
   createdAt?: string;
   name?: string;
   text?: string;
+  [ChatName: `${string}ChatName`]: string;
+  [Avatar: `${string}Avatar`]: string;
 }
 
 export interface userDetailTypes {
@@ -60,12 +62,8 @@ interface postImgHeightTypes {
   [index: string]: number;
 }
 
-interface chatRoomInfoTypes {
-  [index: string]: string;
-}
-
 interface allChatRoomMessagesTypes {
-  [index: string]: chatRoomInfoTypes[];
+  [index: string]: chatRoomMessagesTypes[];
 }
 
 const darkMode = atom(false);
