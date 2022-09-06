@@ -28,11 +28,11 @@ function StoryBoard() {
         ))}
       </div>
       {storiesLoading ? (
-        <div className="flex w-full justify-between pr-2">
+        <div className="flex w-full justify-between gap-2">
           {circles.map((index) => (
             <div
               key={index}
-              className="h-16 w-16 animate-pulse rounded-full bg-[#ebebeb] dark:bg-[#313131]"
+              className="h-16 w-16 min-w-[64px] animate-pulse rounded-full bg-[#ebebeb] dark:bg-[#313131]"
             />
           ))}
         </div>

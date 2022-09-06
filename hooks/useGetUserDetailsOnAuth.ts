@@ -22,6 +22,7 @@ import atoms, {
 function useGetUserDetailsOnAuth() {
   const db = getFirestore(app);
   const auth = getAuth();
+
   const [loggingIn] = useAtom(atoms.loggingIn);
   const [, setListeners] = useAtom(atoms.listeners);
   const [, setUserStatus] = useAtom(atoms.userStatus);
