@@ -1,14 +1,18 @@
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import atoms from '../../util/atoms';
+import LoadingSuggestions from '../loadingComps/LoadingSuggestions';
 import ProfilePicSVG from '../svgComps/ProfilePicSVG';
 
 function UserSuggestions() {
   const [userDetails] = useAtom(atoms.userDetails);
   const [spotlightUsers] = useAtom(atoms.spotlightUsers);
+  const [suggestionsLoading, setSuggestionsLoading] = useAtom(
+    atoms.suggestionsLoading
+  );
 
   return (
-    <div className="mt-6 max-w-[320px] flex-grow">
+    <div className="mt-6 hidden max-w-[320px] flex-grow lg:block">
       <div className="mt-5 flex items-center justify-between">
         <div className="flex items-center">
           <Link href={`/${userDetails.displayName}`}>
@@ -45,7 +49,10 @@ function UserSuggestions() {
             </p>
           </Link>
         </div>
-        <div>
+        <div
+          className={`${suggestionsLoading ? 'h-0 overflow-hidden' : ''}`}
+          onLoad={() => setSuggestionsLoading(false)}
+        >
           {spotlightUsers.map((spotlightUserDetails) => (
             <div
               key={`${spotlightUserDetails.userId}Spotlight`}
@@ -83,6 +90,7 @@ function UserSuggestions() {
             </div>
           ))}
         </div>
+        {suggestionsLoading ? <LoadingSuggestions /> : ''}
       </div>
     </div>
   );

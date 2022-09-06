@@ -37,13 +37,13 @@ function Header({ page }: { page: string }) {
   return (
     <div className="sticky top-0 z-50 border-b border-stone-300 bg-white dark:border-stone-700 dark:bg-[#1c1c1c] dark:text-slate-100">
       <div className=" flex h-[60px] items-center justify-between px-[5px] sm:px-[20px] lg:justify-center ">
-        <div className="flex h-[60px] w-[330px] min-w-[103px] items-center ">
+        <div className="flex h-[60px] w-[330px] items-center ">
           <Link href="/">
             <picture>
               <img
+                className="cursor-pointer select-none"
                 src={darkMode ? '/instagramWhite.png' : '/instagramBlack.png'}
                 alt="Instagram"
-                className="cursor-pointer select-none"
               />
             </picture>
           </Link>

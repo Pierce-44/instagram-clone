@@ -38,7 +38,7 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
       <div
         className={`${
           activeChat === activeChatId ? 'flex' : 'hidden'
-        } absolute top-0 left-[350px] h-[60px] cursor-default items-center gap-4 border-l border-stone-300 pl-10 dark:border-stone-700`}
+        } absolute left-[120px] top-0 h-[60px] cursor-default items-center gap-2 border-l border-stone-300 pl-2 dark:border-stone-700 md:left-[350px] md:gap-4 md:pl-10`}
       >
         {avatarURL === '' ? (
           <ProfilePicSVG height="28" width="28" strokeWidth="1.5" />
@@ -62,34 +62,28 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
           activeChat === activeChatId
             ? 'bg-[#efefef] dark:bg-[#070707]'
             : 'hover:bg-[#f8f8f8] dark:hover:bg-[#131313]'
-        } flex w-[350px] items-center px-5 py-2`}
+        } md: flex w-full items-center px-1 py-2 md:px-5`}
       >
-        <div className="mr-2 flex h-14 w-14 items-center justify-center">
-          <div
-            className={`${avatarURL ? 'hidden' : ''} h-14 w-14 rounded-full `}
-          >
-            <ProfilePicSVG height="56" width="56" strokeWidth="1" />
-          </div>
-          <picture>
-            <img
-              className={`${
-                avatarURL ? '' : 'hidden'
-              } h-14 w-14 select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131]`}
-              src={avatarURL}
-              alt="avatar"
-            />
-          </picture>
+        <div className="mr-2 flex  items-center justify-center md:h-14 md:w-14">
+          {avatarURL === '' ? (
+            <div className="h-6 w-6 rounded-full md:h-14 md:w-14">
+              <ProfilePicSVG height="56" width="56" strokeWidth="1" />
+            </div>
+          ) : (
+            <picture>
+              <img
+                className="h-6 w-6 select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131] md:h-14 md:w-14"
+                src={avatarURL}
+                alt="avatar"
+              />
+            </picture>
+          )}
         </div>
-        <div
-          className={`${
-            chatName ? 'hidden' : ''
-          } h-5 w-[50%] rounded-md bg-[#efefef] dark:bg-[#070707]`}
-        />
-        <h1>{chatName}</h1>
+        <h1 className="text-xs md:text-base">{chatName}</h1>
       </div>
       {activeChat === activeChatId ? (
-        <div className="absolute bottom-0 top-[59px] left-[350px] flex w-[calc(100%-350px)] cursor-default flex-col justify-end  border-l border-t border-stone-300 dark:border-stone-700">
-          <div className="flex cursor-default flex-col-reverse gap-5 overflow-y-auto p-5 px-5 py-2 dark:[color-scheme:dark]">
+        <div className="absolute bottom-0 top-[59px] left-[120px] flex w-[calc(100%-120px)] cursor-default flex-col justify-end border-l border-t  border-stone-300 dark:border-stone-700 md:left-[350px] md:w-[calc(100%-350px)]">
+          <div className="flex cursor-default flex-col-reverse gap-5 overflow-y-auto px-1 py-2 dark:[color-scheme:dark] md:px-5">
             {messages.map((message, index) => (
               <div
                 key={`key${index}`}
@@ -107,16 +101,16 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
                     message.name === userID
                       ? 'bg-[#efefef] dark:bg-[#070707]'
                       : 'border border-stone-200 dark:border-stone-700'
-                  } max-w-[50%] rounded-[30px] p-4 text-sm`}
+                  } max-w-[80%] rounded-[30px] p-2 text-xs  md:max-w-[50%] md:p-4 md:text-sm`}
                 >
                   {message.text}
                 </p>
               </div>
             ))}
           </div>
-          <div className="relative mx-5 mt-3 mb-5 flex justify-between rounded-full border border-stone-200 dark:border-stone-700 dark:bg-[#131313]">
+          <div className="relative mx-1 mt-3 mb-5 flex justify-between rounded-full border border-stone-200 dark:border-stone-700 dark:bg-[#131313] md:mx-5">
             <button
-              className="px-5"
+              className="px-2 md:px-5"
               type="button"
               onClick={() => setDisplayEmojiSelector(!displayEmojiSelector)}
             >
@@ -125,6 +119,7 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
                   id="emoji"
                   aria-label="Emoji"
                   fill={darkMode ? '#a9a9a9' : '#262626'}
+                  className="h-4 w-4 md:h-6 md:w-6"
                   height="24"
                   role="img"
                   viewBox="0 0 24 24"
@@ -160,7 +155,7 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
                 inputText === ''
                   ? 'pointer-events-none text-[#9dd8ff]'
                   : 'text-[#0095F6]'
-              } pr-4 pl-2 text-sm font-semibold `}
+              } pr-2 text-xs font-semibold md:pl-2 md:pr-4 md:text-sm `}
               type="button"
               onClick={(e: any) =>
                 sendChatRoomMessage({
@@ -201,7 +196,7 @@ function ChatIcon({
   chatName: string;
 }) {
   return (
-    <div className="mt-auto mr-2 h-7 w-7">
+    <div className="mt-auto h-7 w-7 md:mr-2">
       {photoURL === '' ? (
         <ProfilePicSVG height="24" width="24" strokeWidth="1.3" />
       ) : (

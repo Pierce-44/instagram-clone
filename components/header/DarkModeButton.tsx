@@ -21,7 +21,7 @@ function DarkModeButton() {
 
   return (
     <button
-      className="relative flex cursor-pointer items-center gap-2 rounded-xl  bg-[#0095f6] py-[2px] px-1 dark:bg-[#000000]"
+      className="relative flex w-[50px] cursor-pointer items-center gap-2 rounded-xl  bg-[#0095f6] py-[2px] px-1 dark:bg-[#000000]"
       onClick={() => handleDarkMode()}
       type="button"
     >

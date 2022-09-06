@@ -58,10 +58,6 @@ interface homePagePostTypes {
   [index: string]: postType;
 }
 
-interface postImgHeightTypes {
-  [index: string]: number;
-}
-
 interface allChatRoomMessagesTypes {
   [index: string]: chatRoomMessagesTypes[];
 }
@@ -76,13 +72,15 @@ const loggingIn = atom(true);
 const userPostsStatus = atom(false);
 const userPosts = atom<postType[]>([]);
 const homePagePosts = atom<homePagePostTypes>({});
-const postImgHeight = atom<postImgHeightTypes>({});
 const stories = atom<storyTypes>({});
 const followingArray = atom<string[]>([]);
-const homePogePostsFetched = atom(false);
 const storiesArray = atom<string[]>([]);
 const usersListArray = atom<string[]>([]);
 const spotlightUsers = atom<notificationTypes[]>([]);
+const storiesLoading = atom(true);
+const postsLoading = atom(true);
+const suggestionsLoading = atom(true);
+const chatRoomLoading = atom(true);
 
 const atoms = {
   darkMode,
@@ -95,13 +93,15 @@ const atoms = {
   userPostsStatus,
   userPosts,
   homePagePosts,
-  postImgHeight,
   stories,
   followingArray,
-  homePogePostsFetched,
   storiesArray,
   usersListArray,
   spotlightUsers,
+  storiesLoading,
+  postsLoading,
+  suggestionsLoading,
+  chatRoomLoading,
 };
 
 export default atoms;

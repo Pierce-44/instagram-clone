@@ -7,6 +7,7 @@ function NewMessageSVG() {
     <svg
       aria-label="New message"
       color={darkMode ? '#f1f5f9' : '#262626'}
+      className="h-5 w-5 pr-1 md:h-6 md:w-6 md:pr-0"
       fill="#262626"
       height="24"
       role="img"

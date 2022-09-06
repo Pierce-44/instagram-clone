@@ -5,6 +5,7 @@ import CloseBtnSVG from '../svgComps/CloseBtnSVG';
 import ArrowSVG from '../svgComps/ArrowSVG';
 import atoms from '../../util/atoms';
 import ProgressBar from './ProgressBar';
+import useWindowSize from '../../hooks/useWindowSize';
 
 function ViewAllStories({
   username,
@@ -21,6 +22,8 @@ function ViewAllStories({
   const [positionIndex, setPositionIndex] = React.useState(
     storiesArray.indexOf(username)
   );
+
+  const width = useWindowSize();
 
   return (
     <div className="fixed top-0 left-0 z-[100] h-screen w-full overflow-hidden overflow-y-scroll bg-[#1a1a1a]">
@@ -51,9 +54,9 @@ function ViewAllStories({
         <CloseBtnSVG lightColor="white" darkColor="white" heightWidth="24" />
       </button>
       <div
-        className="flex h-full w-max cursor-default  items-center gap-[3vw] pl-[36vw] transition-all duration-500"
+        className="flex h-full w-max cursor-default  items-center gap-[3vw] pl-[20vw] transition-all duration-500 lg:pl-[36vw]"
         style={{
-          transform: `translate(calc(${positionIndex} * -13vw))`,
+          transform: `translate(calc(${positionIndex} * ${width}vw))`,
         }}
       >
         {storiesArray.map((userName, index) => (
@@ -63,7 +66,7 @@ function ViewAllStories({
                 <button
                   className={
                     positionIndex !== 0
-                      ? 'absolute top-[50%] left-[-3vw]'
+                      ? 'absolute top-[50%] left-[-3vw] z-10'
                       : 'hidden'
                   }
                   type="button"
@@ -72,7 +75,7 @@ function ViewAllStories({
                     setStoryUsername(storiesArray[positionIndex - 1]);
                   }}
                 >
-                  <div className="flex h-6 w-6 rotate-180 items-center justify-center rounded-full bg-[#8080805d] hover:bg-[#ebebebc2] group-hover:bg-[#ebebebc2]">
+                  <div className="flex h-6 w-6 rotate-180 items-center justify-center rounded-full bg-[#ebebebc2] hover:bg-[#ebebebc2] group-hover:bg-[#ebebebc2] lg:bg-[#8080805d]">
                     <ArrowSVG white={false} />
                   </div>
                 </button>
@@ -108,7 +111,7 @@ function ViewAllStories({
                   <div className="group absolute top-0 flex h-full w-full flex-col items-center justify-center gap-3 bg-[#00000094]">
                     <button
                       type="button"
-                      className="relative h-[4vw] w-[4vw]"
+                      className="relative h-[16vw] w-[16vw] sm:h-[4vw] sm:w-[4vw]"
                       onClick={() => {
                         setPositionIndex(index);
                         setStoryUsername(storiesArray[index]);
@@ -116,7 +119,7 @@ function ViewAllStories({
                     >
                       <picture>
                         <img
-                          className="absolute top-1/2 left-1/2 z-[1000] h-[4vw] w-[4vw] -translate-x-1/2 -translate-y-1/2 transform  select-none  rounded-full bg-[#3f3f3f] object-cover "
+                          className="absolute top-1/2 left-1/2 z-[1000] h-[16vw] w-[16vw] -translate-x-1/2 -translate-y-1/2 transform select-none rounded-full  bg-[#3f3f3f]  object-cover sm:h-[4vw] sm:w-[4vw] "
                           src={stories[`${userName}Photo`]}
                           alt="avatar"
                         />
@@ -128,10 +131,10 @@ function ViewAllStories({
                           )
                             ? 'bg-[#999999]'
                             : 'bg-gradient-to-tr from-[#ffee00] to-[#d300c8]'
-                        } absolute top-1/2 left-1/2 z-[999] h-[4.3vw] w-[4.3vw] -translate-x-1/2 -translate-y-1/2 transform rounded-full`}
+                        } absolute top-1/2 left-1/2 z-[999] h-[17vw] w-[17vw] -translate-x-1/2 -translate-y-1/2 transform rounded-full sm:h-[4.3vw] sm:w-[4.3vw]`}
                       />
                     </button>
-                    <p className="mb-5 text-center text-sm font-semibold text-white group-hover:animate-bounce">
+                    <p className="mb-5 hidden text-center text-sm font-semibold text-white group-hover:animate-bounce sm:block">
                       {userName}
                     </p>
                   </div>
@@ -140,8 +143,8 @@ function ViewAllStories({
                   <img
                     className={`${
                       storyUsername === userName
-                        ? 'h-[95vh] w-[27vw]'
-                        : 'h-[40vh] w-[10vw] bg-[#202020]'
+                        ? 'h-[80vh] w-[60vw] lg:h-[95vh] lg:w-[27vw]'
+                        : 'h-[40vh] w-[20vw] bg-[#202020] lg:w-[10vw]'
                     } select-none bg-[#3f3f3f] object-cover transition-all duration-500`}
                     src={stories[userName]}
                     alt="story"
@@ -168,7 +171,7 @@ function ViewAllStories({
                     setStoryUsername(storiesArray[positionIndex + 1]);
                   }}
                 >
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#8080805d] hover:bg-[#ebebebc2] group-hover:bg-[#ebebebc2]">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#ebebebc2] hover:bg-[#ebebebc2] group-hover:bg-[#ebebebc2] lg:bg-[#8080805d]">
                     <ArrowSVG white={false} />
                   </div>
                 </button>

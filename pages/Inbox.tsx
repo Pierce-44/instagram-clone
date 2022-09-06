@@ -11,11 +11,14 @@ import LoadingPage from '../components/loadingComps/LoadingPage';
 import NewMessageSVG from '../components/svgComps/NewMessageSVG';
 import Header from '../components/header/Header';
 import atoms from '../util/atoms';
+import LoadingChatRooms from '../components/loadingComps/LoadingChatRooms';
 
 const Inbox: NextPage = () => {
   const [userStatus] = useAtom(atoms.userStatus);
   const [userDetails] = useAtom(atoms.userDetails);
   const [userNotifications] = useAtom(atoms.userNotifications);
+  const [chatRoomLoading, setChatRoomLoading] = useAtom(atoms.chatRoomLoading);
+
   const [activeChat, setActiveChat] = React.useState('');
   const [createChatRoom, setCreateChatRoom] = React.useState(false);
 
@@ -37,7 +40,7 @@ const Inbox: NextPage = () => {
         <div />
       )}
       <div className="relative mx-auto mt-4 h-[calc(100%-90px)] max-w-[935px] border border-stone-300 bg-white dark:border-stone-700 dark:bg-[#1c1c1c]">
-        <div className="flex h-[60px] w-[350px] items-center border-b border-stone-300 px-5 dark:border-stone-700">
+        <div className="flex h-[60px] w-[120px] items-center border-b border-stone-300 dark:border-stone-700 md:w-[350px] md:px-5">
           <h1 className="mx-auto">{userDetails.displayName}</h1>
           <button
             onClick={() => setCreateChatRoom(!createChatRoom)}
@@ -51,10 +54,12 @@ const Inbox: NextPage = () => {
         ) : (
           <div />
         )}
-
-        <div className="h-[calc(100%-60px)] w-[350px] overflow-y-auto overflow-x-hidden dark:[color-scheme:dark]">
-          {userNotifications.chatRoomIds ? (
-            userNotifications.chatRoomIds.map((chatRoomId, index) => (
+        <div className="h-[calc(100%-60px)] w-[120px] overflow-y-auto overflow-x-hidden dark:[color-scheme:dark] md:w-[350px]">
+          <div
+            className={chatRoomLoading ? 'h-0 overflow-hidden' : ''}
+            onLoad={() => setChatRoomLoading(false)}
+          >
+            {userNotifications.chatRoomIds?.map((chatRoomId, index) => (
               <div
                 key={`chatRoomKey${index}`}
                 onClick={() => setActiveChat(`chatRoom${index}`)}
@@ -68,18 +73,9 @@ const Inbox: NextPage = () => {
                   activeChatId={`chatRoom${index}`}
                 />
               </div>
-            ))
-          ) : (
-            <div className="flex h-[calc(100%-60px)] w-[350px] items-center justify-center">
-              <picture>
-                <img
-                  className="h-12 w-12"
-                  src="/instagramLoading.png"
-                  alt="loading"
-                />
-              </picture>
-            </div>
-          )}
+            ))}
+          </div>
+          {chatRoomLoading ? <LoadingChatRooms /> : ''}
         </div>
       </div>
     </div>

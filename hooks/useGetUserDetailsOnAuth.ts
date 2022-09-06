@@ -31,7 +31,6 @@ function useGetUserDetailsOnAuth() {
   const [, setUserPosts] = useAtom(atoms.userPosts);
   const [, setHomePagePosts] = useAtom(atoms.homePagePosts);
   const [, setStories] = useAtom(atoms.stories);
-  const [, setHomePogePostsFetched] = useAtom(atoms.homePogePostsFetched);
   const [, setUsersListArray] = useAtom(atoms.usersListArray);
 
   const [homePageListners, setHomePageListners] = React.useState<any[]>([]);
@@ -78,7 +77,6 @@ function useGetUserDetailsOnAuth() {
       });
       setHomePageListners((current) => [...current, unsubscribe]);
     });
-    setHomePogePostsFetched(true);
   }
 
   function getFollowingStories(notifications: notificationTypes) {

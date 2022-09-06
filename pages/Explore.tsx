@@ -37,7 +37,7 @@ const Explore: NextPage = () => {
         <link rel="icon" href="/instagram.png" />
       </Head>
       <Header page="" />
-      <div className="mx-auto my-16 w-[600px] bg-white dark:bg-[#1c1c1c]">
+      <div className="mx-auto my-16 w-full max-w-[600px] bg-white dark:bg-[#1c1c1c]">
         <p className="bg-[#fafafa] pb-2 pl-5 font-semibold dark:bg-[#131313]">
           Explore Users
         </p>
@@ -66,12 +66,17 @@ const Explore: NextPage = () => {
                     {userDocs.username}
                   </p>
                 </Link>
-                <p className="text-xs text-[#818181]">
+                <p className="hidden text-xs text-[#818181] sm:block">
                   Followed by {userDocs.followers!.length}{' '}
                   {userDocs.followers!.length === 1 ? 'user' : 'users'}{' '}
                   {userDocs.followers!.includes(userDetails.displayName!)
                     ? 'including you'
                     : ''}
+                </p>
+                <p>
+                  <p className="text-xs text-[#818181] sm:hidden">
+                    Followed by {userDocs.followers!.length}
+                  </p>
                 </p>
               </div>
             </div>

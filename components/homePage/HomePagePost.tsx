@@ -4,7 +4,6 @@ import { useAtom } from 'jotai';
 import Link from 'next/link';
 import PostPopUp from '../PostPopUp';
 import HeartHollow from '../svgComps/HeartHollow';
-import SpinnerSVG from '../svgComps/SpinnerSVG';
 import HeartSVG from '../svgComps/HeartSVG';
 import handleLikePost from '../../util/handleLikePost';
 import CommentSVG from '../svgComps/CommentSVG';
@@ -21,9 +20,7 @@ const HomePagePost = ({ username }: Props) => {
   const [userDetails] = useAtom(atoms.userDetails);
   const [homePagePosts] = useAtom(atoms.homePagePosts);
   const [userNotifications] = useAtom(atoms.userNotifications);
-  const [postImgHeight, setPostImgHeight] = useAtom(atoms.postImgHeight);
 
-  const [loading, setLoading] = React.useState(true);
   const [postPopUp, setPostPopUp] = React.useState(false);
 
   const postDetails = homePagePosts[username];
@@ -62,12 +59,6 @@ const HomePagePost = ({ username }: Props) => {
           </Link>
         </div>
         <div
-          // if the image dimensions are unkown set the div height to 300px
-          className={`${
-            postImgHeight[username]
-              ? `h-[${postImgHeight[username]}px]  items-center justify-center overflow-hidden`
-              : 'relative h-[300px]'
-          } flex min-h-[150px] w-full bg-[#ebebeb] dark:bg-[#313131]`}
           role="button"
           tabIndex={0}
           onClick={() => {
@@ -75,33 +66,13 @@ const HomePagePost = ({ username }: Props) => {
             document.body.style.overflow = 'hidden';
           }}
         >
-          <picture className="w-full">
+          <picture>
             <img
-              className={
-                loading && !postImgHeight[username]
-                  ? 'h-auto  w-full opacity-0'
-                  : 'h-auto  w-full select-none'
-              }
+              className="h-auto min-h-[150px] w-full select-none bg-[#ebebeb] dark:bg-[#313131]"
               src={postDetails.imgURL}
               alt="post"
-              // on image load store the images height so that it can be used in the future. I want to reduce different div height flickers when the page re renders (before the first render the image height is unknown).
-              onLoad={(e: any) => {
-                setPostImgHeight((prevState: any) => ({
-                  ...prevState,
-                  [username]: e.target.offsetHeight,
-                }));
-                setLoading(false);
-              }}
             />
           </picture>
-          {loading && !postImgHeight[username] ? (
-            // show the spinner only before the image dimensions are known
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
-              <SpinnerSVG />
-            </div>
-          ) : (
-            ''
-          )}
         </div>
         <div>
           <div className="border-t border-stone-200 px-5 py-4 dark:border-stone-700">

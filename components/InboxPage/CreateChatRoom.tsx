@@ -15,14 +15,15 @@ interface Props {
 
 function CreateChatRoom({ setCreateChatRoom }: Props) {
   const [userNotifications] = useAtom(atoms.userNotifications);
+
   const [search, setSearch] = React.useState('');
   const [error, setError] = React.useState('');
   const [searchedUser, setSearchedUser] = React.useState(false);
+  const [ticked, setTicked] = React.useState(false);
+  const [imgLoadStatus, setImgLoadStatus] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [searchedUserData, setSearchedUserData] =
     React.useState<notificationTypes>({});
-  const [ticked, setTicked] = React.useState(false);
-  const [imgLoadStatus, setImgLoadStatus] = React.useState<boolean>(false);
-  const [loading, setLoading] = React.useState(false);
 
   return (
     <div className="fixed top-0 left-0 z-50 flex h-[100vh] w-full items-center justify-center bg-[#0000008f] dark:bg-[#000000d7]">

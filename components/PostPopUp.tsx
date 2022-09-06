@@ -32,20 +32,22 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
           document.body.style.overflow = 'initial';
         }}
       >
-        <CloseBtnSVG lightColor="white" darkColor="white" heightWidth="18" />
+        <div className="rounded-full bg-[#2525257e] p-1 sm:bg-transparent">
+          <CloseBtnSVG lightColor="white" darkColor="white" heightWidth="18" />
+        </div>
       </div>
-      <div className="mx-20 flex h-[520px] overflow-hidden rounded-md dark:border dark:border-stone-700">
-        <div className="flex items-center bg-black">
-          <picture>
+      <div className="mx-2 flex h-full max-h-[calc(100vh-40px)] w-full max-w-[1000px] flex-col items-center justify-center overflow-hidden rounded-md dark:border dark:border-stone-700 sm:max-h-[520px] sm:flex-row md:mx-6 lg:mx-20">
+        <div className="flex h-[50%] w-full items-center justify-center bg-black sm:h-full lg:w-[50%]">
+          <picture className="h-full ">
             <img
-              className="h-[520px] w-[520px] select-none object-contain"
+              className="h-full w-full select-none object-contain sm:h-[520px] lg:w-[520px]"
               src={postInformation.imgURL}
               alt="post"
             />
           </picture>
         </div>
-        <div className="flex flex-col bg-white dark:bg-[#1c1c1c]">
-          <div className="flex w-[500px] items-center justify-start gap-3 border-b border-stone-200 p-4 dark:border-stone-700">
+        <div className="flex h-[50%] w-full flex-col bg-white dark:bg-[#1c1c1c] sm:h-full lg:w-[50%]">
+          <div className="flex items-center justify-start gap-3 border-b border-stone-200 py-1 px-4 dark:border-stone-700 sm:p-4 ">
             <Link href={postUserDetails.username}>
               <picture>
                 <img
@@ -61,7 +63,7 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
               </p>
             </Link>
           </div>
-          <div className="w-[500px] flex-grow overflow-y-auto bg-[#fafafa] text-sm dark:bg-[#131313] dark:[color-scheme:dark]">
+          <div className="flex-grow overflow-y-auto bg-[#fafafa] text-sm dark:bg-[#131313] dark:[color-scheme:dark] ">
             {postInformation.comments.map((commentInfo, index) =>
               commentInfo.text === '' ? (
                 ''
@@ -69,7 +71,7 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
                 <div
                   // eslint-disable-next-line react/no-array-index-key
                   key={`post${index}`}
-                  className="flex p-4"
+                  className="flex px-4 py-1 sm:p-4"
                 >
                   <div className="flex-shrink-0">
                     <Link href={`/${commentInfo.username}`}>
@@ -115,8 +117,8 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
             )}
           </div>
           <div className="dark:bg-[#1c1c1c]">
-            <div className="border-t border-stone-200 px-5 pt-4 pb-1 dark:border-stone-700">
-              <div className="mb-3 flex gap-4">
+            <div className="border-t border-stone-200 px-5 pt-1 pb-1 dark:border-stone-700 sm:pt-4">
+              <div className="mb-1 flex gap-4 sm:mb-3">
                 {userNotifications.likedPosts!.includes(
                   postInformation.postID
                 ) ? (
@@ -186,7 +188,7 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
                   </div>
                 )}
               </div>
-              <p className="pt-2 text-xs text-[#a5a5a5]">
+              <p className=" text-xs text-[#a5a5a5] sm:pt-2">
                 {new Date(
                   postInformation.createdAt.seconds * 1000
                 ).toDateString()}

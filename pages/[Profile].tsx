@@ -85,17 +85,17 @@ const Profile: NextPage = () => {
       <div className="mx-auto  max-w-[935px] pt-8">
         <div className="flex items-stretch border-b border-stone-300 pb-11 dark:border-stone-700">
           <button
+            className="relative mr-10 min-w-[80px] sm:grow-[1]"
             onClick={() =>
               nameSearch === profileDetails.displayName ? setAddPhoto(true) : ''
             }
             type="button"
-            className="relative mr-4 grow-[1]"
           >
             {profileDetails.photoURL || profileNotifications.avatarURL ? (
-              <div>
+              <div className="">
                 <picture>
                   <img
-                    className="h-[150px] w-[150px] select-none rounded-full object-cover"
+                    className=" h-20 w-20 select-none rounded-full object-cover sm:h-[150px] sm:w-[150px]"
                     src={
                       profileDetails.photoURL || profileNotifications.avatarURL
                     }
@@ -107,7 +107,7 @@ const Profile: NextPage = () => {
               <ProfilePicSVG height="150" width="150" strokeWidth="1" />
             )}
             {nameSearch === profileDetails.displayName ? (
-              <div className="absolute left-[130px] bottom-0">
+              <div className="absolute bottom-0 left-16 sm:left-[130px]">
                 <CameraSVG />
               </div>
             ) : (
@@ -115,14 +115,14 @@ const Profile: NextPage = () => {
             )}
           </button>
           <div className="grow-[3]">
-            <div className="flex items-center">
+            <div className="flex flex-col sm:flex-row sm:items-center">
               <h1 className="my-5 text-3xl">
                 {profileDetails.displayName || profileNotifications.username}
               </h1>
               {nameSearch === profileDetails.displayName ? (
                 ''
               ) : (
-                <div className="flex flex-row items-center pl-7">
+                <div className="flex flex-row items-center pb-2 sm:pl-7 sm:pb-0">
                   <Link href="/Inbox">
                     <button
                       className="mr-2  rounded-[4px] border border-stone-300 py-1 px-2 text-sm font-semibold dark:border-stone-700"
@@ -178,7 +178,7 @@ const Profile: NextPage = () => {
             </div>
 
             {profileNotifications.userId ? (
-              <div className="flex justify-start gap-7">
+              <div className="flex justify-start gap-2 text-xs sm:gap-7 sm:text-base">
                 <p>
                   <b>{profileNotifications.postCount}</b> posts
                 </p>
@@ -199,7 +199,7 @@ const Profile: NextPage = () => {
             <PostSVG />
             <p className="text-sm font-semibold">POSTS</p>
           </div>
-          <div className="grid max-w-[935px] grid-cols-3 pb-10 sm:gap-2 md:gap-4">
+          <div className="grid max-w-[935px] grid-cols-3 gap-1 pb-10 sm:gap-4">
             {profilePosts.slice(0, -1).map((postInformation, index) => (
               <UserPost
                 // eslint-disable-next-line react/no-array-index-key
