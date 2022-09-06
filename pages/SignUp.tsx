@@ -53,7 +53,7 @@ const SignUp: NextPage = () => {
       </Head>
       <div className="flex min-h-[100vh] w-full items-center justify-center bg-[#fafafa]">
         <div>
-          <div className="flex w-[350px] flex-col items-center justify-center border border-stone-300 bg-white">
+          <div className="flex max-w-[350px] flex-col items-center justify-center border border-stone-300 bg-white">
             <img
               className="pt-10 pb-5"
               src="/instagramLogin.png"
@@ -137,7 +137,7 @@ const SignUp: NextPage = () => {
               </form>
             </div>
           </div>
-          <div className="mt-2 flex w-[350px] justify-center border border-stone-300 bg-white py-5 text-[14px]">
+          <div className="mt-2 flex max-w-[350px] justify-center border border-stone-300 bg-white py-5 text-[14px]">
             <p>Have an account?</p>
             <button
               className="ml-1 font-semibold text-[#0095f6]"

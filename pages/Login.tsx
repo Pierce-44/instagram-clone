@@ -39,7 +39,7 @@ const Login: NextPage = () => {
       </Head>
       <div className="flex min-h-[100vh] w-full items-center justify-center bg-[#fafafa]">
         <div>
-          <div className="relative h-[590px] overflow-hidden">
+          <div className="relative hidden h-[590px] overflow-hidden lg:block">
             <Image
               priority
               src="/loginFrame.png"
@@ -89,9 +89,9 @@ const Login: NextPage = () => {
           </div>
         </div>
         <div>
-          <div className="flex w-[350px] flex-col items-center justify-center border border-stone-300 bg-white">
+          <div className="flex max-w-[350px] flex-col items-center justify-center border border-stone-300 bg-white">
             <img className="py-10" src="/instagramLogin.png" alt="instagram" />
-            <div className="w-full px-10">
+            <div className="w-full px-5 sm:px-10">
               <form
                 action=""
                 className="signInPageFormContainer"
@@ -162,7 +162,7 @@ const Login: NextPage = () => {
               </form>
             </div>
           </div>
-          <div className="mt-2 flex w-[350px] justify-center border border-stone-300 bg-white py-5 text-[14px]">
+          <div className="mt-2 flex max-w-[350px] justify-center border border-stone-300 bg-white py-5 text-[14px]">
             <p>Do not have an account?</p>
             <button
               className="ml-1 font-semibold text-[#0095f6]"

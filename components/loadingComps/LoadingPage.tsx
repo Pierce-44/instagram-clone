@@ -24,7 +24,11 @@ function LoadingPage({ checkingUserRoute }: { checkingUserRoute: boolean }) {
         }
       >
         <picture>
-          <img src="/instagramLoading.png" alt="loading" />
+          <img
+            className="h-6 w-auto sm:h-auto"
+            src="/instagramLoading.png"
+            alt="loading"
+          />
         </picture>
       </div>
     </div>
