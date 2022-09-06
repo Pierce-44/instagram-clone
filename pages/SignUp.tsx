@@ -1,6 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
@@ -10,6 +7,7 @@ import atoms from '../util/atoms';
 import useHandleSignIn from '../hooks/useHandleSignIn';
 import useSetFormErrors from '../hooks/useSetFormErrors';
 import handleCreateUser from '../util/handleCreateUser';
+import InstagramSVG from '../components/svgComps/InstagramSVG';
 
 const SignUp: NextPage = () => {
   const [email, setEmail] = React.useState('');
@@ -54,11 +52,9 @@ const SignUp: NextPage = () => {
       <div className="flex min-h-[100vh] w-full items-center justify-center bg-[#fafafa]">
         <div>
           <div className="flex max-w-[350px] flex-col items-center justify-center border border-stone-300 bg-white">
-            <img
-              className="pt-10 pb-5"
-              src="/instagramLogin.png"
-              alt="instagram"
-            />
+            <div className="h-auto w-[175px] pt-10 pb-5">
+              <InstagramSVG disableDarkMode white={false} />
+            </div>
             <div className="px-10 pb-5 text-center font-semibold text-[#8e8e8e]">
               <p>Sign up to see photos and videos from your friends.</p>
             </div>

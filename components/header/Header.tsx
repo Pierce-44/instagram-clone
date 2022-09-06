@@ -16,10 +16,10 @@ import HomeSVG from '../svgComps/HomeSVG';
 import SearchBtnSVG from '../svgComps/SearchBtnSVG';
 import useHandleSignOut from '../../hooks/useHandleSignOut';
 import useHandleAvatarDropDown from '../../hooks/useHandleAvatarDropDown';
+import InstagramSVG from '../svgComps/InstagramSVG';
 
 function Header({ page }: { page: string }) {
   // eslint-disable-next-line no-unused-expressions
-  const [darkMode] = useAtom(atoms.darkMode);
   const [userDetails] = useAtom(atoms.userDetails);
   const [userNotifications] = useAtom(atoms.userNotifications);
 
@@ -39,13 +39,9 @@ function Header({ page }: { page: string }) {
       <div className=" flex h-[60px] items-center justify-between px-[5px] sm:px-[20px] lg:justify-center ">
         <div className="flex h-[60px] w-[330px] items-center ">
           <Link href="/">
-            <picture>
-              <img
-                className="cursor-pointer select-none"
-                src={darkMode ? '/instagramWhite.png' : '/instagramBlack.png'}
-                alt="Instagram"
-              />
-            </picture>
+            <div className="w-full max-w-[103px] cursor-pointer select-none">
+              <InstagramSVG disableDarkMode={false} white={false} />
+            </div>
           </Link>
         </div>
         <div className="relative hidden sm:flex">

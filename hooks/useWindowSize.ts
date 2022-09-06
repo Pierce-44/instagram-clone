@@ -8,10 +8,8 @@ function useWindowSize() {
     function handleResize() {
       if (window.innerWidth > 1024 && windowWidth !== -13) {
         setWindowWidth(-13);
-        console.log(13);
       } else if (window.innerWidth < 1024 && windowWidth !== -23) {
         setWindowWidth(-23);
-        console.log(23);
       }
     }
 

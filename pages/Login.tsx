@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import Router from 'next/router';
 import Image from 'next/image';
@@ -9,6 +8,7 @@ import useSetFormErrors from '../hooks/useSetFormErrors';
 import atoms from '../util/atoms';
 import useHandleSignIn from '../hooks/useHandleSignIn';
 import handleSignIn from '../util/handleSignIn';
+import InstagramSVG from '../components/svgComps/InstagramSVG';
 
 const Login: NextPage = () => {
   const [listeners] = useAtom(atoms.listeners);
@@ -16,8 +16,7 @@ const Login: NextPage = () => {
   const [password, setPassword] = React.useState('');
   const [emailFormErrors, setEmailFormErrors] = React.useState('');
   const [passwordFormErrors, setPasswordFormErrors] = React.useState('');
-  // eslint-disable-next-line no-unused-vars
-  const [usernameFormErrors, setUsernameFormErrors] = React.useState('');
+  const [, setUsernameFormErrors] = React.useState('');
   const [isSubmit, setIsSubmit] = React.useState(false);
 
   useSetFormErrors({
@@ -47,7 +46,9 @@ const Login: NextPage = () => {
               height={635}
               width={465}
             />
-            <img src="/loginFrame.png" alt="instagram" />
+            <picture>
+              <img src="/loginFrame.png" alt="instagram" />
+            </picture>
             <div className="absolute top-[26px] right-14 h-full w-full">
               <div className="relative ">
                 <div className="absolute top-0 right-0 h-[541px] w-[250px] animate-loginImage1 opacity-0">
@@ -90,7 +91,9 @@ const Login: NextPage = () => {
         </div>
         <div>
           <div className="flex max-w-[350px] flex-col items-center justify-center border border-stone-300 bg-white">
-            <img className="py-10" src="/instagramLogin.png" alt="instagram" />
+            <div className="h-auto w-[175px] py-10">
+              <InstagramSVG disableDarkMode white={false} />
+            </div>
             <div className="w-full px-5 sm:px-10">
               <form
                 action=""

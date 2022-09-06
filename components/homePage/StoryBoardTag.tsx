@@ -3,12 +3,15 @@ import { useAtom } from 'jotai';
 import atoms from '../../util/atoms';
 import useCheckNameLength from '../../hooks/useCheckNameLength';
 import ViewAllStories from './ViewAllStories';
+import useWindowSize from '../../hooks/useWindowSize';
 
 function StoryBoardTag({ username }: { username: string }) {
   const [stories] = useAtom(atoms.stories);
   const [userDetails] = useAtom(atoms.userDetails);
 
   const [openStories, setOpenStories] = React.useState(false);
+
+  const width = useWindowSize();
 
   // checks if the story has already been viewed
   const didView = stories[`${username}Views`]?.includes(
@@ -21,7 +24,11 @@ function StoryBoardTag({ username }: { username: string }) {
   return (
     <div className="ml-1 flex cursor-pointer flex-col items-start">
       {openStories ? (
-        <ViewAllStories username={username} setOpenStories={setOpenStories} />
+        <ViewAllStories
+          username={username}
+          setOpenStories={setOpenStories}
+          width={width}
+        />
       ) : (
         ''
       )}

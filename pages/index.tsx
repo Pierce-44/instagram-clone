@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';

@@ -5,13 +5,15 @@ import CloseBtnSVG from '../svgComps/CloseBtnSVG';
 import ArrowSVG from '../svgComps/ArrowSVG';
 import atoms from '../../util/atoms';
 import ProgressBar from './ProgressBar';
-import useWindowSize from '../../hooks/useWindowSize';
+import InstagramSVG from '../svgComps/InstagramSVG';
 
 function ViewAllStories({
   username,
+  width,
   setOpenStories,
 }: {
   username: string;
+  width: number;
   setOpenStories: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [stories] = useAtom(atoms.stories);
@@ -23,8 +25,6 @@ function ViewAllStories({
     storiesArray.indexOf(username)
   );
 
-  const width = useWindowSize();
-
   return (
     <div className="fixed top-0 left-0 z-[100] h-screen w-full overflow-hidden overflow-y-scroll bg-[#1a1a1a]">
       <button
@@ -35,13 +35,9 @@ function ViewAllStories({
           document.body.style.overflow = 'initial';
         }}
       >
-        <picture>
-          <img
-            src="/instagramWhite.png"
-            alt="Instagram"
-            className="cursor-pointer select-none"
-          />
-        </picture>
+        <div className="h-auto w-[103px]">
+          <InstagramSVG disableDarkMode white />
+        </div>
       </button>
       <button
         className="absolute top-6 right-6 z-[100]"

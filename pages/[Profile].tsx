@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Head from 'next/head';
 import React from 'react';
 import { useRouter } from 'next/router';

@@ -91,7 +91,7 @@ const HomePagePost = ({ username }: Props) => {
                   }
                 >
                   <div className="group">
-                    <div className="group-hover:animate-bounce">
+                    <div className="sm:group-hover:animate-bounce">
                       <HeartSVG fillColor="#ed4956" height="24" width="24" />
                     </div>
                   </div>
@@ -110,7 +110,7 @@ const HomePagePost = ({ username }: Props) => {
                   }
                 >
                   <div className="group">
-                    <div className="group-hover:animate-bounce">
+                    <div className="sm:group-hover:animate-bounce">
                       <HeartHollow />
                     </div>
                   </div>
@@ -125,7 +125,7 @@ const HomePagePost = ({ username }: Props) => {
                 }}
               >
                 <div className="group">
-                  <div className="group-hover:animate-bounce">
+                  <div className="sm:group-hover:animate-bounce">
                     <CommentSVG
                       outline={darkMode ? '#f1f5f9' : '#262626'}
                       height="24"
