@@ -1,3 +1,4 @@
+import Image from 'next/future/image';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import atoms from '../../util/atoms';
@@ -17,13 +18,16 @@ function UserSuggestions() {
         <div className="flex items-center">
           <Link href={`/${userDetails.displayName}`}>
             {userDetails.photoURL ? (
-              <picture>
-                <img
+              <div>
+                <Image
                   className="h-14 w-14 cursor-pointer select-none rounded-full object-cover"
                   src={userDetails.photoURL}
                   alt="avatar"
+                  width="0"
+                  height="0"
+                  sizes="10vw"
                 />
-              </picture>
+              </div>
             ) : (
               <ProfilePicSVG height="56" width="56" strokeWidth="1" />
             )}
@@ -60,13 +64,16 @@ function UserSuggestions() {
             >
               <div className="flex items-center gap-2">
                 <Link href={`/${spotlightUserDetails.username}`}>
-                  <picture>
-                    <img
+                  <div>
+                    <Image
                       className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
-                      src={spotlightUserDetails.avatarURL}
+                      src={spotlightUserDetails.avatarURL!}
                       alt="avatar"
+                      width="0"
+                      height="0"
+                      sizes="10vw"
                     />
-                  </picture>
+                  </div>
                 </Link>
                 <div>
                   <Link href={`/${spotlightUserDetails.username}`}>

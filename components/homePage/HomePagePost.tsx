@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import Image from 'next/future/image';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import PostPopUp from '../PostPopUp';
@@ -44,13 +45,16 @@ const HomePagePost = ({ username }: Props) => {
         )}
         <div className="ml-3 flex items-center py-3">
           <Link href={username}>
-            <picture>
-              <img
+            <div>
+              <Image
                 className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
                 src={postDetails.comments[0].avatarURL}
-                alt=""
+                alt="avatar"
+                width="0"
+                height="0"
+                sizes="10vw"
               />
-            </picture>
+            </div>
           </Link>
           <Link href={username}>
             <p className="ml-4 cursor-pointer">
@@ -66,13 +70,14 @@ const HomePagePost = ({ username }: Props) => {
             document.body.style.overflow = 'hidden';
           }}
         >
-          <picture>
-            <img
-              className="h-auto min-h-[150px] w-full select-none bg-[#ebebeb] dark:bg-[#313131]"
-              src={postDetails.imgURL}
-              alt="post"
-            />
-          </picture>
+          <Image
+            className="h-auto min-h-[150px] w-full select-none bg-[#ebebeb] dark:bg-[#313131]"
+            src={postDetails.imgURL}
+            alt="post"
+            width="0"
+            height="0"
+            sizes="40vw"
+          />
         </div>
         <div>
           <div className="border-t border-stone-200 px-5 py-4 dark:border-stone-700">

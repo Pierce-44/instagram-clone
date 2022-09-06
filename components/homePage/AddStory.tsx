@@ -1,5 +1,6 @@
 import { useAtom } from 'jotai';
 import React from 'react';
+import Image from 'next/future/image';
 import AddStorySVG from '../svgComps/AddStorySVG';
 import handleUpdateUserStory from '../../util/handleUpdateUserStory';
 import handleUploadImage from '../../util/handleUploadImage';
@@ -43,13 +44,14 @@ function AddStory() {
         <div className="relative">
           <div className="w-[74px]">
             {userDetails.photoURL ? (
-              <picture>
-                <img
-                  className="relative z-10 h-14 w-14 select-none rounded-full bg-[#ebebeb] object-cover p-[2px] dark:bg-[#313131]"
-                  src={userDetails.photoURL}
-                  alt="avatar"
-                />
-              </picture>
+              <Image
+                className="relative z-10 h-14 w-14 select-none rounded-full bg-[#ebebeb] object-cover p-[2px] dark:bg-[#1c1c1c]"
+                src={userDetails.photoURL}
+                alt="avatar"
+                width="0"
+                height="0"
+                sizes="10vw"
+              />
             ) : (
               <div className="relative z-10 w-14 rounded-full bg-white dark:bg-[#1c1c1c]">
                 <ProfilePicSVG height="56" width="56" strokeWidth="1" />

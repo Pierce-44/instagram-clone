@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import Image from 'next/future/image';
 import Link from 'next/link';
 import { useAtom } from 'jotai';
 import CloseBtnSVG from './svgComps/CloseBtnSVG';
@@ -38,24 +39,28 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
       </div>
       <div className="mx-2 flex h-full max-h-[calc(100vh-40px)] w-full max-w-[1000px] flex-col items-center justify-center overflow-hidden rounded-md dark:border dark:border-stone-700 sm:max-h-[520px] sm:flex-row md:mx-6 lg:mx-20">
         <div className="flex h-[50%] w-full items-center justify-center bg-black sm:h-full lg:w-[50%]">
-          <picture className="h-full ">
-            <img
-              className="h-full w-full select-none object-contain sm:h-[520px] lg:w-[520px]"
-              src={postInformation.imgURL}
-              alt="post"
-            />
-          </picture>
+          <Image
+            className="h-full w-full select-none object-contain sm:h-[520px] lg:w-[520px]"
+            src={postInformation.imgURL}
+            alt="post"
+            width="0"
+            height="0"
+            sizes="40vw"
+          />
         </div>
         <div className="flex h-[50%] w-full flex-col bg-white dark:bg-[#1c1c1c] sm:h-full lg:w-[50%]">
           <div className="flex items-center justify-start gap-3 border-b border-stone-200 py-1 px-4 dark:border-stone-700 sm:p-4 ">
             <Link href={postUserDetails.username}>
-              <picture>
-                <img
+              <div>
+                <Image
                   className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
                   src={postUserDetails.avatarURL}
                   alt="avatar"
+                  width="0"
+                  height="0"
+                  sizes="10vw"
                 />
-              </picture>
+              </div>
             </Link>
             <Link href={postUserDetails.username}>
               <p className="cursor-pointer text-sm font-semibold">
@@ -82,13 +87,16 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
                           document.body.style.overflow = 'initial';
                         }}
                       >
-                        <picture>
-                          <img
+                        <div>
+                          <Image
                             className="mr-4 h-8 w-8 flex-shrink-0 select-none rounded-full object-cover"
                             src={commentInfo.avatarURL}
                             alt="avatar"
+                            width="0"
+                            height="0"
+                            sizes="10vw"
                           />
-                        </picture>
+                        </div>
                       </button>
                     </Link>
                   </div>

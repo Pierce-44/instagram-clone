@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/future/image';
 import { useAtom } from 'jotai';
 import atoms from '../../util/atoms';
 import useCheckNameLength from '../../hooks/useCheckNameLength';
@@ -41,13 +42,14 @@ function StoryBoardTag({ username }: { username: string }) {
         }}
       >
         <div className="w-[74px]">
-          <picture>
-            <img
-              className=" relative z-10 h-14 w-14 select-none rounded-full bg-[#ebebeb] object-cover p-[2px] dark:bg-[#1c1c1c]"
-              src={stories[`${username}Photo`]}
-              alt="avatar"
-            />
-          </picture>
+          <Image
+            className="relative z-10 h-14 w-14 select-none rounded-full bg-[#ebebeb] object-cover p-[2px] dark:bg-[#1c1c1c]"
+            src={stories[`${username}Photo`]}
+            alt="avatar"
+            width="0"
+            height="0"
+            sizes="10vw"
+          />
         </div>
         <div
           className={`${

@@ -3,7 +3,12 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['avatars.githubusercontent.com', 'encrypted-tbn0.gstatic.com'],
+    domains: ['firebasestorage.googleapis.com'],
+  },
+  experimental: {
+    images: {
+      allowFutureImage: true,
+    },
   },
 };
 

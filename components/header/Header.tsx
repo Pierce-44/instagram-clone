@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import Image from 'next/future/image';
 import Link from 'next/link';
 import { useAtom } from 'jotai';
 import ProfilePicSVG from '../svgComps/ProfilePicSVG';
@@ -103,14 +104,15 @@ function Header({ page }: { page: string }) {
             onClick={() => setAvatarDropDown(!avatarDropDown)}
           >
             {userDetails.photoURL ? (
-              <picture>
-                <img
-                  id="avatarDropDown"
-                  src={userDetails.photoURL}
-                  alt="avatar"
-                  className="h-6 w-6 cursor-pointer select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131]"
-                />
-              </picture>
+              <Image
+                className="h-6 w-6 cursor-pointer select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131]"
+                id="avatarDropDown"
+                src={userDetails.photoURL}
+                alt="avatar"
+                width="0"
+                height="0"
+                sizes="5vw"
+              />
             ) : (
               <ProfilePicSVG height="24" width="24" strokeWidth="1.5" />
             )}
