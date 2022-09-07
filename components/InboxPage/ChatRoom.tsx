@@ -2,6 +2,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
+import Image from 'next/future/image';
 import Link from 'next/link';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useAtom } from 'jotai';
@@ -40,17 +41,19 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
           activeChat === activeChatId ? 'flex' : 'hidden'
         } absolute left-[120px] top-0 h-[60px] cursor-default items-center gap-2 border-l border-stone-300 pl-2 dark:border-stone-700 md:left-[350px] md:gap-4 md:pl-10`}
       >
-        {avatarURL === '' ? (
+        {avatarURL === '' || !avatarURL ? (
           <ProfilePicSVG height="28" width="28" strokeWidth="1.5" />
         ) : (
           <Link href={`/${chatName}`}>
-            <picture>
-              <img
+            <div>
+              <Image
                 className="h-7 w-7 cursor-pointer select-none rounded-full object-cover"
                 src={avatarURL}
                 alt="avatar"
+                width="28"
+                height="28"
               />
-            </picture>
+            </div>
           </Link>
         )}
         <Link href={`/${chatName}`}>
@@ -65,18 +68,18 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
         } md: flex w-full items-center px-1 py-2 md:px-5`}
       >
         <div className="mr-2 flex  items-center justify-center md:h-14 md:w-14">
-          {avatarURL === '' ? (
+          {avatarURL === '' || !avatarURL ? (
             <div className="h-6 w-6 rounded-full md:h-14 md:w-14">
               <ProfilePicSVG height="56" width="56" strokeWidth="1" />
             </div>
           ) : (
-            <picture>
-              <img
-                className="h-6 w-6 select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131] md:h-14 md:w-14"
-                src={avatarURL}
-                alt="avatar"
-              />
-            </picture>
+            <Image
+              className="h-6 w-6 select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131] md:h-14 md:w-14"
+              src={avatarURL}
+              alt="avatar"
+              width="56"
+              height="56"
+            />
           )}
         </div>
         <h1 className="text-xs md:text-base">{chatName}</h1>
@@ -201,13 +204,15 @@ function ChatIcon({
         <ProfilePicSVG height="24" width="24" strokeWidth="1.3" />
       ) : (
         <Link href={`/${chatName}`}>
-          <picture>
-            <img
+          <div>
+            <Image
               className="h-6 w-6 cursor-pointer select-none rounded-full object-cover"
               src={photoURL}
               alt="avatar"
+              height="24"
+              width="24"
             />
-          </picture>
+          </div>
         </Link>
       )}
     </div>

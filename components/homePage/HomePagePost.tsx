@@ -50,9 +50,8 @@ const HomePagePost = ({ username }: Props) => {
                 className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
                 src={postDetails.comments[0].avatarURL}
                 alt="avatar"
-                width="0"
-                height="0"
-                sizes="10vw"
+                width="32"
+                height="32"
               />
             </div>
           </Link>
@@ -76,7 +75,7 @@ const HomePagePost = ({ username }: Props) => {
             alt="post"
             width="0"
             height="0"
-            sizes="40vw"
+            sizes="100vw"
           />
         </div>
         <div>

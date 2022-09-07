@@ -45,7 +45,8 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
             alt="post"
             width="0"
             height="0"
-            sizes="40vw"
+            sizes="(min-width: 40em) 40vw,
+            100vw"
           />
         </div>
         <div className="flex h-[50%] w-full flex-col bg-white dark:bg-[#1c1c1c] sm:h-full lg:w-[50%]">
@@ -56,9 +57,8 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
                   className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
                   src={postUserDetails.avatarURL}
                   alt="avatar"
-                  width="0"
-                  height="0"
-                  sizes="10vw"
+                  width="32"
+                  height="32"
                 />
               </div>
             </Link>
@@ -92,9 +92,8 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
                             className="mr-4 h-8 w-8 flex-shrink-0 select-none rounded-full object-cover"
                             src={commentInfo.avatarURL}
                             alt="avatar"
-                            width="0"
-                            height="0"
-                            sizes="10vw"
+                            width="32"
+                            height="32"
                           />
                         </div>
                       </button>

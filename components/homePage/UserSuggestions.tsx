@@ -23,9 +23,8 @@ function UserSuggestions() {
                   className="h-14 w-14 cursor-pointer select-none rounded-full object-cover"
                   src={userDetails.photoURL}
                   alt="avatar"
-                  width="0"
-                  height="0"
-                  sizes="10vw"
+                  width="56"
+                  height="56"
                 />
               </div>
             ) : (
@@ -69,9 +68,8 @@ function UserSuggestions() {
                       className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
                       src={spotlightUserDetails.avatarURL!}
                       alt="avatar"
-                      width="0"
-                      height="0"
-                      sizes="10vw"
+                      width="32"
+                      height="32"
                     />
                   </div>
                 </Link>
