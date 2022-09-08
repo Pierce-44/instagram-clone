@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import Image from 'next/future/image';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
@@ -17,21 +18,23 @@ function UserSuggestions() {
       <div className="mt-5 flex items-center justify-between">
         <div className="flex items-center">
           <Link href={`/${userDetails.displayName}`}>
-            {userDetails.photoURL ? (
-              <div>
-                <Image
-                  className="h-14 w-14 cursor-pointer select-none rounded-full object-cover"
-                  src={userDetails.photoURL}
-                  alt="avatar"
-                  width="56"
-                  height="56"
-                />
-              </div>
-            ) : (
-              <div className="h-14 w-14">
-                <ProfilePicSVG strokeWidth="1" />
-              </div>
-            )}
+            <a>
+              {userDetails.photoURL ? (
+                <div>
+                  <Image
+                    className="h-14 w-14 cursor-pointer select-none rounded-full object-cover"
+                    src={userDetails.photoURL}
+                    alt="avatar"
+                    width="56"
+                    height="56"
+                  />
+                </div>
+              ) : (
+                <div className="h-14 w-14">
+                  <ProfilePicSVG strokeWidth="1" />
+                </div>
+              )}
+            </a>
           </Link>
           <Link href={`/${userDetails.displayName}`}>
             <p className="ml-5 cursor-pointer text-sm font-semibold">
