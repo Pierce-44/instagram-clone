@@ -85,7 +85,7 @@ function useGetUserDetailsOnAuth() {
 
     notifications.following?.forEach((username: string) => {
       const unsub = onSnapshot(doc(db, 'users', username), (docs) => {
-        if (docs.data()!.story !== '') {
+        if (docs.data() && docs.data()!.story !== '') {
           setStories((prevState) => ({
             ...prevState,
             [username]: docs.data()!.story,

@@ -89,7 +89,7 @@ const Profile: NextPage = () => {
       <div className="mx-auto  max-w-[935px] pt-8">
         <div className="flex items-stretch border-b border-stone-300 pb-11 dark:border-stone-700">
           <button
-            className="relative mr-10 min-w-[80px] sm:grow-[1]"
+            className="relative mr-7 min-w-[80px] sm:mr-10 sm:grow-[1]"
             onClick={() =>
               nameSearch === profileDetails.displayName ? setAddPhoto(true) : ''
             }
@@ -106,7 +106,9 @@ const Profile: NextPage = () => {
                 height="150"
               />
             ) : (
-              <ProfilePicSVG height="150" width="150" strokeWidth="1" />
+              <div className="h-20 w-20 sm:h-[150px] sm:w-[150px]">
+                <ProfilePicSVG strokeWidth="1" />
+              </div>
             )}
             {nameSearch === profileDetails.displayName ? (
               <div className="absolute bottom-0 left-16 sm:left-[130px]">

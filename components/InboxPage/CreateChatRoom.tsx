@@ -101,7 +101,7 @@ function CreateChatRoom({ setCreateChatRoom }: Props) {
                       imgLoadStatus ? 'hidden' : ''
                     } h-14 w-14 rounded-full bg-[#efefef] dark:bg-[#070707]`}
                   >
-                    <ProfilePicSVG height="56" width="56" strokeWidth="1.5" />
+                    <ProfilePicSVG strokeWidth="1.5" />
                   </div>
                   <picture>
                     <img

@@ -42,7 +42,9 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
         } absolute left-[120px] top-0 h-[60px] cursor-default items-center gap-2 border-l border-stone-300 pl-2 dark:border-stone-700 md:left-[350px] md:gap-4 md:pl-10`}
       >
         {avatarURL === '' || !avatarURL ? (
-          <ProfilePicSVG height="28" width="28" strokeWidth="1.5" />
+          <div className="h-7 w-7">
+            <ProfilePicSVG strokeWidth="1.5" />
+          </div>
         ) : (
           <Link href={`/${chatName}`}>
             <div>
@@ -70,7 +72,7 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
         <div className="mr-2 flex  items-center justify-center md:h-14 md:w-14">
           {avatarURL === '' || !avatarURL ? (
             <div className="h-6 w-6 rounded-full md:h-14 md:w-14">
-              <ProfilePicSVG height="56" width="56" strokeWidth="1" />
+              <ProfilePicSVG strokeWidth="1" />
             </div>
           ) : (
             <Image
@@ -202,7 +204,9 @@ function ChatIcon({
   return (
     <div className="mt-auto h-7 w-7 md:mr-2">
       {photoURL === '' ? (
-        <ProfilePicSVG height="24" width="24" strokeWidth="1.3" />
+        <div className="h-6 w-6">
+          <ProfilePicSVG strokeWidth="1.3" />
+        </div>
       ) : (
         <Link href={`/${chatName}`}>
           <div>

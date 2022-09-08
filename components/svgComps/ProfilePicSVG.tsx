@@ -2,15 +2,7 @@ import React from 'react';
 import { useAtom } from 'jotai';
 import atoms from '../../util/atoms';
 
-function ProfilePicSVG({
-  height,
-  width,
-  strokeWidth,
-}: {
-  height: string;
-  width: string;
-  strokeWidth: string;
-}) {
+function ProfilePicSVG({ strokeWidth }: { strokeWidth: string }) {
   const [darkMode] = useAtom(atoms.darkMode);
   return (
     <svg
@@ -18,10 +10,10 @@ function ProfilePicSVG({
       aria-label="Profile"
       color={darkMode ? '#f1f5f9' : '#262626'}
       fill={darkMode ? '#f1f5f9' : '#262626'}
-      height={height}
+      // height={height}
       role="img"
       viewBox="0 0 24 24"
-      width={width}
+      // width={width}
     >
       <circle
         id="avatarDropDown"

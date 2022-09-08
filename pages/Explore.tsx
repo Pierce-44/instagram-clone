@@ -61,7 +61,9 @@ const Explore: NextPage = () => {
                       />
                     </div>
                   ) : (
-                    <ProfilePicSVG height="44" width="44" strokeWidth="1" />
+                    <div className="h-11 w-11">
+                      <ProfilePicSVG strokeWidth="1" />
+                    </div>
                   )}
                 </div>
               </Link>

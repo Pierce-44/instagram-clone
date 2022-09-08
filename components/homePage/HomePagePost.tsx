@@ -11,6 +11,8 @@ import CommentSVG from '../svgComps/CommentSVG';
 import HomePagePostHeaderComments from './HomePagePostHeaderComments';
 import PostTextArea from '../PostTextArea';
 import atoms from '../../util/atoms';
+import ProfilePicSVG from '../svgComps/ProfilePicSVG';
+import NoPostsFiller from './NoPostsFiller';
 
 interface Props {
   username: string;
@@ -21,11 +23,16 @@ const HomePagePost = ({ username }: Props) => {
   const [userDetails] = useAtom(atoms.userDetails);
   const [homePagePosts] = useAtom(atoms.homePagePosts);
   const [userNotifications] = useAtom(atoms.userNotifications);
+  const [followingArray] = useAtom(atoms.followingArray);
 
   const [postPopUp, setPostPopUp] = React.useState(false);
 
   const postDetails = homePagePosts[username];
 
+  // if not following any users load this image to trigger the setloading state on map load
+  if (username === 'null' && followingArray.length === 1) {
+    return <NoPostsFiller />;
+  }
   // if the user deos not have any posts published show nothing.
   if (!postDetails?.comments) {
     return <div />;
@@ -46,13 +53,19 @@ const HomePagePost = ({ username }: Props) => {
         <div className="ml-3 flex items-center py-3">
           <Link href={username}>
             <div>
-              <Image
-                className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
-                src={postDetails.comments[0].avatarURL}
-                alt="avatar"
-                width="32"
-                height="32"
-              />
+              {postDetails.comments[0].avatarURL ? (
+                <Image
+                  className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
+                  src={postDetails.comments[0].avatarURL}
+                  alt="avatar"
+                  width="32"
+                  height="32"
+                />
+              ) : (
+                <div className="h-8 w-8 cursor-pointer select-none rounded-full">
+                  <ProfilePicSVG strokeWidth="1" />
+                </div>
+              )}
             </div>
           </Link>
           <Link href={username}>

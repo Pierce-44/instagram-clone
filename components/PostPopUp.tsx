@@ -10,6 +10,7 @@ import PostTextArea from './PostTextArea';
 import CommentSVG from './svgComps/CommentSVG';
 import handleLikePost from '../util/handleLikePost';
 import atoms, { postCommentTypes, postType } from '../util/atoms';
+import ProfilePicSVG from './svgComps/ProfilePicSVG';
 
 interface Props {
   postInformation: postType;
@@ -53,13 +54,19 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
           <div className="flex items-center justify-start gap-3 border-b border-stone-200 py-1 px-4 dark:border-stone-700 sm:p-4 ">
             <Link href={postUserDetails.username}>
               <div>
-                <Image
-                  className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
-                  src={postUserDetails.avatarURL}
-                  alt="avatar"
-                  width="32"
-                  height="32"
-                />
+                {postUserDetails.avatarURL.length === 0 ? (
+                  <div className="h-8 w-8">
+                    <ProfilePicSVG strokeWidth="1" />
+                  </div>
+                ) : (
+                  <Image
+                    className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
+                    src={postUserDetails.avatarURL}
+                    alt="avatar"
+                    width="32"
+                    height="32"
+                  />
+                )}
               </div>
             </Link>
             <Link href={postUserDetails.username}>
@@ -88,13 +95,19 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
                         }}
                       >
                         <div>
-                          <Image
-                            className="mr-4 h-8 w-8 flex-shrink-0 select-none rounded-full object-cover"
-                            src={commentInfo.avatarURL}
-                            alt="avatar"
-                            width="32"
-                            height="32"
-                          />
+                          {!commentInfo.avatarURL ? (
+                            <div className="mr-4 h-8 w-8">
+                              <ProfilePicSVG strokeWidth="1" />
+                            </div>
+                          ) : (
+                            <Image
+                              className="mr-4 h-8 w-8 flex-shrink-0 select-none rounded-full object-cover"
+                              src={commentInfo.avatarURL}
+                              alt="avatar"
+                              width="32"
+                              height="32"
+                            />
+                          )}
                         </div>
                       </button>
                     </Link>

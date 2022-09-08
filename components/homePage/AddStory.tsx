@@ -52,8 +52,8 @@ function AddStory() {
                 height="56"
               />
             ) : (
-              <div className="relative z-10 w-14 rounded-full bg-white dark:bg-[#1c1c1c]">
-                <ProfilePicSVG height="56" width="56" strokeWidth="1" />
+              <div className="relative z-10 h-14 w-14 rounded-full bg-white dark:bg-[#1c1c1c]">
+                <ProfilePicSVG strokeWidth="1" />
               </div>
             )}
           </div>

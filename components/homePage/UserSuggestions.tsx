@@ -28,7 +28,9 @@ function UserSuggestions() {
                 />
               </div>
             ) : (
-              <ProfilePicSVG height="56" width="56" strokeWidth="1" />
+              <div className="h-14 w-14">
+                <ProfilePicSVG strokeWidth="1" />
+              </div>
             )}
           </Link>
           <Link href={`/${userDetails.displayName}`}>

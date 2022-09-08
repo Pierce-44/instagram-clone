@@ -114,7 +114,9 @@ function Header({ page }: { page: string }) {
                 sizes="5vw"
               />
             ) : (
-              <ProfilePicSVG height="24" width="24" strokeWidth="1.5" />
+              <div className="h-6 w-6">
+                <ProfilePicSVG strokeWidth="1.5" />
+              </div>
             )}
             <div
               className={`${
@@ -130,7 +132,9 @@ function Header({ page }: { page: string }) {
             >
               <Link href={`/${userDetails.displayName}`}>
                 <div className="flex items-center py-2 px-4 hover:bg-[#f8f8f8] dark:hover:bg-[#080808]">
-                  <ProfilePicSVG height="16" width="16" strokeWidth="2" />
+                  <div className="h-4 w-4">
+                    <ProfilePicSVG strokeWidth="2" />
+                  </div>
                   <p className="pl-2">Profile</p>
                 </div>
               </Link>

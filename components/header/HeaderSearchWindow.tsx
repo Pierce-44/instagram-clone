@@ -36,13 +36,15 @@ function HeaderSearchWindow({
                     {details.avatarURL ? (
                       <picture>
                         <img
-                          className="h-[44px] w-[44px] rounded-full object-cover"
+                          className="h-11 w-11 rounded-full object-cover"
                           src={details.avatarURL}
                           alt="avatar"
                         />
                       </picture>
                     ) : (
-                      <ProfilePicSVG height="44" width="44" strokeWidth="1" />
+                      <div className="h-11 w-11">
+                        <ProfilePicSVG strokeWidth="1" />
+                      </div>
                     )}
                     <p className="ml-5">{details.username}</p>
                   </div>

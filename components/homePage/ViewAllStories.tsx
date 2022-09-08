@@ -7,6 +7,7 @@ import ArrowSVG from '../svgComps/ArrowSVG';
 import atoms from '../../util/atoms';
 import ProgressBar from './ProgressBar';
 import InstagramSVG from '../svgComps/InstagramSVG';
+import ProfilePicSVG from '../svgComps/ProfilePicSVG';
 
 function ViewAllStories({
   username,
@@ -92,13 +93,19 @@ function ViewAllStories({
                     <div className="absolute top-9 left-0 z-[1000] ml-5 flex items-center gap-2 text-sm text-white">
                       <Link href={userName}>
                         <div>
-                          <Image
-                            className="relative z-[1000] h-8 w-8 cursor-pointer select-none rounded-full bg-[#3f3f3f] object-cover"
-                            src={stories[`${userName}Photo`]}
-                            alt="avatar"
-                            height="32"
-                            width="32"
-                          />
+                          {stories[`${userName}Photo`].length === 0 ? (
+                            <div className="h-8 w-8">
+                              <ProfilePicSVG strokeWidth="1" />
+                            </div>
+                          ) : (
+                            <Image
+                              className="relative z-[1000] h-8 w-8 cursor-pointer select-none rounded-full bg-[#3f3f3f] object-cover"
+                              src={stories[`${userName}Photo`]}
+                              alt="avatar"
+                              height="32"
+                              width="32"
+                            />
+                          )}
                         </div>
                       </Link>
                       <Link href={userName}>
@@ -116,14 +123,21 @@ function ViewAllStories({
                         setStoryUsername(storiesArray[index]);
                       }}
                     >
-                      <Image
-                        className="absolute top-1/2 left-1/2 z-[1000] h-[16vw] w-[16vw] -translate-x-1/2 -translate-y-1/2 transform select-none rounded-full  bg-[#3f3f3f]  object-cover sm:h-[4vw] sm:w-[4vw] "
-                        src={stories[`${userName}Photo`]}
-                        alt="avatar"
-                        height="0"
-                        width="0"
-                        sizes="(max-width: 640px) 16vw, 4vw"
-                      />
+                      {stories[`${userName}Photo`].length === 0 ? (
+                        <div className="absolute top-1/2 left-1/2 z-[1000] h-[16vw] w-[16vw] -translate-x-1/2 -translate-y-1/2  transform select-none rounded-full bg-[#3f3f3f] sm:h-[4vw] sm:w-[4vw] ">
+                          <ProfilePicSVG strokeWidth="1" />
+                        </div>
+                      ) : (
+                        <Image
+                          className="absolute top-1/2 left-1/2 z-[1000] h-[16vw] w-[16vw] -translate-x-1/2 -translate-y-1/2 transform select-none rounded-full  bg-[#3f3f3f]  object-cover sm:h-[4vw] sm:w-[4vw] "
+                          src={stories[`${userName}Photo`]}
+                          alt="avatar"
+                          height="0"
+                          width="0"
+                          sizes="(max-width: 640px) 16vw, 4vw"
+                        />
+                      )}
+
                       <div
                         className={`${
                           stories[`${userName}Views`].includes(

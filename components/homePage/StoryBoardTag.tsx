@@ -5,6 +5,7 @@ import atoms from '../../util/atoms';
 import useCheckNameLength from '../../hooks/useCheckNameLength';
 import ViewAllStories from './ViewAllStories';
 import useWindowSize from '../../hooks/useWindowSize';
+import ProfilePicSVG from '../svgComps/ProfilePicSVG';
 
 function StoryBoardTag({ username }: { username: string }) {
   const [stories] = useAtom(atoms.stories);
@@ -42,15 +43,19 @@ function StoryBoardTag({ username }: { username: string }) {
         }}
       >
         <div className="w-[74px]">
-          <Image
-            className="relative z-10 h-14 w-14 select-none rounded-full bg-[#ebebeb] object-cover p-[2px] dark:bg-[#1c1c1c]"
-            src={stories[`${username}Photo`]}
-            alt="avatar"
-            width="56"
-            height="56"
-            // onBlur={() => setImageRendered(true)}
-            // onLoad={() => setImageRendered(true)}
-          />
+          {stories[`${username}Photo`].length === 0 ? (
+            <div className="relative z-10 h-14 w-14 select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#1c1c1c]">
+              <ProfilePicSVG strokeWidth="1" />
+            </div>
+          ) : (
+            <Image
+              className="relative z-10 h-14 w-14 select-none rounded-full bg-[#ebebeb] object-cover p-[2px] dark:bg-[#1c1c1c]"
+              src={stories[`${username}Photo`]}
+              alt="avatar"
+              width="56"
+              height="56"
+            />
+          )}
         </div>
         <div
           className={`${
