@@ -81,6 +81,7 @@ const storiesLoading = atom(true);
 const postsLoading = atom(true);
 const suggestionsLoading = atom(true);
 const chatRoomLoading = atom(true);
+const userPorfileLoading = atom(true);
 
 const atoms = {
   darkMode,
@@ -102,6 +103,7 @@ const atoms = {
   postsLoading,
   suggestionsLoading,
   chatRoomLoading,
+  userPorfileLoading,
 };
 
 export default atoms;

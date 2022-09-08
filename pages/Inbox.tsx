@@ -56,7 +56,7 @@ const Inbox: NextPage = () => {
         )}
         <div className="h-[calc(100%-60px)] w-[120px] overflow-y-auto overflow-x-hidden dark:[color-scheme:dark] md:w-[350px]">
           <div
-            className={chatRoomLoading ? 'h-0 overflow-hidden' : ''}
+            className={chatRoomLoading ? 'fixed opacity-0' : ''}
             onLoad={() => setChatRoomLoading(false)}
           >
             {userNotifications.chatRoomIds?.map((chatRoomId, index) => (

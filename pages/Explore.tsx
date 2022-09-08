@@ -1,5 +1,6 @@
 import { useAtom } from 'jotai';
 import { NextPage } from 'next';
+import Image from 'next/future/image';
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -48,17 +49,21 @@ const Explore: NextPage = () => {
           >
             <div className="flex items-center gap-3">
               <Link href={userDocs.username!}>
-                {userDocs.avatarURL ? (
-                  <picture>
-                    <img
-                      className="h-11 w-11 cursor-pointer select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131]"
-                      src={userDocs.avatarURL}
-                      alt="avatar"
-                    />
-                  </picture>
-                ) : (
-                  <ProfilePicSVG height="44" width="44" strokeWidth="1" />
-                )}
+                <div>
+                  {userDocs.avatarURL ? (
+                    <div>
+                      <Image
+                        className="h-11 w-11 cursor-pointer select-none rounded-full bg-[#ebebeb] object-cover dark:bg-[#313131]"
+                        src={userDocs.avatarURL}
+                        alt="avatar"
+                        width="44"
+                        height="44"
+                      />
+                    </div>
+                  ) : (
+                    <ProfilePicSVG height="44" width="44" strokeWidth="1" />
+                  )}
+                </div>
               </Link>
               <div>
                 <Link href={userDocs.username!}>
@@ -73,10 +78,8 @@ const Explore: NextPage = () => {
                     ? 'including you'
                     : ''}
                 </p>
-                <p>
-                  <p className="text-xs text-[#818181] sm:hidden">
-                    Followed by {userDocs.followers!.length}
-                  </p>
+                <p className="text-xs text-[#818181] sm:hidden">
+                  Followed by {userDocs.followers!.length}
                 </p>
               </div>
             </div>

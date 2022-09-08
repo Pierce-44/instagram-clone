@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
+import Image from 'next/future/image';
 import CloseBtnSVG from '../svgComps/CloseBtnSVG';
 import ArrowSVG from '../svgComps/ArrowSVG';
 import atoms from '../../util/atoms';
@@ -90,13 +91,15 @@ function ViewAllStories({
                     />
                     <div className="absolute top-9 left-0 z-[1000] ml-5 flex items-center gap-2 text-sm text-white">
                       <Link href={userName}>
-                        <picture>
-                          <img
+                        <div>
+                          <Image
                             className="relative z-[1000] h-8 w-8 cursor-pointer select-none rounded-full bg-[#3f3f3f] object-cover"
                             src={stories[`${userName}Photo`]}
                             alt="avatar"
+                            height="32"
+                            width="32"
                           />
-                        </picture>
+                        </div>
                       </Link>
                       <Link href={userName}>
                         <p className="cursor-pointer">{userName}</p>
@@ -113,13 +116,14 @@ function ViewAllStories({
                         setStoryUsername(storiesArray[index]);
                       }}
                     >
-                      <picture>
-                        <img
-                          className="absolute top-1/2 left-1/2 z-[1000] h-[16vw] w-[16vw] -translate-x-1/2 -translate-y-1/2 transform select-none rounded-full  bg-[#3f3f3f]  object-cover sm:h-[4vw] sm:w-[4vw] "
-                          src={stories[`${userName}Photo`]}
-                          alt="avatar"
-                        />
-                      </picture>
+                      <Image
+                        className="absolute top-1/2 left-1/2 z-[1000] h-[16vw] w-[16vw] -translate-x-1/2 -translate-y-1/2 transform select-none rounded-full  bg-[#3f3f3f]  object-cover sm:h-[4vw] sm:w-[4vw] "
+                        src={stories[`${userName}Photo`]}
+                        alt="avatar"
+                        height="0"
+                        width="0"
+                        sizes="(max-width: 640px) 16vw, 4vw"
+                      />
                       <div
                         className={`${
                           stories[`${userName}Views`].includes(
@@ -135,17 +139,19 @@ function ViewAllStories({
                     </p>
                   </div>
                 )}
-                <picture>
-                  <img
-                    className={`${
-                      storyUsername === userName
-                        ? 'h-[80vh] w-[60vw] lg:h-[95vh] lg:w-[27vw]'
-                        : 'h-[40vh] w-[20vw] bg-[#202020] lg:w-[10vw]'
-                    } select-none bg-[#3f3f3f] object-cover transition-all duration-500`}
-                    src={stories[userName]}
-                    alt="story"
-                  />
-                </picture>
+                <Image
+                  className={`${
+                    storyUsername === userName
+                      ? 'h-[80vh] w-[60vw] lg:h-[95vh] lg:w-[27vw]'
+                      : 'h-[40vh] w-[20vw] bg-[#202020] lg:w-[10vw]'
+                  } select-none bg-[#3f3f3f] object-cover transition-all duration-500`}
+                  src={stories[userName]}
+                  alt="story"
+                  height="0"
+                  width="0"
+                  sizes="60vw"
+                  priority
+                />
                 {storyUsername === userName ? (
                   <div className="absolute top-0 left-0 h-full w-full">
                     <div className="absolute h-[15%] w-full bg-gradient-to-b from-[#000000af]  to-[#00000000]" />

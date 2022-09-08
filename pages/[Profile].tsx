@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
+import Image from 'next/future/image';
 import { useRouter } from 'next/router';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
@@ -17,6 +18,7 @@ import LoadingPage from '../components/loadingComps/LoadingPage';
 import UserPost from '../components/profilePages/UserPost';
 import useGetOtherUserPosts from '../hooks/useGetOtherUserPosts';
 import atoms from '../util/atoms';
+import LoadingUserPosts from '../components/loadingComps/LoadingUserPosts';
 
 const Profile: NextPage = () => {
   const router = useRouter();
@@ -26,6 +28,9 @@ const Profile: NextPage = () => {
   const [userPosts] = useAtom(atoms.userPosts);
   const [userDetails] = useAtom(atoms.userDetails);
   const [userNotifications] = useAtom(atoms.userNotifications);
+  const [userPorfileLoading, setUserPorfileLoading] = useAtom(
+    atoms.userPorfileLoading
+  );
 
   const [addPhoto, setAddPhoto] = React.useState(false);
   const [unfollow, setUnfollow] = React.useState(false);
@@ -91,17 +96,15 @@ const Profile: NextPage = () => {
             type="button"
           >
             {profileDetails.photoURL || profileNotifications.avatarURL ? (
-              <div className="">
-                <picture>
-                  <img
-                    className=" h-20 w-20 select-none rounded-full object-cover sm:h-[150px] sm:w-[150px]"
-                    src={
-                      profileDetails.photoURL || profileNotifications.avatarURL
-                    }
-                    alt="avatar"
-                  />
-                </picture>
-              </div>
+              <Image
+                className=" h-20 w-20 select-none rounded-full object-cover sm:h-[150px] sm:w-[150px]"
+                src={
+                  profileDetails.photoURL! || profileNotifications.avatarURL!
+                }
+                alt="avatar"
+                width="150"
+                height="150"
+              />
             ) : (
               <ProfilePicSVG height="150" width="150" strokeWidth="1" />
             )}
@@ -175,7 +178,6 @@ const Profile: NextPage = () => {
                 </div>
               )}
             </div>
-
             {profileNotifications.userId ? (
               <div className="flex justify-start gap-2 text-xs sm:gap-7 sm:text-base">
                 <p>
@@ -189,7 +191,7 @@ const Profile: NextPage = () => {
                 </p>
               </div>
             ) : (
-              <div className="h-6 w-[250px] rounded-md bg-[#efefef] dark:bg-[#070707]" />
+              <div className="h-4 w-[250px] animate-pulse rounded-sm bg-[#efefef] dark:bg-[#313131] sm:h-6" />
             )}
           </div>
         </div>
@@ -198,7 +200,12 @@ const Profile: NextPage = () => {
             <PostSVG />
             <p className="text-sm font-semibold">POSTS</p>
           </div>
-          <div className="grid max-w-[935px] grid-cols-3 gap-1 pb-10 sm:gap-4">
+          <div
+            className={`${
+              userPorfileLoading ? 'fixed opacity-0' : ''
+            } grid max-w-[935px] grid-cols-3 gap-1 pb-10 sm:gap-4`}
+            onLoad={() => setUserPorfileLoading(false)}
+          >
             {profilePosts.slice(0, -1).map((postInformation, index) => (
               <UserPost
                 // eslint-disable-next-line react/no-array-index-key
@@ -208,6 +215,7 @@ const Profile: NextPage = () => {
               />
             ))}
           </div>
+          {userPorfileLoading ? <LoadingUserPosts /> : ''}
         </div>
       </div>
     </div>

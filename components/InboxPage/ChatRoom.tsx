@@ -79,6 +79,7 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
               alt="avatar"
               width="56"
               height="56"
+              priority
             />
           )}
         </div>

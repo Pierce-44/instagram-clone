@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import Image from 'next/future/image';
 import CommentSVG from '../svgComps/CommentSVG';
 import HeartSVG from '../svgComps/HeartSVG';
 import PostPopUp from '../PostPopUp';
@@ -17,13 +18,15 @@ function UserPost({
 
   return (
     <div className="relative overflow-hidden">
-      <picture>
-        <img
-          className="h-[300px] w-[300px] select-none bg-[#ebebeb] object-cover dark:bg-[#313131]"
-          src={postInformation.imgURL}
-          alt="user post"
-        />
-      </picture>
+      <Image
+        className="h-[300px] w-[300px] select-none object-cover"
+        src={postInformation.imgURL}
+        alt="user post"
+        width="0"
+        height="0"
+        sizes="33vw"
+        priority
+      />
       <div
         className="absolute top-0 left-0 flex h-full w-full cursor-pointer items-center justify-center hover:bg-[#00000049]"
         role="button"
