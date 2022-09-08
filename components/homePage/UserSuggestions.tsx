@@ -53,7 +53,7 @@ function UserSuggestions() {
           </Link>
         </div>
         <div
-          className={`${suggestionsLoading ? 'h-0 overflow-hidden' : ''}`}
+          className={`${suggestionsLoading ? 'fixed opacity-0' : ''}`}
           onLoad={() => setSuggestionsLoading(false)}
         >
           {spotlightUsers.map((spotlightUserDetails) => (

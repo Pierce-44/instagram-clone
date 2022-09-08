@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -31,12 +32,10 @@ const Home: NextPage = () => {
         <div className="w-full max-w-[470px] flex-grow lg:mr-8 ">
           <StoryBoard />
           <div
-            className={`${postsLoading ? 'h-0 overflow-hidden' : ''}`}
+            className={`${postsLoading ? 'fixed opacity-0' : ''}`}
             onLoad={() => setPostsLoading(false)}
           >
             {followingArray.map((username, index) => (
-              // No removing or rearranging posts from the home page, therefore key index is allowed
-              // eslint-disable-next-line react/no-array-index-key
               <HomePagePost username={username} key={username + index} />
             ))}
           </div>

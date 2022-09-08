@@ -48,6 +48,8 @@ function StoryBoardTag({ username }: { username: string }) {
             alt="avatar"
             width="56"
             height="56"
+            // onBlur={() => setImageRendered(true)}
+            // onLoad={() => setImageRendered(true)}
           />
         </div>
         <div

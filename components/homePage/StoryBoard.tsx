@@ -20,8 +20,10 @@ function StoryBoard() {
     >
       <AddStory />
       <div
-        className={`${storiesLoading ? 'w-0 overflow-hidden' : ''} flex`}
-        onLoad={() => setStoriesLoading(false)}
+        className={`${storiesLoading ? 'fixed opacity-0' : ''} flex`}
+        onLoad={() => {
+          setStoriesLoading(false);
+        }}
       >
         {storiesArray.map((username, index) => (
           <StoryBoardTag username={username} key={username + index} />
