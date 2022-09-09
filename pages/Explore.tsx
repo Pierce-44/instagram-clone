@@ -49,7 +49,7 @@ const Explore: NextPage = () => {
           >
             <div className="flex items-center gap-3">
               <Link href={userDocs.username!}>
-                <div>
+                <a>
                   {userDocs.avatarURL ? (
                     <div>
                       <Image
@@ -65,13 +65,15 @@ const Explore: NextPage = () => {
                       <ProfilePicSVG strokeWidth="1" />
                     </div>
                   )}
-                </div>
+                </a>
               </Link>
               <div>
                 <Link href={userDocs.username!}>
-                  <p className="cursor-pointer text-sm font-semibold">
-                    {userDocs.username}
-                  </p>
+                  <a>
+                    <p className="cursor-pointer text-sm font-semibold">
+                      {userDocs.username}
+                    </p>
+                  </a>
                 </Link>
                 <p className="hidden text-xs text-[#818181] sm:block">
                   Followed by {userDocs.followers!.length}{' '}
@@ -86,9 +88,11 @@ const Explore: NextPage = () => {
               </div>
             </div>
             <Link href={userDocs.username!}>
-              <p className="cursor-pointer pr-5 text-xs font-semibold text-[#0095f6]">
-                Profile
-              </p>
+              <a>
+                <p className="cursor-pointer pr-5 text-xs font-semibold text-[#0095f6]">
+                  Profile
+                </p>
+              </a>
             </Link>
           </div>
         ))}

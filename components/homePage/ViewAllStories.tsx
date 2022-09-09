@@ -92,7 +92,7 @@ function ViewAllStories({
                     />
                     <div className="absolute top-9 left-0 z-[1000] ml-5 flex items-center gap-2 text-sm text-white">
                       <Link href={userName}>
-                        <div>
+                        <a>
                           {stories[`${userName}Photo`].length === 0 ? (
                             <div className="h-8 w-8">
                               <ProfilePicSVG strokeWidth="1" />
@@ -106,10 +106,12 @@ function ViewAllStories({
                               width="32"
                             />
                           )}
-                        </div>
+                        </a>
                       </Link>
                       <Link href={userName}>
-                        <p className="cursor-pointer">{userName}</p>
+                        <a>
+                          <p className="cursor-pointer">{userName}</p>
+                        </a>
                       </Link>
                     </div>
                   </div>

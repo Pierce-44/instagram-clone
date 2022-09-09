@@ -53,7 +53,7 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
         <div className="flex h-[50%] w-full flex-col bg-white dark:bg-[#1c1c1c] sm:h-full lg:w-[50%]">
           <div className="flex items-center justify-start gap-3 border-b border-stone-200 py-1 px-4 dark:border-stone-700 sm:p-4 ">
             <Link href={postUserDetails.username}>
-              <div>
+              <a>
                 {postUserDetails.avatarURL.length === 0 ? (
                   <div className="h-8 w-8">
                     <ProfilePicSVG strokeWidth="1" />
@@ -67,12 +67,14 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
                     height="32"
                   />
                 )}
-              </div>
+              </a>
             </Link>
             <Link href={postUserDetails.username}>
-              <p className="cursor-pointer text-sm font-semibold">
-                {postUserDetails.username}
-              </p>
+              <a>
+                <p className="cursor-pointer text-sm font-semibold">
+                  {postUserDetails.username}
+                </p>
+              </a>
             </Link>
           </div>
           <div className="flex-grow overflow-y-auto bg-[#fafafa] text-sm dark:bg-[#131313] dark:[color-scheme:dark] ">
@@ -87,43 +89,29 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
                 >
                   <div className="flex-shrink-0">
                     <Link href={`/${commentInfo.username}`}>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setPostPopUp(false);
-                          document.body.style.overflow = 'initial';
-                        }}
-                      >
-                        <div>
-                          {!commentInfo.avatarURL ? (
-                            <div className="mr-4 h-8 w-8">
-                              <ProfilePicSVG strokeWidth="1" />
-                            </div>
-                          ) : (
-                            <Image
-                              className="mr-4 h-8 w-8 flex-shrink-0 select-none rounded-full object-cover"
-                              src={commentInfo.avatarURL}
-                              alt="avatar"
-                              width="32"
-                              height="32"
-                            />
-                          )}
-                        </div>
-                      </button>
+                      <a>
+                        {!commentInfo.avatarURL ? (
+                          <div className="mr-4 h-8 w-8">
+                            <ProfilePicSVG strokeWidth="1" />
+                          </div>
+                        ) : (
+                          <Image
+                            className="mr-4 h-8 w-8 flex-shrink-0 select-none rounded-full object-cover"
+                            src={commentInfo.avatarURL}
+                            alt="avatar"
+                            width="32"
+                            height="32"
+                          />
+                        )}
+                      </a>
                     </Link>
                   </div>
                   <div>
                     <p className="">
                       <Link href={`/${commentInfo.username}`}>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setPostPopUp(false);
-                            document.body.style.overflow = 'initial';
-                          }}
-                        >
+                        <a>
                           <b>{commentInfo.username}</b>
-                        </button>
+                        </a>
                       </Link>
 
                       {` - ${commentInfo.text}`}
@@ -191,9 +179,13 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
                 <p>
                   Liked by{' '}
                   <b>
-                    {postInformation.likes.length > 0
-                      ? postInformation.likes[0]
-                      : ''}
+                    {postInformation.likes.length > 0 ? (
+                      <Link href={postInformation.likes[0]}>
+                        <a>{postInformation.likes[0]}</a>
+                      </Link>
+                    ) : (
+                      ''
+                    )}
                   </b>{' '}
                 </p>
                 {postInformation.likes?.length === 1 ? (

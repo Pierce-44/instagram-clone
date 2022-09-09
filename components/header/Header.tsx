@@ -40,9 +40,11 @@ function Header({ page }: { page: string }) {
       <div className=" flex h-[60px] items-center justify-between px-[5px] sm:px-[20px] lg:justify-center ">
         <div className="flex h-[60px] w-[330px] items-center ">
           <Link href="/">
-            <div className="w-full max-w-[103px] cursor-pointer select-none">
-              <InstagramSVG disableDarkMode={false} white={false} />
-            </div>
+            <a className="w-full max-w-[103px] ">
+              <div className="w-full max-w-[103px] cursor-pointer select-none">
+                <InstagramSVG disableDarkMode={false} white={false} />
+              </div>
+            </a>
           </Link>
         </div>
         <div className="relative hidden sm:flex">
@@ -72,14 +74,14 @@ function Header({ page }: { page: string }) {
         </div>
         <div className="relative flex items-center pl-[15px] lg:pl-[100px]">
           <Link href="/">
-            <div>
+            <a>
               <HomeSVG page={page} />
-            </div>
+            </a>
           </Link>
           <Link href="/Inbox">
-            <div>
+            <a>
               <IndexSVG page={page} />
-            </div>
+            </a>
           </Link>
           <button onClick={() => setAddPost(true)} type="button">
             <NewPostSVG />
@@ -131,18 +133,22 @@ function Header({ page }: { page: string }) {
               } absolute right-[-20px] top-10 z-50 w-[230px] items-center justify-start bg-white text-sm shadow-[-2px_-2px_10px_2px_rgba(0,0,0,0.1)] dark:bg-[#131313] dark:shadow-[-2px_-2px_5px_2px_rgba(0,0,0,0.7)]`}
             >
               <Link href={`/${userDetails.displayName}`}>
-                <div className="flex items-center py-2 px-4 hover:bg-[#f8f8f8] dark:hover:bg-[#080808]">
-                  <div className="h-4 w-4">
-                    <ProfilePicSVG strokeWidth="2" />
+                <a>
+                  <div className="flex items-center py-2 px-4 hover:bg-[#f8f8f8] dark:hover:bg-[#080808]">
+                    <div className="h-4 w-4">
+                      <ProfilePicSVG strokeWidth="2" />
+                    </div>
+                    <p className="pl-2">Profile</p>
                   </div>
-                  <p className="pl-2">Profile</p>
-                </div>
+                </a>
               </Link>
               <Link href="/Explore">
-                <div className="flex items-center py-2 px-4 hover:bg-[#f8f8f8] dark:hover:bg-[#080808]">
-                  <ExploreSVG />
-                  <p className="pl-2">Explore</p>
-                </div>
+                <a>
+                  <div className="flex items-center py-2 px-4 hover:bg-[#f8f8f8] dark:hover:bg-[#080808]">
+                    <ExploreSVG />
+                    <p className="pl-2">Explore</p>
+                  </div>
+                </a>
               </Link>
               <div
                 className="border-t border-stone-300 py-2 px-4 text-start hover:bg-[#f8f8f8] dark:border-stone-700 dark:hover:bg-[#080808]"

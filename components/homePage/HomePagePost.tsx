@@ -52,7 +52,7 @@ const HomePagePost = ({ username }: Props) => {
         )}
         <div className="ml-3 flex items-center py-3">
           <Link href={username}>
-            <div>
+            <a>
               {postDetails.comments[0].avatarURL ? (
                 <Image
                   className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
@@ -66,12 +66,14 @@ const HomePagePost = ({ username }: Props) => {
                   <ProfilePicSVG strokeWidth="1" />
                 </div>
               )}
-            </div>
+            </a>
           </Link>
           <Link href={username}>
-            <p className="ml-4 cursor-pointer">
-              {postDetails.comments[0].username}
-            </p>
+            <a>
+              <p className="ml-4 cursor-pointer">
+                {postDetails.comments[0].username}
+              </p>
+            </a>
           </Link>
         </div>
         <div
@@ -160,7 +162,7 @@ const HomePagePost = ({ username }: Props) => {
                 <b>
                   {postDetails.likes.length > 0 ? (
                     <Link href={postDetails.likes[0]}>
-                      {postDetails.likes[0]}
+                      <a>{postDetails.likes[0]}</a>
                     </Link>
                   ) : (
                     ''

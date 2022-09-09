@@ -19,7 +19,7 @@ function UserPost({
   return (
     <div className="relative overflow-hidden">
       <Image
-        className="h-[300px] w-[300px] select-none object-cover"
+        className="h-[150px] w-[300px] select-none object-cover sm:h-[300px]"
         src={postInformation.imgURL}
         alt="user post"
         width="0"
@@ -39,7 +39,7 @@ function UserPost({
         }}
       >
         {postInfo ? (
-          <div className="flex items-center gap-5 text-white">
+          <div className="flex items-center gap-2 text-white sm:gap-5">
             <div className="flex items-center">
               <HeartSVG fillColor="white" height="20" width="20" />
               <p className="pl-1 text-lg font-semibold">

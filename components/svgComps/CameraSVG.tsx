@@ -5,7 +5,7 @@ function CameraSVG() {
   const [darkMode] = useAtom(atoms.darkMode);
 
   return (
-    <div className="h-7 w-7">
+    <div className="h-5 w-5 sm:h-7 sm:w-7">
       <svg viewBox="0 0 60 60" fill={darkMode ? 'white' : '#262626'}>
         <g>
           <path

@@ -11,6 +11,7 @@
     // "react/react-in-jsx-scope": "off"
     "react/function-component-definition": "off",
     "react/jsx-props-no-spreading": 0,
-    "import/extensions": 0
+    "import/extensions": 0,
+    "jsx-a11y/anchor-is-valid": "off"
 }
 }

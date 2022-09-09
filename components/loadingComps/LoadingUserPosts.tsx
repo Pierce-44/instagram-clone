@@ -6,7 +6,7 @@ function LoadingUserPosts() {
       {mapArray.map((index) => (
         <div
           key={`userPost${index}`}
-          className="h-[300px] max-w-[300px] bg-[#ebebeb] dark:bg-[#313131]"
+          className="h-[150px] max-w-[300px] bg-[#ebebeb] dark:bg-[#313131] sm:h-[300px]"
         />
       ))}
     </div>
