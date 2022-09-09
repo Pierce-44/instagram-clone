@@ -22,7 +22,7 @@ import InstagramSVG from '../svgComps/InstagramSVG';
 function Header({ page }: { page: string }) {
   // eslint-disable-next-line no-unused-expressions
   const [userDetails] = useAtom(atoms.userDetails);
-  const [userNotifications] = useAtom(atoms.userNotifications);
+  const [newMessage] = useAtom(atoms.newMessage);
 
   const [avatarDropDown, setAvatarDropDown] = React.useState(false);
   const [addPost, setAddPost] = React.useState(false);
@@ -80,7 +80,16 @@ function Header({ page }: { page: string }) {
           </Link>
           <Link href="/Inbox">
             <a>
-              <IndexSVG page={page} />
+              <div className="relative">
+                <IndexSVG page={page} />
+                {newMessage ? (
+                  <div className="absolute top-[-6px] right-[-8px] flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#ff3041]">
+                    <p className="text-center text-white">!</p>
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
             </a>
           </Link>
           <button onClick={() => setAddPost(true)} type="button">
@@ -89,13 +98,6 @@ function Header({ page }: { page: string }) {
           <div className="ml-[10px] cursor-pointer sm:ml-[22px]">
             <HeartHollow />
           </div>
-          {userNotifications?.messageCount === 0 ? (
-            <div />
-          ) : (
-            <div className="absolute top-[-6px] left-[123px] flex h-[18px] w-[18px] cursor-pointer items-center justify-center rounded-full bg-[#ff3041] text-[12px] sm:left-[147px] lg:left-[230px]">
-              <p className="text-white">{userNotifications?.messageCount}</p>
-            </div>
-          )}
           <div className="ml-[10px] sm:ml-[22px]">
             <DarkModeButton />
           </div>

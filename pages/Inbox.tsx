@@ -12,6 +12,7 @@ import NewMessageSVG from '../components/svgComps/NewMessageSVG';
 import Header from '../components/header/Header';
 import atoms from '../util/atoms';
 import LoadingChatRooms from '../components/loadingComps/LoadingChatRooms';
+import handleResetNewMessage from '../util/handleResetNewMessage';
 
 const Inbox: NextPage = () => {
   const [userStatus] = useAtom(atoms.userStatus);
@@ -40,7 +41,7 @@ const Inbox: NextPage = () => {
         <div />
       )}
       <div className="relative mx-auto mt-4 h-[calc(100%-90px)] max-w-[935px] border border-stone-300 bg-white dark:border-stone-700 dark:bg-[#1c1c1c]">
-        <div className="flex h-[60px] w-[120px] items-center border-b border-stone-300 dark:border-stone-700 md:w-[350px] md:px-5">
+        <div className="flex h-[60px] w-[130px] items-center border-b border-stone-300 dark:border-stone-700 md:w-[350px] md:px-5">
           <h1 className="mx-auto">{userDetails.displayName}</h1>
           <button
             onClick={() => setCreateChatRoom(!createChatRoom)}
@@ -54,7 +55,7 @@ const Inbox: NextPage = () => {
         ) : (
           <div />
         )}
-        <div className="h-[calc(100%-60px)] w-[120px] overflow-y-auto overflow-x-hidden dark:[color-scheme:dark] md:w-[350px]">
+        <div className="h-[calc(100%-60px)] w-[130px] overflow-y-auto overflow-x-hidden dark:[color-scheme:dark] md:w-[350px]">
           <div
             className={chatRoomLoading ? 'fixed opacity-0' : ''}
             onLoad={() => setChatRoomLoading(false)}
@@ -62,7 +63,13 @@ const Inbox: NextPage = () => {
             {userNotifications.chatRoomIds?.map((chatRoomId, index) => (
               <div
                 key={`chatRoomKey${index}`}
-                onClick={() => setActiveChat(`chatRoom${index}`)}
+                onClick={() => {
+                  setActiveChat(`chatRoom${index}`);
+                  handleResetNewMessage({
+                    username: userDetails.displayName!,
+                    chatRoomId,
+                  });
+                }}
                 role="button"
                 tabIndex={0}
               >

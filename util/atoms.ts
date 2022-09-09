@@ -7,6 +7,7 @@ export interface chatRoomMessagesTypes {
   text?: string;
   [ChatName: `${string}ChatName`]: string;
   [Avatar: `${string}Avatar`]: string;
+  [NewMessage: `${string}NewMessage`]: string;
 }
 
 export interface userDetailTypes {
@@ -82,6 +83,7 @@ const postsLoading = atom(true);
 const suggestionsLoading = atom(true);
 const chatRoomLoading = atom(true);
 const userPorfileLoading = atom(true);
+const newMessage = atom(false);
 
 const atoms = {
   darkMode,
@@ -104,6 +106,7 @@ const atoms = {
   suggestionsLoading,
   chatRoomLoading,
   userPorfileLoading,
+  newMessage,
 };
 
 export default atoms;

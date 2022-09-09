@@ -1,5 +1,6 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import React from 'react';
+import Image from 'next/future/image';
 import { useAtom } from 'jotai';
 import SearchBtnSVG from '../svgComps/SearchBtnSVG';
 import CloseBtnSVG from '../svgComps/CloseBtnSVG';
@@ -20,7 +21,6 @@ function CreateChatRoom({ setCreateChatRoom }: Props) {
   const [error, setError] = React.useState('');
   const [searchedUser, setSearchedUser] = React.useState(false);
   const [ticked, setTicked] = React.useState(false);
-  const [imgLoadStatus, setImgLoadStatus] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [searchedUserData, setSearchedUserData] =
     React.useState<notificationTypes>({});
@@ -96,23 +96,19 @@ function CreateChatRoom({ setCreateChatRoom }: Props) {
               <p className="pb-3 font-bold">Result:</p>
               <div className="flex items-center justify-start">
                 <div className="flex h-14 w-14 items-center justify-center">
-                  <div
-                    className={`${
-                      imgLoadStatus ? 'hidden' : ''
-                    } h-14 w-14 rounded-full bg-[#efefef] dark:bg-[#070707]`}
-                  >
-                    <ProfilePicSVG strokeWidth="1.5" />
-                  </div>
-                  <picture>
-                    <img
-                      className={`${
-                        imgLoadStatus ? '' : 'hidden'
-                      } h-14 w-14 rounded-full`}
-                      src={searchedUserData?.avatarURL}
+                  {searchedUserData.avatarURL ? (
+                    <Image
+                      className="h-14 w-14 rounded-full object-cover"
+                      src={searchedUserData.avatarURL}
                       alt="avatar"
-                      onLoad={() => setImgLoadStatus(true)}
+                      width="56"
+                      height="56"
                     />
-                  </picture>
+                  ) : (
+                    <div className="h-14 w-14 rounded-full bg-[#efefef] dark:bg-[#070707]">
+                      <ProfilePicSVG strokeWidth="1.5" />
+                    </div>
+                  )}
                 </div>
                 <p className="mr-auto ml-3">{searchedUserData?.username}</p>
                 <button onClick={() => setTicked(!ticked)} type="button">

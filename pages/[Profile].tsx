@@ -192,7 +192,7 @@ const Profile: NextPage = () => {
                 </p>
               </div>
             ) : (
-              <div className="h-4 w-[250px] animate-pulse rounded-sm bg-[#efefef] dark:bg-[#313131] sm:h-6" />
+              <div className="hidden h-4 w-[250px] animate-pulse rounded-sm bg-[#efefef] dark:bg-[#313131] sm:block sm:h-6" />
             )}
           </div>
         </div>
@@ -221,7 +221,7 @@ const Profile: NextPage = () => {
             </p>
           </div>
         ) : (
-          <div className="h-4 w-[250px] animate-pulse rounded-sm bg-[#efefef] dark:bg-[#313131] sm:h-6" />
+          <div className="mx-auto my-4 h-10 w-[250px] animate-pulse rounded-sm bg-[#efefef] dark:bg-[#313131] sm:hidden" />
         )}
         <div>
           <div className="flex items-center justify-center gap-2 py-3 sm:py-6">

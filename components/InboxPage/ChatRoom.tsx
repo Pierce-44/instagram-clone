@@ -31,6 +31,8 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
     allChatRoomMessages[chatRoomID]?.slice(-1)[0][`${userID}ChatName`];
   const avatarURL =
     allChatRoomMessages[chatRoomID]?.slice(-1)[0][`${chatName}Avatar`];
+  const newMessage =
+    allChatRoomMessages[chatRoomID]?.slice(-1)[0][`${userID}NewMessage`];
 
   useHandleEmojiPopUp({ setDisplayEmojiSelector });
 
@@ -39,7 +41,7 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
       <div
         className={`${
           activeChat === activeChatId ? 'flex' : 'hidden'
-        } absolute left-[120px] top-0 h-[60px] cursor-default items-center gap-2 border-l border-stone-300 pl-2 dark:border-stone-700 md:left-[350px] md:gap-4 md:pl-10`}
+        } absolute left-[130px] top-0 h-[60px] cursor-default items-center gap-2 border-l border-stone-300 pl-2 dark:border-stone-700 md:left-[350px] md:gap-4 md:pl-10`}
       >
         {avatarURL === '' || !avatarURL ? (
           <div className="h-7 w-7">
@@ -88,9 +90,14 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
           )}
         </div>
         <h1 className="text-xs md:text-base">{chatName}</h1>
+        {newMessage ? (
+          <div className="ml-auto h-2 w-2 rounded-full bg-[#0095f6]" />
+        ) : (
+          ''
+        )}
       </div>
       {activeChat === activeChatId ? (
-        <div className="absolute bottom-0 top-[59px] left-[120px] flex w-[calc(100%-120px)] cursor-default flex-col justify-end border-l border-t  border-stone-300 dark:border-stone-700 md:left-[350px] md:w-[calc(100%-350px)]">
+        <div className="absolute bottom-0 top-[59px] left-[130px] flex w-[calc(100%-130px)] cursor-default flex-col justify-end border-l border-t  border-stone-300 dark:border-stone-700 md:left-[350px] md:w-[calc(100%-350px)]">
           <div className="flex cursor-default flex-col-reverse gap-5 overflow-y-auto px-1 py-2 dark:[color-scheme:dark] md:px-5">
             {messages.map((message, index) => (
               <div
@@ -154,6 +161,7 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
                   inputText,
                   userID,
                   setInputText,
+                  username: chatName,
                 })
               }
             />
@@ -172,6 +180,7 @@ function ChatRoom({ chatRoomID, userID, activeChat, activeChatId }: Props) {
                   inputText,
                   userID,
                   setInputText,
+                  username: chatName,
                 })
               }
             >

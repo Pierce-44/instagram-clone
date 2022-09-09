@@ -19,7 +19,7 @@ function UserPost({
   return (
     <div className="relative overflow-hidden">
       <Image
-        className="h-[150px] w-[300px] select-none object-cover sm:h-[300px]"
+        className="h-[175px] w-[300px] select-none object-cover sm:h-[300px]"
         src={postInformation.imgURL}
         alt="user post"
         width="0"
