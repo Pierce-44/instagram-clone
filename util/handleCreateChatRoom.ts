@@ -46,10 +46,12 @@ async function handleCreateChatRoom({
       doc(db, userNotifications.userId! + searchedUserData.userId, 'users'),
       {
         createdAt: serverTimestamp(),
-        [`${searchedUserData?.username}ChatName`]: userNotifications.username,
-        [`${searchedUserData?.username}Avatar`]: searchedUserData?.avatarURL,
+        [`${searchedUserData.username}ChatName`]: userNotifications.username,
+        [`${searchedUserData.username}Avatar`]: searchedUserData.avatarURL,
+        [`${searchedUserData.username}NewMessage`]: false,
         [`${userNotifications.username}ChatName`]: searchedUserData?.username,
         [`${userNotifications.username}Avatar`]: userNotifications.avatarURL,
+        [`${userNotifications.username}NewMessage`]: false,
       }
     );
     const userOne = doc(db, 'users', userNotifications.username!);
