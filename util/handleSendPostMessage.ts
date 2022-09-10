@@ -3,6 +3,7 @@ import { getFirestore, updateDoc, doc, arrayUnion } from 'firebase/firestore';
 import { User } from 'firebase/auth';
 import { postCommentTypes, postType, userDetailTypes } from './atoms';
 import app from './firbaseConfig';
+import handleUpdateHeartNotifcation from './handleUpdateHeartNotification';
 
 interface Props {
   e: any;
@@ -48,6 +49,13 @@ function handleSendPostMessage({
       createdAt: date,
       randomID,
     };
+
+    handleUpdateHeartNotifcation({
+      postUserDetails,
+      userDetails,
+      postInformation,
+      heartType: 'comment',
+    });
 
     updateDoc(docRef, {
       comments: arrayUnion(newComment),

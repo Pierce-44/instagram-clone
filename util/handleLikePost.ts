@@ -8,6 +8,7 @@ import {
 } from 'firebase/firestore';
 import { postCommentTypes, postType, userDetailTypes } from './atoms';
 import app from './firbaseConfig';
+import handleUpdateHeartNotifcation from './handleUpdateHeartNotification';
 
 interface Props {
   e: any;
@@ -36,6 +37,12 @@ function handleLikePost({
     });
     updateDoc(userRef, {
       likedPosts: arrayUnion(postInformation.postID),
+    });
+    handleUpdateHeartNotifcation({
+      postUserDetails,
+      userDetails,
+      postInformation,
+      heartType: 'like',
     });
   } else if (e.target.id === 'unlike') {
     updateDoc(postDocRef, {

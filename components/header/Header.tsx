@@ -12,28 +12,36 @@ import useCheckUserName from '../../hooks/useCheckUserName';
 import ExploreSVG from '../svgComps/ExploreSVG';
 import NewPostSVG from '../svgComps/NewPostSVG';
 import HeartHollow from '../svgComps/HeartHollow';
+import HeartSVG from '../svgComps/HeartSVG';
 import IndexSVG from '../svgComps/IndexSVG';
 import HomeSVG from '../svgComps/HomeSVG';
 import SearchBtnSVG from '../svgComps/SearchBtnSVG';
 import useHandleSignOut from '../../hooks/useHandleSignOut';
 import useHandleAvatarDropDown from '../../hooks/useHandleAvatarDropDown';
 import InstagramSVG from '../svgComps/InstagramSVG';
+import HeartNotifications from './HeartNotifications';
+import useHandleHeartDropDown from '../../hooks/useHandleHeartDropDown';
+import handleResetNewHearts from '../../util/handleResetNewHears';
 
 function Header({ page }: { page: string }) {
   // eslint-disable-next-line no-unused-expressions
   const [userDetails] = useAtom(atoms.userDetails);
   const [newMessage] = useAtom(atoms.newMessage);
+  const [userNotifications] = useAtom(atoms.userNotifications);
 
   const [avatarDropDown, setAvatarDropDown] = React.useState(false);
   const [addPost, setAddPost] = React.useState(false);
   const [nameSearch, setNameSearch] = React.useState('');
   const [searchWindow, setSearchWindow] = React.useState(false);
   const [signUserOut, setSignUserOut] = React.useState(false);
+  const [showHeartNotifications, setShowHeartNotifications] =
+    React.useState(false);
   const queryCharacter = true;
 
   const user = useCheckUserName({ nameSearch, queryCharacter });
   useHandleSignOut({ signUserOut });
   useHandleAvatarDropDown(setAvatarDropDown);
+  useHandleHeartDropDown(setShowHeartNotifications);
 
   return (
     <div className="sticky top-0 z-50 border-b border-stone-300 bg-white dark:border-stone-700 dark:bg-[#1c1c1c] dark:text-slate-100">
@@ -95,8 +103,24 @@ function Header({ page }: { page: string }) {
           <button onClick={() => setAddPost(true)} type="button">
             <NewPostSVG />
           </button>
-          <div className="ml-[10px] cursor-pointer sm:ml-[22px]">
-            <HeartHollow />
+          <div className="relative ml-[10px] cursor-pointer sm:ml-[22px]">
+            <div>
+              <button
+                id="unlike"
+                type="button"
+                onClick={() => {
+                  setShowHeartNotifications(true);
+                  handleResetNewHearts(userDetails.displayName!);
+                }}
+              >
+                {userNotifications.newHeart ? (
+                  <HeartSVG fillColor="#ff3041" height="24" width="24" />
+                ) : (
+                  <HeartHollow />
+                )}
+              </button>
+              {showHeartNotifications ? <HeartNotifications /> : ''}
+            </div>
           </div>
           <div className="ml-[10px] sm:ml-[22px]">
             <DarkModeButton />
@@ -113,9 +137,8 @@ function Header({ page }: { page: string }) {
                 id="avatarDropDown"
                 src={userDetails.photoURL}
                 alt="avatar"
-                width="0"
-                height="0"
-                sizes="5vw"
+                width="24"
+                height="24"
               />
             ) : (
               <div className="h-6 w-6">

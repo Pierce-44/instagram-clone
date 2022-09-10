@@ -15,6 +15,12 @@ export interface userDetailTypes {
   photoURL?: string;
 }
 
+export interface heartDetails {
+  username: string;
+  postId: string;
+  text: string;
+}
+
 export interface notificationTypes {
   avatarURL?: string;
   chatRoomIds?: string[];
@@ -28,6 +34,8 @@ export interface notificationTypes {
   userId?: string;
   username?: string;
   usernameQuery?: string[];
+  newHeart?: boolean;
+  heartNotifications?: heartDetails[];
 }
 
 interface storyTypes {
