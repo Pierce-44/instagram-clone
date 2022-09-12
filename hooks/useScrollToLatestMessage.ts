@@ -13,7 +13,7 @@ export default function useScrollToLatestMessage({
   React.useEffect(() => {
     function scrollToBottom() {
       if (latestMessageRef.current) {
-        latestMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+        latestMessageRef.current.scrollIntoView();
       }
     }
 
