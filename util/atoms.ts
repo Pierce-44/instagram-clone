@@ -16,9 +16,11 @@ export interface userDetailTypes {
 }
 
 export interface heartDetails {
-  username: string;
-  postId: string;
-  text: string;
+  username?: string;
+  postURL?: string;
+  userPhoto?: string;
+  text?: string;
+  postId?: string;
 }
 
 export interface notificationTypes {

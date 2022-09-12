@@ -43,7 +43,10 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
           document.body.style.overflow = 'initial';
         }}
       >
-        <div className="rounded-full bg-[#2525257e] p-1 sm:bg-transparent">
+        <div
+          id="close"
+          className="rounded-full bg-[#2525257e] p-1 sm:bg-transparent"
+        >
           <CloseBtnSVG lightColor="white" darkColor="white" heightWidth="18" />
         </div>
       </div>

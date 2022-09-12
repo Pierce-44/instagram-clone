@@ -14,15 +14,16 @@ function CloseBtnSVG({
   const [darkMode] = useAtom(atoms.darkMode);
   return (
     <svg
+      id="close"
       aria-label="Close"
       color={darkMode ? darkColor : lightColor}
-      // fill="#262626"
       height={heightWidth}
       role="img"
       viewBox="0 0 24 24"
       width={heightWidth}
     >
       <polyline
+        id="close"
         fill="none"
         points="20.643 3.357 12 12 3.353 20.647"
         stroke="currentColor"
@@ -31,6 +32,7 @@ function CloseBtnSVG({
         strokeWidth="3"
       />
       <line
+        id="close"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"

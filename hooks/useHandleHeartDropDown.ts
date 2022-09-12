@@ -7,7 +7,7 @@ export default function useHandleHeartDropDown(
   React.useEffect(() => {
     function heartDropDownListner(e: any) {
       // if outside of dropdown close dropdown
-      if (e.target.id !== 'unlike' && e.target.id !== 'like') {
+      if (e.target.id === 'close') {
         setShowHeartNotifications(false);
       }
     }

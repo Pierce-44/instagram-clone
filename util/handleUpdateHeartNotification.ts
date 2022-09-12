@@ -37,13 +37,17 @@ export default function handleUpdateHeartNotifcation({
       heartArray.splice(0, 1);
       heartArray.push({
         username: userDetails.displayName,
+        userPhoto: userDetails.photoURL,
         text: textInfo,
+        postURL: postInformation.imgURL,
         postId: postInformation.postID,
       });
     } else if (postUserDetails.username !== userDetails.displayName) {
       heartArray!.push({
         username: userDetails.displayName,
+        userPhoto: userDetails.photoURL,
         text: textInfo,
+        postURL: postInformation.imgURL,
         postId: postInformation.postID,
       });
     }
