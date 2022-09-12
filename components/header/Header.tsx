@@ -19,7 +19,7 @@ import SearchBtnSVG from '../svgComps/SearchBtnSVG';
 import useHandleSignOut from '../../hooks/useHandleSignOut';
 import useHandleAvatarDropDown from '../../hooks/useHandleAvatarDropDown';
 import InstagramSVG from '../svgComps/InstagramSVG';
-import HeartNotifications from './HeartNotifications';
+import HeartNotificationsWindow from './HeartNotificationsWindow';
 import useHandleHeartDropDown from '../../hooks/useHandleHeartDropDown';
 import handleResetNewHearts from '../../util/handleResetNewHears';
 
@@ -104,7 +104,7 @@ function Header({ page }: { page: string }) {
             <NewPostSVG />
           </button>
           <div className="relative ml-[10px] cursor-pointer sm:ml-[22px]">
-            <div>
+            <div className="flex items-center justify-center">
               <button
                 id="unlike"
                 type="button"
@@ -119,7 +119,7 @@ function Header({ page }: { page: string }) {
                   <HeartHollow />
                 )}
               </button>
-              {showHeartNotifications ? <HeartNotifications /> : ''}
+              {showHeartNotifications ? <HeartNotificationsWindow /> : ''}
             </div>
           </div>
           <div className="ml-[10px] sm:ml-[22px]">

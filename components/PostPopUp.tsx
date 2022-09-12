@@ -11,6 +11,7 @@ import CommentSVG from './svgComps/CommentSVG';
 import handleLikePost from '../util/handleLikePost';
 import atoms, { postCommentTypes, postType } from '../util/atoms';
 import ProfilePicSVG from './svgComps/ProfilePicSVG';
+import useScrollToLatestMessage from '../hooks/useScrollToLatestMessage';
 
 interface Props {
   postInformation: postType;
@@ -22,6 +23,14 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
   const [userNotifications] = useAtom(atoms.userNotifications);
   const [userDetails] = useAtom(atoms.userDetails);
   const [darkMode] = useAtom(atoms.darkMode);
+
+  const chatBox = React.useRef<HTMLDivElement>(null);
+  const latestMessageRef = React.useRef<HTMLDivElement>(null);
+
+  useScrollToLatestMessage({
+    messages: postInformation.comments,
+    latestMessageRef,
+  });
 
   return (
     <div className="fixed top-0 left-0 z-50 flex h-full w-full items-center justify-center bg-[#000000a4]">
@@ -38,7 +47,7 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
           <CloseBtnSVG lightColor="white" darkColor="white" heightWidth="18" />
         </div>
       </div>
-      <div className="mx-2 flex h-full max-h-[calc(100vh-40px)] w-full max-w-[1000px] flex-col items-center justify-center overflow-hidden rounded-md dark:border dark:border-stone-700 sm:max-h-[520px] sm:flex-row md:mx-6 lg:mx-20">
+      <div className="mx-2 flex h-full max-h-[calc(100vh-80px)] w-full max-w-[1000px] flex-col items-center justify-center overflow-hidden rounded-md dark:border dark:border-stone-700 sm:max-h-[520px] sm:flex-row md:mx-6 lg:mx-20">
         <div className="flex h-[50%] w-full items-center justify-center bg-black sm:h-full lg:w-[50%]">
           <Image
             className="h-full w-full select-none object-contain sm:h-[520px] lg:w-[520px]"
@@ -54,7 +63,7 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
           <div className="flex items-center justify-start gap-3 border-b border-stone-200 py-1 px-4 dark:border-stone-700 sm:p-4 ">
             <Link href={postUserDetails.username}>
               <a>
-                {postUserDetails.avatarURL.length === 0 ? (
+                {!postUserDetails.avatarURL ? (
                   <div className="h-8 w-8">
                     <ProfilePicSVG strokeWidth="1" />
                   </div>
@@ -78,51 +87,54 @@ function PostPopUp({ postInformation, postUserDetails, setPostPopUp }: Props) {
             </Link>
           </div>
           <div className="flex-grow overflow-y-auto bg-[#fafafa] text-sm dark:bg-[#131313] dark:[color-scheme:dark] ">
-            {postInformation.comments.map((commentInfo, index) =>
-              commentInfo.text === '' ? (
-                ''
-              ) : (
-                <div
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`post${index}`}
-                  className="flex px-4 py-1 sm:p-4"
-                >
-                  <div className="flex-shrink-0">
-                    <Link href={`/${commentInfo.username}`}>
-                      <a>
-                        {!commentInfo.avatarURL ? (
-                          <div className="mr-4 h-8 w-8">
-                            <ProfilePicSVG strokeWidth="1" />
-                          </div>
-                        ) : (
-                          <Image
-                            className="mr-4 h-8 w-8 flex-shrink-0 select-none rounded-full object-cover"
-                            src={commentInfo.avatarURL}
-                            alt="avatar"
-                            width="32"
-                            height="32"
-                          />
-                        )}
-                      </a>
-                    </Link>
-                  </div>
-                  <div>
-                    <p className="">
+            <div ref={chatBox}>
+              {postInformation.comments.map((commentInfo, index) =>
+                commentInfo.text === '' ? (
+                  ''
+                ) : (
+                  <div
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={`post${index}`}
+                    className="flex px-4 py-1 sm:p-4"
+                  >
+                    <div className="flex-shrink-0">
                       <Link href={`/${commentInfo.username}`}>
                         <a>
-                          <b>{commentInfo.username}</b>
+                          {!commentInfo.avatarURL ? (
+                            <div className="mr-4 h-8 w-8">
+                              <ProfilePicSVG strokeWidth="1" />
+                            </div>
+                          ) : (
+                            <Image
+                              className="mr-4 h-8 w-8 flex-shrink-0 select-none rounded-full object-cover"
+                              src={commentInfo.avatarURL}
+                              alt="avatar"
+                              width="32"
+                              height="32"
+                            />
+                          )}
                         </a>
                       </Link>
+                    </div>
+                    <div>
+                      <p className="">
+                        <Link href={`/${commentInfo.username}`}>
+                          <a>
+                            <b>{commentInfo.username}</b>
+                          </a>
+                        </Link>
 
-                      {` - ${commentInfo.text}`}
-                    </p>
-                    <p className="pt-1 text-xs text-[#a5a5a5]">
-                      {commentInfo.createdAt}
-                    </p>
+                        {` - ${commentInfo.text}`}
+                      </p>
+                      <p className="pt-1 text-xs text-[#a5a5a5]">
+                        {commentInfo.createdAt}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              )
-            )}
+                )
+              )}
+            </div>
+            <div ref={latestMessageRef} />
           </div>
           <div className="dark:bg-[#1c1c1c]">
             <div className="border-t border-stone-200 px-5 pt-1 pb-1 dark:border-stone-700 sm:pt-4">

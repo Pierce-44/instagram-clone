@@ -19,7 +19,9 @@ function HeaderSearchWindow({
     >
       <div className="flex h-full items-center justify-center">
         {loading || searchName === '' ? (
-          <SpinnerSVG />
+          <div className="h-8 w-8 ">
+            <SpinnerSVG />
+          </div>
         ) : (
           <div className="h-full w-full overflow-y-scroll py-3">
             {userDetails.length === 0 ? (
