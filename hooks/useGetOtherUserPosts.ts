@@ -27,8 +27,8 @@ function useGetOtherUserPosts({
   const db = getFirestore(app);
 
   const [userDetails] = useAtom(atoms.userDetails);
+  const [, setListeners] = useAtom(atoms.listeners);
 
-  const [, setPostListners] = React.useState<any[]>([]);
   const [profilePosts, setProfilePosts] = React.useState<postType[]>([]);
 
   function getUserPosts() {
@@ -44,7 +44,7 @@ function useGetOtherUserPosts({
       });
       setProfilePosts(postsArray);
     });
-    setPostListners((current) => [...current, unsubscribe]);
+    setListeners((current) => [...current, unsubscribe]);
   }
 
   React.useEffect(() => {

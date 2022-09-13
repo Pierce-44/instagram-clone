@@ -27,6 +27,7 @@ function ViewAllStories({
     storiesArray.indexOf(username)
   );
 
+  // component could use being reduced into smaller sub components but with how I have setup the transformation animations it makes this difficult to achieve. Something to look into in the future.
   return (
     <div className="fixed top-0 left-0 z-[100] h-screen w-full overflow-hidden overflow-y-scroll bg-[#1a1a1a]">
       <button

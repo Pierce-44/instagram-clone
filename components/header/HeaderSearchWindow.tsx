@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/future/image';
 import { notificationTypes } from '../../util/atoms';
 import ProfilePicSVG from '../svgComps/ProfilePicSVG';
 import SpinnerSVG from '../svgComps/SpinnerSVG';
@@ -36,13 +37,13 @@ function HeaderSearchWindow({
                   <div className="flex cursor-pointer items-center py-3 pl-5 hover:bg-[#f8f8f8] dark:hover:bg-[#131313]">
                     {' '}
                     {details.avatarURL ? (
-                      <picture>
-                        <img
-                          className="h-11 w-11 rounded-full object-cover"
-                          src={details.avatarURL}
-                          alt="avatar"
-                        />
-                      </picture>
+                      <Image
+                        className="h-11 w-11 rounded-full object-cover"
+                        src={details.avatarURL}
+                        alt="avatar"
+                        width="44"
+                        height="44"
+                      />
                     ) : (
                       <div className="h-11 w-11">
                         <ProfilePicSVG strokeWidth="1" />

@@ -151,7 +151,6 @@ function useGetUserDetailsOnAuth() {
         Router.push('/Login');
       }
     });
-    setListeners((current) => [...current, unsubscribe]);
 
     return unsubscribe;
   }, [loggingIn]);

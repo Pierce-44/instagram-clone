@@ -80,7 +80,6 @@ const userDetails = atom<userDetailTypes | User>({});
 const userNotifications = atom<notificationTypes>({});
 const listeners = atom<any[]>([]);
 const loggingIn = atom(true);
-const userPostsStatus = atom(false);
 const userPosts = atom<postType[]>([]);
 const homePagePosts = atom<homePagePostTypes>({});
 const stories = atom<storyTypes>({});
@@ -103,7 +102,6 @@ const atoms = {
   userNotifications,
   listeners,
   loggingIn,
-  userPostsStatus,
   userPosts,
   homePagePosts,
   stories,

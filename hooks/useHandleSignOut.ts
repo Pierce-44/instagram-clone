@@ -27,6 +27,9 @@ function useHandleSignOut({ signUserOut }: Props) {
 
   React.useEffect(() => {
     if (signUserOut) {
+      // removes all firebase listener
+      listeners.forEach((unsubscribe: any) => unsubscribe());
+
       signOut(auth)
         .then(() => {
           // Sign-out successful.
@@ -42,9 +45,6 @@ function useHandleSignOut({ signUserOut }: Props) {
           setStoriesLoading(true);
           setSuggestionsLoading(true);
           setChatRoomLoading(true);
-
-          // removes all firebase listener
-          listeners.forEach((unsubscribe: any) => unsubscribe());
         })
         .catch((error) => {
           console.log(error);
