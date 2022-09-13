@@ -14,7 +14,6 @@ interface Props {
   userNotifications: notificationTypes;
   searchedUserData: notificationTypes;
   setError: React.Dispatch<React.SetStateAction<string>>;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setSearchedUser: React.Dispatch<React.SetStateAction<boolean>>;
   setCreateChatRoom: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -23,7 +22,6 @@ async function handleCreateChatRoom({
   userNotifications,
   searchedUserData,
   setError,
-  setLoading,
   setSearchedUser,
   setCreateChatRoom,
 }: Props) {
@@ -41,7 +39,7 @@ async function handleCreateChatRoom({
     setSearchedUser(false);
   } else {
     // create chatroom collection
-    setLoading(true);
+
     await setDoc(
       doc(db, userNotifications.userId! + searchedUserData.userId, 'users'),
       {
@@ -54,6 +52,9 @@ async function handleCreateChatRoom({
         [`${userNotifications.username}NewMessage`]: false,
       }
     );
+
+    setCreateChatRoom(false);
+
     const userOne = doc(db, 'users', userNotifications.username!);
     const userTwo = doc(db, 'users', searchedUserData.username!);
 
@@ -68,7 +69,6 @@ async function handleCreateChatRoom({
         userNotifications.userId! + searchedUserData.userId
       ),
     });
-    setCreateChatRoom(false);
   }
 }
 

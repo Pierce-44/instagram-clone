@@ -58,8 +58,6 @@ async function handleSubmitToDB({
   userNotifications,
   userDetails,
   caption,
-  setLoading,
-  setAddPost,
 }: handleSubmitProps) {
   const db = getFirestore(app);
   const userRef = doc(db, 'users', userNotifications.username!);
@@ -91,9 +89,6 @@ async function handleSubmitToDB({
     postID: '',
     likes: [],
   });
-
-  setLoading(false);
-  setAddPost(false);
 
   // get latest added doc ID
   const q = query(
@@ -164,6 +159,8 @@ export async function handleSubmit({
     )
   )
     .then((url) => {
+      setLoading(false);
+      setAddPost(false);
       handleSubmitToDB({
         url,
         userNotifications,

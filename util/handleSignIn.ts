@@ -1,5 +1,6 @@
 import React from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import guestAccess from '../guestAccount/guestAccess';
 
 interface Props {
   e: any;
@@ -8,6 +9,7 @@ interface Props {
   password: string;
   emailFormErrors: string;
   passwordFormErrors: string;
+  guest: boolean;
   setIsSubmit: React.Dispatch<React.SetStateAction<boolean>>;
   setPasswordFormErrors: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -19,6 +21,7 @@ function handleSignIn({
   emailFormErrors,
   email,
   password,
+  guest,
   setIsSubmit,
   setPasswordFormErrors,
 }: Props) {
@@ -28,7 +31,20 @@ function handleSignIn({
   // removes initial firebase auth listener from app load
   listeners.forEach((unsubscribe: any) => unsubscribe());
 
-  if (passwordFormErrors === '' && emailFormErrors === '') {
+  if (guest) {
+    signInWithEmailAndPassword(
+      auth,
+      guestAccess().email,
+      guestAccess().password
+    )
+      .then(() => {
+        // Signed in
+        setIsSubmit(true);
+      })
+      .catch((error) => {
+        setPasswordFormErrors(error.message);
+      });
+  } else if (passwordFormErrors === '' && emailFormErrors === '') {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         // Signed in

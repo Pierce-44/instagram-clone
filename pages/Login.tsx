@@ -106,6 +106,7 @@ const Login: NextPage = () => {
                     emailFormErrors,
                     email,
                     password,
+                    guest: false,
                     setIsSubmit,
                     setPasswordFormErrors,
                   })
@@ -122,7 +123,7 @@ const Login: NextPage = () => {
                     placeholder="Email address"
                   />
                 </label>
-                <p className="h-[20px] pb-2 text-[10px] text-red-600">
+                <p className="h-[20px] max-w-[220px] pb-2 text-[10px] text-red-600">
                   {emailFormErrors}
                 </p>
                 <label htmlFor="signInPagePassword">
@@ -136,7 +137,7 @@ const Login: NextPage = () => {
                     placeholder="Password"
                   />
                 </label>
-                <p className="h-[20px] text-[10px] text-red-600">
+                <p className="h-[20px] max-w-[220px] text-[10px] text-red-600">
                   {passwordFormErrors}
                 </p>
                 <button
@@ -158,9 +159,22 @@ const Login: NextPage = () => {
                 </div>
                 <button
                   className="mb-10 w-full rounded-[4px] bg-[#0095f6] px-2 py-1 text-sm font-semibold text-white"
-                  type="submit"
+                  type="button"
+                  onClick={(e: any) =>
+                    handleSignIn({
+                      e,
+                      listeners,
+                      passwordFormErrors,
+                      emailFormErrors,
+                      email,
+                      password,
+                      guest: true,
+                      setIsSubmit,
+                      setPasswordFormErrors,
+                    })
+                  }
                 >
-                  Guest Access
+                  Guest Account
                 </button>
               </form>
             </div>

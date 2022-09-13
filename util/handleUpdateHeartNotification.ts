@@ -31,7 +31,7 @@ export default function handleUpdateHeartNotifcation({
     heartArray = docSnap.data()!.heartNotifications;
 
     if (
-      heartArray!.length === 3 &&
+      heartArray!.length === 6 &&
       postUserDetails.username !== userDetails.displayName
     ) {
       heartArray.splice(0, 1);

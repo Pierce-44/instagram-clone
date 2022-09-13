@@ -21,20 +21,13 @@ function CreateChatRoom({ setCreateChatRoom }: Props) {
   const [error, setError] = React.useState('');
   const [searchedUser, setSearchedUser] = React.useState(false);
   const [ticked, setTicked] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
   const [searchedUserData, setSearchedUserData] =
     React.useState<notificationTypes>({});
 
   return (
     <div className="fixed top-0 left-0 z-50 flex h-[100vh] w-full items-center justify-center bg-[#0000008f] dark:bg-[#000000d7]">
       <div className="w-[400px] rounded-xl bg-white dark:border dark:border-stone-300 dark:bg-[#000000]">
-        <div
-          className={
-            loading
-              ? 'hidden'
-              : 'flex items-center justify-between border-b border-stone-300 p-3 dark:border-stone-700'
-          }
-        >
+        <div className="flex items-center justify-between border-b border-stone-300 p-3 dark:border-stone-700">
           <button onClick={() => setCreateChatRoom(false)} type="button">
             <CloseBtnSVG
               lightColor="#262626"
@@ -46,16 +39,15 @@ function CreateChatRoom({ setCreateChatRoom }: Props) {
           <button
             className={`${ticked ? 'text-[#0095f6]' : 'pointer-events-none'}`}
             type="button"
-            onClick={() =>
+            onClick={() => {
               handleCreateChatRoom({
                 userNotifications,
                 searchedUserData,
-                setError,
-                setLoading,
-                setSearchedUser,
                 setCreateChatRoom,
-              })
-            }
+                setError,
+                setSearchedUser,
+              });
+            }}
           >
             Create
           </button>
@@ -86,9 +78,22 @@ function CreateChatRoom({ setCreateChatRoom }: Props) {
               />
             </label>
           </form>
-          <div className="mr-5">
+          <button
+            className="mr-5"
+            type="button"
+            onClick={(e) =>
+              handleCheckChatRoomExists({
+                e,
+                search,
+                setError,
+                setSearchedUser,
+                setSearchedUserData,
+                userNotifications,
+              })
+            }
+          >
             <SearchBtnSVG heightWidth="20" />
-          </div>
+          </button>
         </div>
         <div>
           {searchedUser ? (

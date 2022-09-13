@@ -9,6 +9,7 @@ import LoadingHeartPosts from '../loadingComps/LoadingHeartPosts';
 
 export default function HeartNotificationsWindow() {
   const [userNotifications] = useAtom(atoms.userNotifications);
+  const [darkMode] = useAtom(atoms.darkMode);
 
   const [postPopUp, setPostPopUp] = React.useState(false);
   const [heartDetail, setHeartDetail] = React.useState<heartDetails>();
@@ -45,7 +46,12 @@ export default function HeartNotificationsWindow() {
         >
           <div className={loading ? 'opacity-0' : ''}>
             <p className="pl-6 text-sm font-semibold">New notifications</p>
-            <div onLoad={() => setLoading(false)}>
+            <div
+              className={`${
+                darkMode ? 'scrollbarDark' : 'scrollbarLight'
+              }  scrollbar max-h-[300px] overflow-y-auto`}
+              onLoad={() => setLoading(false)}
+            >
               {userNotifications.heartNotifications!.map((details, index) => (
                 <div
                   className="flex items-center gap-2 py-4 px-2 text-sm sm:px-6"
