@@ -1,6 +1,6 @@
 import React from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import guestAccess from '../guestAccount/guestAccess';
+import guestAccess from './guestAccess';
 
 interface Props {
   e: any;

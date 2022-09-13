@@ -15,8 +15,6 @@
 # production
 /build
 
-/guestAccount
-
 # misc
 .DS_Store
 *.pem
