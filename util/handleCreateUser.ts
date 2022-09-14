@@ -69,6 +69,8 @@ async function submitUser({
       following: [],
       story: '',
       storyViews: [],
+      heartNotifications: [],
+      newHeart: false,
       usernameQuery: handleCreateUsernameQueryArray(username),
     })
       .then(() => {
