@@ -34,9 +34,6 @@ function useGetUserDetailsOnAuth() {
   const [, setStories] = useAtom(atoms.stories);
   const [, setUsersListArray] = useAtom(atoms.usersListArray);
 
-  const [homePageListners, setHomePageListners] = React.useState<any[]>([]);
-  const [storiesListners, setStoriesListners] = React.useState<any[]>([]);
-
   function getChatRoomMessages(notifications: notificationTypes) {
     notifications.chatRoomIds?.forEach((chatRoomID: string) => {
       const q = query(
@@ -59,8 +56,6 @@ function useGetUserDetailsOnAuth() {
   }
 
   function getHomePagePosts(notifications: notificationTypes) {
-    homePageListners.forEach((unsubscribe: any) => unsubscribe());
-
     notifications.following?.forEach((username: string) => {
       const q = query(
         collection(db, `${username}Posts`),
@@ -74,15 +69,14 @@ function useGetUserDetailsOnAuth() {
             ...prevState,
             [username]: document.data(),
           }));
+          console.log('posts');
         });
       });
-      setHomePageListners((current) => [...current, unsubscribe]);
+      setListeners((current) => [...current, unsubscribe]);
     });
   }
 
   function getFollowingStories(notifications: notificationTypes) {
-    storiesListners.forEach((unsubscribe: any) => unsubscribe());
-
     notifications.following?.forEach((username: string) => {
       const unsub = onSnapshot(doc(db, 'users', username), (docs) => {
         if (docs.data() && docs.data()!.story !== '') {
@@ -94,7 +88,7 @@ function useGetUserDetailsOnAuth() {
           }));
         }
       });
-      setStoriesListners((current) => [...current, unsub]);
+      setListeners((current) => [...current, unsub]);
     });
   }
 
@@ -102,6 +96,7 @@ function useGetUserDetailsOnAuth() {
     const unsubscribe = onSnapshot(
       doc(db, 'users', user.displayName!),
       (document: any) => {
+        console.log('notes');
         setUserNotifications(document.data());
         getChatRoomMessages(document.data());
         getHomePagePosts(document.data());
@@ -142,6 +137,7 @@ function useGetUserDetailsOnAuth() {
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log('auth');
         setUserStatus(true);
         setUserDetails(user);
         userLiveUpdates(user);

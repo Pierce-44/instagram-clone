@@ -14,6 +14,7 @@ import LoadingPosts from '../components/loadingComps/LoadingPosts';
 const Home: NextPage = () => {
   const [userStatus] = useAtom(atoms.userStatus);
   const [followingArray] = useAtom(atoms.followingArray);
+  const [followingArrayStatus] = useAtom(atoms.followingArrayStatus);
   const [postsLoading, setPostsLoading] = useAtom(atoms.postsLoading);
 
   if (!userStatus) {
@@ -35,9 +36,15 @@ const Home: NextPage = () => {
             className={`${postsLoading ? 'fixed opacity-0' : ''}`}
             onLoad={() => setPostsLoading(false)}
           >
-            {followingArray.map((username, index) => (
-              <HomePagePost username={username} key={username + index} />
-            ))}
+            {followingArrayStatus ? (
+              <div>
+                {followingArray.map((username, index) => (
+                  <HomePagePost username={username} key={username + index} />
+                ))}
+              </div>
+            ) : (
+              ''
+            )}
           </div>
           {postsLoading ? <LoadingPosts /> : ''}
         </div>

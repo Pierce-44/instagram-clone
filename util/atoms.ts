@@ -94,6 +94,7 @@ const usersListArray = atom<string[]>([]);
 const spotlightUsers = atom<notificationTypes[]>([]);
 const storiesLoading = atom(true);
 const postsLoading = atom(true);
+const followingArrayStatus = atom(false);
 const suggestionsLoading = atom(true);
 const chatRoomLoading = atom(true);
 const userPorfileLoading = atom(true);
@@ -120,6 +121,7 @@ const atoms = {
   chatRoomLoading,
   userPorfileLoading,
   newMessage,
+  followingArrayStatus,
 };
 
 export default atoms;

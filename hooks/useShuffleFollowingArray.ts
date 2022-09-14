@@ -6,6 +6,7 @@ import atoms from '../util/atoms';
 function useShuffleFollowingArray() {
   const [userNotifications] = useAtom(atoms.userNotifications);
   const [followingArray, setFollowingArray] = useAtom(atoms.followingArray);
+  const [, setFollowingArrayStatus] = useAtom(atoms.followingArrayStatus);
 
   React.useEffect(() => {
     if (
@@ -15,6 +16,8 @@ function useShuffleFollowingArray() {
       setFollowingArray(
         [...userNotifications.following].sort(() => Math.random() - 0.5)
       );
+      console.log('shuffle');
+      setFollowingArrayStatus(true);
     }
   }, [userNotifications.following]);
 }
