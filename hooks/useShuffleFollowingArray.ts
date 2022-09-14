@@ -18,6 +18,14 @@ function useShuffleFollowingArray() {
       );
       setFollowingArrayStatus(true);
     }
+    // for when the user is not following anyone
+    else if (
+      userNotifications.following &&
+      userNotifications.following.length === 0
+    ) {
+      setFollowingArray(['null']);
+      setFollowingArrayStatus(true);
+    }
   }, [userNotifications.following]);
 }
 

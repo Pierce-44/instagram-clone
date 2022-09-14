@@ -29,13 +29,13 @@ const HomePagePost = ({ username }: Props) => {
 
   const postDetails = homePagePosts[username];
 
-  // if not following any users load this image to trigger the setloading state on map load
+  // if not following any users
   if (username === 'null' && followingArray.length === 1) {
     return <NoPostsFiller />;
   }
-  // if the user deos not have any posts published show nothing.
+  // if the user deos not have any posts (easier to read as a separate if statement from above)
   if (!postDetails?.comments) {
-    return <div />;
+    return <NoPostsFiller />;
   }
 
   return (

@@ -9,7 +9,8 @@ function NoPostsFiller() {
         />
       </picture>
       <p className="animate-pulse rounded-lg border border-stone-300 bg-white px-2 py-4 dark:border-stone-700 dark:bg-[#1c1c1c]">
-        Follow users to see their latest posts and stories
+        Follow users to see their latest posts and stories. <br /> <br />
+        Additionally the users you are following may have no posts published.
       </p>
     </div>
   );

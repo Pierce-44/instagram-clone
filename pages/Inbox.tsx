@@ -82,7 +82,11 @@ const Inbox: NextPage = () => {
               </div>
             ))}
           </div>
-          {chatRoomLoading ? <LoadingChatRooms /> : ''}
+          {chatRoomLoading && !userNotifications.chatRoomIds ? (
+            <LoadingChatRooms />
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>

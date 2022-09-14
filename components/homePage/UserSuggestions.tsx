@@ -70,17 +70,34 @@ function UserSuggestions() {
               className="flex items-center justify-between py-2"
             >
               <div className="flex items-center gap-2">
-                <Link href={`/${spotlightUserDetails.username}`}>
-                  <a>
-                    <Image
-                      className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
-                      src={spotlightUserDetails.avatarURL!}
-                      alt="avatar"
-                      width="32"
-                      height="32"
-                    />
-                  </a>
-                </Link>
+                {spotlightUserDetails.avatarURL?.length !== 0 ? (
+                  <Link href={`/${spotlightUserDetails.username}`}>
+                    <a>
+                      <Image
+                        className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
+                        src={spotlightUserDetails.avatarURL!}
+                        alt="avatar"
+                        width="32"
+                        height="32"
+                      />
+                    </a>
+                  </Link>
+                ) : (
+                  <Link href={`/${spotlightUserDetails.username}`}>
+                    <a>
+                      <div className="h-8 w-8">
+                        <ProfilePicSVG strokeWidth="2" />
+                      </div>
+                      <picture>
+                        <img
+                          className={suggestionsLoading ? 'h-1 w-1' : 'hidden'}
+                          src="/sun.png"
+                          alt="sun"
+                        />
+                      </picture>
+                    </a>
+                  </Link>
+                )}
                 <div>
                   <Link href={`/${spotlightUserDetails.username}`}>
                     <a>
