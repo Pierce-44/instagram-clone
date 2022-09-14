@@ -65,9 +65,6 @@ async function submitUser({
       likedPosts: [],
       username,
       postCount: 0,
-      // dont think i need
-      // followerCount: 0,
-      // followingCount: 0,
       followers: [],
       following: [],
       story: '',
@@ -81,6 +78,9 @@ async function submitUser({
       .catch((errorProfile) => {
         console.log(errorProfile);
       });
+
+    // add username to global list
+    setDoc(doc(db, 'userList', username), {});
 
     // create user post collection
     setDoc(doc(db, `${username}Posts`, 'userPosts'), {
