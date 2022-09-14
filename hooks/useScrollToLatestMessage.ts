@@ -2,7 +2,7 @@ import React from 'react';
 import { postCommentTypes } from '../util/atoms';
 
 interface Props {
-  messages: postCommentTypes[];
+  messages: postCommentTypes[] | null;
   latestMessageRef: React.RefObject<HTMLDivElement>;
 }
 

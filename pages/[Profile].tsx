@@ -19,6 +19,9 @@ import UserPost from '../components/profilePages/UserPost';
 import useGetOtherUserPosts from '../hooks/useGetOtherUserPosts';
 import atoms from '../util/atoms';
 import LoadingUserPosts from '../components/loadingComps/LoadingUserPosts';
+import useHandleFollowerFollowingDropDown from '../hooks/useHandleFollowerFollowingDropDown';
+import FollowerFollowingDisplay from '../components/profilePages/FollowerFollowingDisplay';
+import UserDoesNotExist from '../components/profilePages/UserDoesNotExist';
 
 const Profile: NextPage = () => {
   const router = useRouter();
@@ -34,14 +37,21 @@ const Profile: NextPage = () => {
 
   const [addPhoto, setAddPhoto] = React.useState(false);
   const [unfollow, setUnfollow] = React.useState(false);
+  const [showFollowing, setShowFollowing] = React.useState(false);
+  const [showFollowers, setShowFollowers] = React.useState(false);
 
-  const queryCharacter = false;
-  const limitSearch = false;
+  // Handle dropdown
+  useHandleFollowerFollowingDropDown({ setShowFollowing, setShowFollowers });
 
   // Checks the username against the dynamic page route
-  const user = useCheckUserName({ nameSearch, queryCharacter });
+  const user = useCheckUserName({ nameSearch, queryCharacter: false });
+
   // This custom hook will get post details if the dynamic page route is for another user (not their own profile), and if the user exists. It uses useCheckUserName results to check this.
-  const otherUser = useGetOtherUserPosts({ user, nameSearch, limitSearch });
+  const otherUser = useGetOtherUserPosts({
+    user,
+    nameSearch,
+    limitSearch: false,
+  });
 
   // Switch - if the user is requesting another users profile page then use those fetched details, otherwise use the users own profile details.
   const profilePosts = user.otherUser ? otherUser.profilePosts : userPosts;
@@ -61,19 +71,7 @@ const Profile: NextPage = () => {
 
   // If a user does not exist render the following
   if (!user.userExists && !user.checkingUser) {
-    return (
-      <div className="h-[100vh] w-full overflow-y-scroll dark:bg-[#131313] dark:text-slate-100">
-        <Head>
-          <title>Profile • Instagram photos and videos</title>
-          <meta name="description" content="Instagram Clone" />
-          <link rel="icon" href="/instagram.png" />
-        </Head>
-        <Header page="Profile" />
-        <div className="items-top flex h-full w-full justify-center">
-          <p className="mt-10 text-xl font-semibold">{`Sorry this user ${nameSearch} was not found.`}</p>
-        </div>
-      </div>
-    );
+    return <UserDoesNotExist search={nameSearch} />;
   }
 
   // If a user exists render profile page
@@ -168,7 +166,7 @@ const Profile: NextPage = () => {
                             userName: userNotifications.username!,
                             otherUserName: profileNotifications.username!,
                           })
-                        } //
+                        }
                       >
                         <p className="bg-[#0095F6] py-1 px-6 text-white">
                           Follow
@@ -180,16 +178,14 @@ const Profile: NextPage = () => {
               )}
             </div>
             {profileNotifications.userId ? (
-              <div className="hidden justify-start gap-2 text-xs sm:flex sm:gap-7 sm:text-base">
-                <p>
-                  <b>{profileNotifications.postCount}</b> posts
-                </p>
-                <p>
-                  <b>{profileNotifications.followers?.length}</b> followers
-                </p>
-                <p>
-                  <b>{profileNotifications.following?.length}</b> following
-                </p>
+              <div className="hidden sm:flex">
+                <FollowerFollowingDisplay
+                  showFollowers={showFollowers}
+                  showFollowing={showFollowing}
+                  profileNotifications={profileNotifications}
+                  setShowFollowers={setShowFollowers}
+                  setShowFollowing={setShowFollowing}
+                />
               </div>
             ) : (
               <div className="hidden h-4 w-[250px] animate-pulse rounded-sm bg-[#efefef] dark:bg-[#313131] sm:block sm:h-6" />
@@ -197,28 +193,14 @@ const Profile: NextPage = () => {
           </div>
         </div>
         {profileNotifications.userId ? (
-          <div
-            className="flex justify-evenly border-b border-stone-300 py-4 text-sm
-          text-[#818181]  dark:border-stone-700 sm:hidden"
-          >
-            <p className="flex flex-col items-center justify-center">
-              <b className="text-[#231f20] dark:text-slate-100">
-                {profileNotifications.postCount}
-              </b>{' '}
-              posts
-            </p>
-            <p className="flex flex-col items-center justify-center">
-              <b className="text-[#231f20] dark:text-slate-100">
-                {profileNotifications.followers?.length}
-              </b>{' '}
-              followers
-            </p>
-            <p className="flex flex-col items-center justify-center">
-              <b className="text-[#231f20] dark:text-slate-100">
-                {profileNotifications.following?.length}
-              </b>{' '}
-              following
-            </p>
+          <div className="border-b border-stone-300 py-4 dark:border-stone-700 sm:hidden">
+            <FollowerFollowingDisplay
+              showFollowers={showFollowers}
+              showFollowing={showFollowing}
+              profileNotifications={profileNotifications}
+              setShowFollowers={setShowFollowers}
+              setShowFollowing={setShowFollowing}
+            />
           </div>
         ) : (
           <div className="mx-auto my-4 h-10 w-[250px] animate-pulse rounded-sm bg-[#efefef] dark:bg-[#313131] sm:hidden" />
@@ -236,6 +218,7 @@ const Profile: NextPage = () => {
           >
             {profilePosts.slice(0, -1).map((postInformation, index) => (
               <UserPost
+                // Currently userposts are not reordered or deleted
                 // eslint-disable-next-line react/no-array-index-key
                 key={`post${index}`}
                 postInformation={postInformation}

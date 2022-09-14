@@ -2,10 +2,13 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 import Image from 'next/future/image';
+import Link from 'next/link';
 import atoms, { heartDetails } from '../../util/atoms';
 import PostPopUp from '../PostPopUp';
 import useHandleOpenHeartPost from '../../hooks/useHandleOpenHeartPost';
 import LoadingHeartPosts from '../loadingComps/LoadingHeartPosts';
+import ProfilePicSVG from '../svgComps/ProfilePicSVG';
+import useScrollToLatestMessage from '../../hooks/useScrollToLatestMessage';
 
 export default function HeartNotificationsWindow() {
   const [userNotifications] = useAtom(atoms.userNotifications);
@@ -15,7 +18,11 @@ export default function HeartNotificationsWindow() {
   const [heartDetail, setHeartDetail] = React.useState<heartDetails>();
   const [loading, setLoading] = React.useState(true);
 
+  const upperRef = React.useRef<HTMLDivElement>(null);
+
   const postInfo = useHandleOpenHeartPost({ heartDetail, setPostPopUp });
+
+  useScrollToLatestMessage({ messages: null, latestMessageRef: upperRef });
 
   if (!userNotifications.heartNotifications) {
     return <LoadingHeartPosts />;
@@ -49,7 +56,7 @@ export default function HeartNotificationsWindow() {
             <div
               className={`${
                 darkMode ? 'scrollbarDark' : 'scrollbarLight'
-              }  scrollbar max-h-[300px] overflow-y-auto`}
+              }  scrollbar flex max-h-[300px] flex-col-reverse overflow-y-auto`}
               onLoad={() => setLoading(false)}
             >
               {userNotifications.heartNotifications!.map((details, index) => (
@@ -57,17 +64,33 @@ export default function HeartNotificationsWindow() {
                   className="flex items-center gap-2 py-4 px-2 text-sm sm:px-6"
                   key={`hearts${index}`}
                 >
-                  <Image
-                    className="mr-2 h-11 w-11 cursor-pointer select-none rounded-full  object-cover "
-                    src={
-                      userNotifications.heartNotifications![index].userPhoto!
-                    }
-                    alt="avatar"
-                    width="44"
-                    height="44"
-                  />
+                  <Link href={details.username!}>
+                    <a>
+                      {userNotifications.heartNotifications![index]
+                        .userPhoto ? (
+                        <Image
+                          className="mr-2 h-11 w-11 cursor-pointer select-none rounded-full  object-cover "
+                          src={
+                            userNotifications.heartNotifications![index]
+                              .userPhoto!
+                          }
+                          alt="avatar"
+                          width="44"
+                          height="44"
+                        />
+                      ) : (
+                        <div className="mr-2 h-11 w-11">
+                          <ProfilePicSVG strokeWidth="1.5" />
+                        </div>
+                      )}
+                    </a>
+                  </Link>
                   <div className="flex flex-col sm:flex-row">
-                    <p className="font-semibold">{details.username}</p>
+                    <Link href={details.username!}>
+                      <a>
+                        <p className="font-semibold">{details.username}</p>
+                      </a>
+                    </Link>
                     <p className="text-xs sm:pl-1 sm:text-sm">{details.text}</p>
                   </div>
                   <Image
@@ -75,13 +98,14 @@ export default function HeartNotificationsWindow() {
                     src={userNotifications.heartNotifications![index].postURL!}
                     id="unlike"
                     alt="post"
-                    width="40"
-                    height="40"
+                    width="80"
+                    height="80"
                     priority
                     onClick={() => setHeartDetail(details)}
                   />
                 </div>
               ))}
+              <div ref={upperRef} />
             </div>
           </div>
         </div>

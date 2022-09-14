@@ -23,6 +23,11 @@ export interface heartDetails {
   postId?: string;
 }
 
+export interface followingFollowerInfo {
+  username: string;
+  avatarURL: string;
+}
+
 export interface notificationTypes {
   avatarURL?: string;
   chatRoomIds?: string[];
