@@ -16,7 +16,6 @@ function useShuffleFollowingArray() {
       setFollowingArray(
         [...userNotifications.following].sort(() => Math.random() - 0.5)
       );
-      console.log('shuffle');
       setFollowingArrayStatus(true);
     }
   }, [userNotifications.following]);
