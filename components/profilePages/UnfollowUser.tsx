@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import Image from 'next/future/image';
-import { notificationTypes } from '../../util/atoms';
+import { useAtom } from 'jotai';
+import atoms, { notificationTypes } from '../../util/atoms';
 import handleUnfollow from '../../util/handleUnfollow';
 import CloseBtnSVG from '../svgComps/CloseBtnSVG';
 import ProfilePicSVG from '../svgComps/ProfilePicSVG';
@@ -21,6 +22,8 @@ function UnfollowUser({
   userNotifications,
   profileNotifications,
 }: Props) {
+  const [followingArray, setFollowingArray] = useAtom(atoms.followingArray);
+
   return (
     <div
       id="close"
@@ -72,6 +75,8 @@ function UnfollowUser({
               setUnfollow,
               userNotifications,
               profileNotifications,
+              followingArray,
+              setFollowingArray,
             });
           }}
         >

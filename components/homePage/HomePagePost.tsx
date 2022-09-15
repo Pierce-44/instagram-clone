@@ -23,198 +23,208 @@ const HomePagePost = ({ username }: Props) => {
   const [userDetails] = useAtom(atoms.userDetails);
   const [homePagePosts] = useAtom(atoms.homePagePosts);
   const [userNotifications] = useAtom(atoms.userNotifications);
-  const [followingArray] = useAtom(atoms.followingArray);
 
   const [postPopUp, setPostPopUp] = React.useState(false);
 
   const postDetails = homePagePosts[username];
 
   // if not following any users
-  if (username === 'null' && followingArray.length === 1) {
+  if (username === 'null') {
     return <NoPostsFiller />;
   }
   // if the user deos not have any posts (easier to read as a separate if statement from above)
-  if (!postDetails?.comments) {
-    return <NoPostsFiller />;
-  }
+  // if (username === 'null' && followingArray.length === 0) {
+  //   return <NoPostsFiller />;
+  // }
 
   return (
     <div>
-      <div className="my-4 overflow-hidden rounded-lg border border-stone-300 bg-white dark:border-stone-700 dark:bg-[#1c1c1c]">
-        {postPopUp ? (
-          <PostPopUp
-            postInformation={postDetails}
-            postUserDetails={postDetails.comments[0]}
-            setPostPopUp={setPostPopUp}
-          />
-        ) : (
-          ''
-        )}
-        <div className="ml-3 flex items-center py-3">
-          <Link href={username}>
-            <a>
-              {postDetails.comments[0].avatarURL ? (
-                <Image
-                  className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
-                  src={postDetails.comments[0].avatarURL}
-                  alt="avatar"
-                  width="32"
-                  height="32"
-                />
-              ) : (
-                <div className="h-8 w-8 cursor-pointer select-none rounded-full">
-                  <ProfilePicSVG strokeWidth="1" />
-                </div>
-              )}
-            </a>
-          </Link>
-          <Link href={username}>
-            <a>
-              <p className="ml-4 cursor-pointer">
-                {postDetails.comments[0].username}
-              </p>
-            </a>
-          </Link>
-        </div>
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={() => {
-            setPostPopUp(true);
-            document.body.style.overflow = 'hidden';
-          }}
-        >
-          <Image
-            className="h-auto min-h-[150px] w-full select-none bg-[#ebebeb] dark:bg-[#313131]"
-            src={postDetails.imgURL}
-            alt="post"
-            width="0"
-            height="0"
-            sizes="100vw"
-            priority
-          />
-        </div>
-        <div>
-          <div className="border-t border-stone-200 px-5 py-4 dark:border-stone-700">
-            <div className="mb-3 flex gap-4">
-              {userNotifications.likedPosts!.includes(postDetails.postID) ? (
+      {postDetails?.comments ? (
+        <div className="my-4 overflow-hidden rounded-lg border border-stone-300 bg-white dark:border-stone-700 dark:bg-[#1c1c1c]">
+          {postPopUp ? (
+            <PostPopUp
+              postInformation={postDetails}
+              postUserDetails={postDetails.comments[0]}
+              setPostPopUp={setPostPopUp}
+            />
+          ) : (
+            ''
+          )}
+          <div className="ml-3 flex items-center py-3">
+            <Link href={username}>
+              <a>
+                {postDetails.comments[0].avatarURL ? (
+                  <Image
+                    className="h-8 w-8 cursor-pointer select-none rounded-full object-cover"
+                    src={postDetails.comments[0].avatarURL}
+                    alt="avatar"
+                    width="32"
+                    height="32"
+                  />
+                ) : (
+                  <div className="h-8 w-8 cursor-pointer select-none rounded-full">
+                    <ProfilePicSVG strokeWidth="1" />
+                  </div>
+                )}
+              </a>
+            </Link>
+            <Link href={username}>
+              <a>
+                <p className="ml-4 cursor-pointer">
+                  {postDetails.comments[0].username}
+                </p>
+              </a>
+            </Link>
+          </div>
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              setPostPopUp(true);
+              document.body.style.overflow = 'hidden';
+            }}
+          >
+            <Image
+              className="h-auto min-h-[150px] w-full select-none bg-[#ebebeb] dark:bg-[#313131]"
+              src={postDetails.imgURL}
+              alt="post"
+              width="0"
+              height="0"
+              sizes="100vw"
+              priority
+            />
+          </div>
+          <div>
+            <div className="border-t border-stone-200 px-5 py-4 dark:border-stone-700">
+              <div className="mb-3 flex gap-4">
+                {userNotifications.likedPosts!.includes(postDetails.postID) ? (
+                  <button
+                    id="unlike"
+                    type="button"
+                    onClick={(e) =>
+                      handleLikePost({
+                        e,
+                        userDetails,
+                        postUserDetails: postDetails.comments[0],
+                        postInformation: postDetails,
+                      })
+                    }
+                  >
+                    <div className="group">
+                      <div className="sm:group-hover:animate-bounce">
+                        <HeartSVG fillColor="#ed4956" height="24" width="24" />
+                      </div>
+                    </div>
+                  </button>
+                ) : (
+                  <button
+                    id="like"
+                    type="button"
+                    onClick={(e) =>
+                      handleLikePost({
+                        e,
+                        userDetails,
+                        postUserDetails: postDetails.comments[0],
+                        postInformation: postDetails,
+                      })
+                    }
+                  >
+                    <div className="group">
+                      <div className="sm:group-hover:animate-bounce">
+                        <HeartHollow />
+                      </div>
+                    </div>
+                  </button>
+                )}
                 <button
-                  id="unlike"
                   type="button"
-                  onClick={(e) =>
-                    handleLikePost({
-                      e,
-                      userDetails,
-                      postUserDetails: postDetails.comments[0],
-                      postInformation: postDetails,
-                    })
-                  }
+                  className="h-6 w-6 cursor-pointer"
+                  onClick={() => {
+                    setPostPopUp(true);
+                    document.body.style.overflow = 'hidden';
+                  }}
                 >
                   <div className="group">
                     <div className="sm:group-hover:animate-bounce">
-                      <HeartSVG fillColor="#ed4956" height="24" width="24" />
+                      <CommentSVG
+                        outline={darkMode ? '#f1f5f9' : '#262626'}
+                        height="24"
+                        width="24"
+                        fill="none"
+                      />
                     </div>
                   </div>
                 </button>
-              ) : (
-                <button
-                  id="like"
-                  type="button"
-                  onClick={(e) =>
-                    handleLikePost({
-                      e,
-                      userDetails,
-                      postUserDetails: postDetails.comments[0],
-                      postInformation: postDetails,
-                    })
-                  }
-                >
-                  <div className="group">
-                    <div className="sm:group-hover:animate-bounce">
-                      <HeartHollow />
-                    </div>
+              </div>
+              <div className="flex text-sm">
+                <p>
+                  Liked by{' '}
+                  <b>
+                    {postDetails.likes.length > 0 ? (
+                      <Link href={postDetails.likes[0]}>
+                        <a>{postDetails.likes[0]}</a>
+                      </Link>
+                    ) : (
+                      ''
+                    )}
+                  </b>{' '}
+                </p>
+                {postDetails.likes.length === 1 ? (
+                  ''
+                ) : (
+                  <div className="pl-1">
+                    {postDetails.likes.length > 0 ? 'and' : ''}{' '}
+                    <b>
+                      {postDetails.likes.length} other
+                      {postDetails.likes.length === 1 ? '' : 's'}
+                    </b>
                   </div>
-                </button>
-              )}
+                )}
+              </div>
+              <div className="max-h-[260px] overflow-hidden">
+                <HomePagePostHeaderComments postDetails={postDetails} />
+              </div>
               <button
+                className="mt-3 text-xs text-[#a5a5a5]"
                 type="button"
-                className="h-6 w-6 cursor-pointer"
                 onClick={() => {
                   setPostPopUp(true);
                   document.body.style.overflow = 'hidden';
                 }}
               >
-                <div className="group">
-                  <div className="sm:group-hover:animate-bounce">
-                    <CommentSVG
-                      outline={darkMode ? '#f1f5f9' : '#262626'}
-                      height="24"
-                      width="24"
-                      fill="none"
-                    />
+                {postDetails.comments.length === 1 &&
+                postDetails.comments[0].text === '' ? (
+                  <div>No comments</div>
+                ) : (
+                  <div>
+                    {postDetails.comments.length === 2 ? (
+                      <p>View the 1st comment</p>
+                    ) : (
+                      <p>View all {postDetails.comments.length - 1} comments</p>
+                    )}
                   </div>
-                </div>
+                )}
               </button>
-            </div>
-            <div className="flex text-sm">
-              <p>
-                Liked by{' '}
-                <b>
-                  {postDetails.likes.length > 0 ? (
-                    <Link href={postDetails.likes[0]}>
-                      <a>{postDetails.likes[0]}</a>
-                    </Link>
-                  ) : (
-                    ''
-                  )}
-                </b>{' '}
+              <p className="pt-2 text-xs text-[#a5a5a5]">
+                {new Date(postDetails.createdAt.seconds * 1000).toDateString()}
               </p>
-              {postDetails.likes.length === 1 ? (
-                ''
-              ) : (
-                <div className="pl-1">
-                  {postDetails.likes.length > 0 ? 'and' : ''}{' '}
-                  <b>
-                    {postDetails.likes.length} other
-                    {postDetails.likes.length === 1 ? '' : 's'}
-                  </b>
-                </div>
-              )}
             </div>
-            <div className="max-h-[260px] overflow-hidden">
-              <HomePagePostHeaderComments postDetails={postDetails} />
-            </div>
-            <button
-              className="mt-3 text-xs text-[#a5a5a5]"
-              type="button"
-              onClick={() => {
-                setPostPopUp(true);
-                document.body.style.overflow = 'hidden';
-              }}
-            >
-              {postDetails.comments.length === 1 &&
-              postDetails.comments[0].text === '' ? (
-                <div>No comments</div>
-              ) : (
-                <div>
-                  {postDetails.comments.length === 2 ? (
-                    <p>View the 1st comment</p>
-                  ) : (
-                    <p>View all {postDetails.comments.length - 1} comments</p>
-                  )}
-                </div>
-              )}
-            </button>
-            <p className="pt-2 text-xs text-[#a5a5a5]">
-              {new Date(postDetails.createdAt.seconds * 1000).toDateString()}
-            </p>
+            <PostTextArea
+              postInformation={postDetails}
+              postUserDetails={postDetails.comments[0]}
+            />
           </div>
-          <PostTextArea
-            postInformation={postDetails}
-            postUserDetails={postDetails.comments[0]}
-          />
         </div>
-      </div>
+      ) : (
+        <picture>
+          <img
+            // this forces the map loading state to be triggered (I need to come up with a better way of doing this)
+            className="h-0 w-0 opacity-0"
+            src="/instagramLoading.png"
+            alt="avatar"
+          />
+        </picture>
+      )}
     </div>
   );
 };

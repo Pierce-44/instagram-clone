@@ -10,8 +10,11 @@ function useShuffleFollowingArray() {
 
   React.useEffect(() => {
     if (
-      userNotifications.following &&
-      followingArray.length !== userNotifications.following.length
+      (userNotifications.following &&
+        // stops the following array from updating every time something within userNotifications changes, updates when a user follows a new user.
+        followingArray.length !== userNotifications.following.length) ||
+      // handles from when a user goes from following no one to following someone
+      (userNotifications.following && followingArray[0] === 'null')
     ) {
       setFollowingArray(
         [...userNotifications.following].sort(() => Math.random() - 0.5)
@@ -26,7 +29,7 @@ function useShuffleFollowingArray() {
       setFollowingArray(['null']);
       setFollowingArrayStatus(true);
     }
-  }, [userNotifications.following]);
+  }, [userNotifications]);
 }
 
 export default useShuffleFollowingArray;
