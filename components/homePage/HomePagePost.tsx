@@ -16,9 +16,10 @@ import NoPostsFiller from './NoPostsFiller';
 
 interface Props {
   username: string;
+  index: number;
 }
 
-const HomePagePost = ({ username }: Props) => {
+const HomePagePost = ({ username, index }: Props) => {
   const [darkMode] = useAtom(atoms.darkMode);
   const [userDetails] = useAtom(atoms.userDetails);
   const [homePagePosts] = useAtom(atoms.homePagePosts);
@@ -32,10 +33,6 @@ const HomePagePost = ({ username }: Props) => {
   if (username === 'null') {
     return <NoPostsFiller />;
   }
-  // if the user deos not have any posts (easier to read as a separate if statement from above)
-  // if (username === 'null' && followingArray.length === 0) {
-  //   return <NoPostsFiller />;
-  // }
 
   return (
     <div>
@@ -84,15 +81,27 @@ const HomePagePost = ({ username }: Props) => {
               document.body.style.overflow = 'hidden';
             }}
           >
-            <Image
-              className="h-auto min-h-[150px] w-full select-none bg-[#ebebeb] dark:bg-[#313131]"
-              src={postDetails.imgURL}
-              alt="post"
-              width="0"
-              height="0"
-              sizes="100vw"
-              priority
-            />
+            {index === 0 ? (
+              <Image
+                className="h-auto min-h-[150px] w-full select-none bg-[#ebebeb] dark:bg-[#313131]"
+                src={postDetails.imgURL}
+                alt="post"
+                width="0"
+                height="0"
+                sizes="100vw"
+                // if first image add priority
+                priority
+              />
+            ) : (
+              <Image
+                className="h-auto min-h-[150px] w-full select-none bg-[#ebebeb] dark:bg-[#313131]"
+                src={postDetails.imgURL}
+                alt="post"
+                width="0"
+                height="0"
+                sizes="100vw"
+              />
+            )}
           </div>
           <div>
             <div className="border-t border-stone-200 px-5 py-4 dark:border-stone-700">

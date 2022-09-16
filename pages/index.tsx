@@ -39,7 +39,11 @@ const Home: NextPage = () => {
             {followingArrayStatus ? (
               <div>
                 {followingArray.map((username, index) => (
-                  <HomePagePost username={username} key={username + index} />
+                  <HomePagePost
+                    username={username}
+                    index={index}
+                    key={username + index}
+                  />
                 ))}
               </div>
             ) : (
