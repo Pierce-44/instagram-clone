@@ -55,6 +55,15 @@ async function submitUser({
         setPasswordFormErrors(error.message.slice(22, -2));
       });
 
+    // add username to global list
+    await setDoc(doc(db, 'userList', username), {});
+
+    // create user post collection
+    await setDoc(doc(db, `${username}Posts`, 'userPosts'), {
+      createdAt: serverTimestamp(),
+      postsListArray: [],
+    });
+
     setDoc(doc(db, 'users', username), {
       // eslint-disable-next-line object-shorthand
       userId: userId,
@@ -80,15 +89,6 @@ async function submitUser({
       .catch((errorProfile) => {
         console.log(errorProfile);
       });
-
-    // add username to global list
-    setDoc(doc(db, 'userList', username), {});
-
-    // create user post collection
-    setDoc(doc(db, `${username}Posts`, 'userPosts'), {
-      createdAt: serverTimestamp(),
-      postsListArray: [],
-    });
   }
 }
 
