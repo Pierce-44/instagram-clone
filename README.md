@@ -80,7 +80,7 @@ View a live version of the app using the link below:
 <br/>
 
 ## Check Other User Profiles
-- View other users profile pages and see all their posts
+- View other users profile pages and see all their posts.
 
 ![userProfiles](https://user-images.githubusercontent.com/96740762/191056081-78dc0c10-2dbf-4961-b9ec-9e66a8a66d66.gif)
 
@@ -103,7 +103,7 @@ View a live version of the app using the link below:
 
 
 ## Responsive Design
-- Fully responsive design to all the app to work on both computers, notepads, mobile phones, etc.
+- Fully responsive design to allow the app to work on both computers, notepads, mobile phones, etc.
 
 ![responsive](https://user-images.githubusercontent.com/96740762/191072426-20aa5be6-0876-496c-a91f-27bd1e20d631.gif)
 
