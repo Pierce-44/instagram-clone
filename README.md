@@ -45,3 +45,9 @@
 ![exploreUsers](https://user-images.githubusercontent.com/96740762/191064602-6c43d061-afc9-4974-92d9-e21834e36f36.gif)
 
 
+## Responsive Design
+
+![responsive](https://user-images.githubusercontent.com/96740762/191072426-20aa5be6-0876-496c-a91f-27bd1e20d631.gif)
+
+
+
