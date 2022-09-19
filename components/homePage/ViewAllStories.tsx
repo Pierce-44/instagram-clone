@@ -8,6 +8,7 @@ import atoms from '../../util/atoms';
 import ProgressBar from './ProgressBar';
 import InstagramSVG from '../svgComps/InstagramSVG';
 import ProfilePicSVG from '../svgComps/ProfilePicSVG';
+import handleSwipeEvents from '../../util/handleSwipeEvents';
 
 function ViewAllStories({
   username,
@@ -22,10 +23,23 @@ function ViewAllStories({
   const [userDetails] = useAtom(atoms.userDetails);
   const [storiesArray] = useAtom(atoms.storiesArray);
 
+  const [touchStart, setTouchStart] = React.useState(null);
+  const [touchEnd, setTouchEnd] = React.useState(null);
   const [storyUsername, setStoryUsername] = React.useState(username);
   const [positionIndex, setPositionIndex] = React.useState(
     storiesArray.indexOf(username)
   );
+
+  const swipeProps = {
+    touchStart,
+    touchEnd,
+    positionIndex,
+    storiesArray,
+    setTouchStart,
+    setTouchEnd,
+    setPositionIndex,
+    setStoryUsername,
+  };
 
   // component could use being reduced into smaller sub components but with how I have setup the transformation animations it makes this difficult to achieve. Something to look into in the future.
   return (
@@ -57,6 +71,9 @@ function ViewAllStories({
         style={{
           transform: `translate(calc(${positionIndex} * ${width}vw))`,
         }}
+        onTouchStart={(e: any) => handleSwipeEvents(swipeProps).onTouchStart(e)}
+        onTouchMove={(e: any) => handleSwipeEvents(swipeProps).onTouchMove(e)}
+        onTouchEnd={() => handleSwipeEvents(swipeProps).onTouchEnd()}
       >
         {storiesArray.map((userName, index) => (
           <div key={userName}>
