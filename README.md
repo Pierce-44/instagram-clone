@@ -1,9 +1,9 @@
 <div align="center">
-  <img src="https://openmoji.org/data/color/svg/1F4D1.svg" height="50px"/>
+  <img src="https://raw.githubusercontent.com/Pierce-44/instagram-clone/main/public/instagramLoading.png" height="60px"/>
 </div>
 
 # Instagram Clone
-An Instagram clone app that utilises Next.js as a framework, allowing for static HTML to be generated server-side on build time resulting in better performance and SEO. Moreover, it has allowed for dynamic page routing to be used for the profile pages of all users. For this project Jotai was incorporated to manage the React state throughout. Firebase (BaaS) was used for the database (NoSQL), to incorporate user authentication, and to utilise Firestore real-time updates. Additionally, the TailwindCSS framework was used to help with CSS management and to reduce the CSS bundle size by removing all unused CSS when building for production.
+An Instagram clone app written in Typescript that utilises Next.js as a framework, allowing for static HTML to be generated server-side on build time resulting in better performance and SEO. Moreover, it has allowed for dynamic page routing to be used for the profile pages of all users. For this project Jotai was incorporated to manage the React state throughout the app. Firebase (BaaS) was used for the database (NoSQL), to incorporate user authentication, and to utilise Firestore real-time updates. Additionally, the TailwindCSS framework was used to help with CSS management and to reduce the CSS bundle size by removing all unused CSS when building for production.
 
 View a live version of the app using the link below:
 
@@ -105,9 +105,10 @@ View a live version of the app using the link below:
 ## Responsive Design
 - Fully responsive design to allow the app to work on both computers, notepads, mobile phones, etc.
 
-![responsive](https://user-images.githubusercontent.com/96740762/191072426-20aa5be6-0876-496c-a91f-27bd1e20d631.gif)
+![responsive](https://user-images.githubusercontent.com/96740762/191266199-cc5856d5-31b0-4365-b905-8b6281f5a083.gif)
 
 <br/>
+
 
 
 
