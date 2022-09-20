@@ -162,6 +162,8 @@ View a live version of the app using the link below:
    ```sh
    npm install
    ```
+   
+    <br/>
 
 8. Start the app on your localhost
    ```js
