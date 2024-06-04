@@ -5,9 +5,6 @@
 # Instagram Clone
 An Instagram clone app written in Typescript that utilises Next.js as a framework, allowing for static HTML to be generated server-side on build time resulting in better performance and SEO. Moreover, it has allowed for dynamic page routing to be used for the profile pages of all users. For this project Jotai was incorporated to manage the React state throughout the app. Firebase (BaaS) was used for the database (NoSQL), to incorporate user authentication, and to utilise Firestore real-time updates. Additionally, the TailwindCSS framework was used to help with CSS management and to reduce the CSS bundle size by removing all unused CSS when building for production.
 
-View a live version of the app using the link below:
-
-[`https://instagram-clone-mu-two.vercel.app/`](https://instagram-clone-mu-two.vercel.app/)
 
 <br/>
 
